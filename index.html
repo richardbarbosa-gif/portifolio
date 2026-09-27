@@ -402,20 +402,24 @@ section{padding:6rem 2.5rem}
 .showcase-header .section-tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--green);letter-spacing:.14em;text-transform:uppercase;margin-bottom:.6rem}
 .showcase-header h2{font-family:'Outfit',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.8rem}
 .showcase-header p{font-family:'Outfit',sans-serif;font-size:1rem;color:var(--text-dim);max-width:500px;margin:0 auto}
-.showcase-track-wrap{position:relative;mask-image:linear-gradient(90deg,transparent,black 6%,black 94%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,black 6%,black 94%,transparent)}
+.showcase-track-wrap{position:relative}
+/* Esmaecer das bordas com degradê por cima (antes era mask-image: recalculado a cada quadro, pesado em PC antigo) */
+.showcase-track-wrap::before,.showcase-track-wrap::after{content:'';position:absolute;top:0;bottom:0;width:6%;z-index:3;pointer-events:none}
+.showcase-track-wrap::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(7,8,10,0))}
+.showcase-track-wrap::after{right:0;background:linear-gradient(270deg,var(--bg),rgba(7,8,10,0))}
 
 /* Carrossel invertido: desliza da esquerda pra direita, no sentido OPOSTO ao marquee de tecnologias */
-.showcase-track{display:flex;gap:1.5rem;width:max-content;animation:showcaseScroll 45s linear infinite}
+.showcase-track{display:flex;gap:1.5rem;width:max-content;animation:showcaseScroll 45s linear infinite;will-change:transform}
 .showcase-track:hover{animation-play-state:paused}
 @keyframes showcaseScroll{0%{transform:translateX(calc(-50% - 0.75rem))}100%{transform:translateX(0)}}
 
 .showcase-card{flex-shrink:0;width:320px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .5s cubic-bezier(.16,1,.3,1);position:relative}
 .showcase-card:hover{border-color:rgba(0,255,102,.2);transform:translateY(-8px) scale(1.02);box-shadow:0 24px 60px rgba(0,0,0,.4),0 0 40px rgba(0,255,102,.06)}
 .showcase-card-img{position:relative;overflow:hidden;aspect-ratio:4/5;background:var(--bg-elevated)}
-.showcase-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1);filter:brightness(.92)}
-.showcase-card:hover .showcase-card-img img{transform:scale(1.05);filter:brightness(1)}
+.showcase-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.showcase-card:hover .showcase-card-img img{transform:scale(1.05)}
 .showcase-card-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(transparent,rgba(14,16,21,.9));pointer-events:none}
-.showcase-badge{position:absolute;top:.8rem;left:.8rem;z-index:2;padding:.3rem .7rem;border-radius:50px;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;backdrop-filter:blur(12px);border:1px solid}
+.showcase-badge{position:absolute;top:.8rem;left:.8rem;z-index:2;padding:.3rem .7rem;border-radius:50px;font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid;box-shadow:inset 0 0 0 100px rgba(7,8,10,.55)}
 .badge-dev{background:rgba(0,153,255,.15);color:#66c2ff;border:1px solid rgba(0,153,255,.2)}
 .badge-copy{background:rgba(255,42,85,.15);color:#ff809d;border:1px solid rgba(255,42,85,.2)}
 .badge-both{background:rgba(183,0,255,.15);color:#d480ff;border:1px solid rgba(183,0,255,.2)}
@@ -434,7 +438,7 @@ section{padding:6rem 2.5rem}
    CARROSSEL DE PÁGINAS — prints completos (direita → esquerda, oposto ao de baixo)
    ============================ */
 .pages-wrap{padding:.8rem 0 1.4rem;margin-bottom:1rem}
-.pages-track{display:flex;gap:1.5rem;width:max-content;animation:pagesScroll 60s linear infinite}
+.pages-track{display:flex;gap:1.5rem;width:max-content;animation:pagesScroll 60s linear infinite;will-change:transform}
 .pages-track:hover,.pages-track:focus-within{animation-play-state:paused}
 @keyframes pagesScroll{0%{transform:translateX(0)}100%{transform:translateX(calc(-50% - 0.75rem))}}
 
@@ -459,11 +463,11 @@ section{padding:6rem 2.5rem}
 .page-card:hover .page-dots i:nth-child(3),.lb-chrome .page-dots i:nth-child(3){background:var(--neon-green);box-shadow:0 0 6px var(--neon-green)}
 .page-url{flex:1;min-width:0;display:flex;align-items:center;gap:.45rem;padding:.22rem .65rem;border-radius:6px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.05);font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--text-dim);letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .page-url::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--accent);box-shadow:0 0 6px var(--accent)}
-.page-viewport{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--bg-elevated)}
-.page-viewport img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0;filter:brightness(.92);transition:object-position 1.2s cubic-bezier(.16,1,.3,1),filter .4s}
-.page-card:hover .page-viewport img{object-position:50% 100%;filter:brightness(1);transition:object-position 7s cubic-bezier(.45,0,.55,1),filter .4s}
+.page-viewport{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--bg-elevated);container-type:size}
+.page-viewport img{display:block;width:100%;height:auto;min-height:100%;object-fit:cover;object-position:50% 0;transform:translateY(0);transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
+.page-card:hover .page-viewport img{transform:translateY(calc(-100% + 100cqh));transition:transform 7s cubic-bezier(.45,0,.55,1)}
 .page-viewport::after{content:'';position:absolute;inset:auto 0 0 0;height:28%;background:linear-gradient(transparent,rgba(7,8,10,.5));pointer-events:none}
-.page-cta{position:absolute;left:50%;bottom:.9rem;z-index:2;display:inline-flex;align-items:center;gap:.45rem;padding:.45rem .95rem;border-radius:50px;background:rgba(7,8,10,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.04em;white-space:nowrap;color:var(--text);opacity:0;transform:translate(-50%,8px);transition:opacity .35s,transform .45s cubic-bezier(.16,1,.3,1)}
+.page-cta{position:absolute;left:50%;bottom:.9rem;z-index:2;display:inline-flex;align-items:center;gap:.45rem;padding:.45rem .95rem;border-radius:50px;background:rgba(7,8,10,.86);border:1px solid rgba(255,255,255,.14);font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.04em;white-space:nowrap;color:var(--text);opacity:0;transform:translate(-50%,8px);transition:opacity .35s,transform .45s cubic-bezier(.16,1,.3,1)}
 .page-cta svg{width:14px;height:14px;fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .page-card:hover .page-cta,.page-card:focus-visible .page-cta{opacity:1;transform:translate(-50%,0)}
 @media (hover:none){.page-cta{opacity:1;transform:translate(-50%,0)}}
@@ -694,6 +698,19 @@ footer{padding:2rem;text-align:center;border-top:1px solid var(--border);font-fa
 
 .reveal{opacity:0;transform:translateY(35px);transition:all .7s cubic-bezier(.16,1,.3,1)}.reveal.visible{opacity:1;transform:translateY(0)}
 .reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}.reveal-d4{transition-delay:.4s}
+
+/* PERFORMANCE
+   1) Seção fora da tela = animações pausadas (o JS marca .anim-off). Só anima o que o visitante está vendo.
+   2) Modo leve (.lite): o JS mede a fluidez quando a galeria aparece; se o PC estiver engasgando,
+      desliga só os efeitos decorativos mais caros. Os carrosséis continuam girando. */
+.anim-off,.anim-off *,.anim-off *::before,.anim-off *::after{animation-play-state:paused!important}
+html.lite nav,html.lite .nav-links{backdrop-filter:none!important;background:rgba(7,8,10,.96)!important}
+html.lite .hero-eyebrow,html.lite .btn-ghost{backdrop-filter:none}
+html.lite .hero-float-card{backdrop-filter:none;background:rgba(14,16,21,.94);animation:none}
+html.lite .hero-bg .orb,html.lite .hero h1 .accent{animation:none}
+html.lite .mb-node::after{animation:none;opacity:.6}
+html.lite .data-pulse{box-shadow:0 0 6px currentColor;will-change:auto}
+html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 
 /* Acessibilidade: versão leve — só remove smooth-scroll e torna reveals instantâneos.
    NÃO mata marquee/carrossel/efeitos de fundo (a versão agressiva congelava a página
@@ -1673,6 +1690,40 @@ document.querySelectorAll('.case-card[onclick]').forEach(c=>{
     if(e.key==='Enter'||e.key===' '){e.preventDefault();c.click();}
   });
 });
+
+// Performance 1: pausa as animações das seções fora da tela
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(en=>en.target.classList.toggle('anim-off',!en.isIntersecting));
+  },{rootMargin:'150px 0px'});
+  document.querySelectorAll('main > section, .marquee-section').forEach(s=>io.observe(s));
+})();
+
+// Performance 2: modo leve automático. Mede ~1s de quadros quando a galeria aparece;
+// se a mediana passar de 22ms (abaixo de ~45 fps), liga .lite e lembra durante a visita.
+(function(){
+  const root=document.documentElement;
+  try{if(sessionStorage.getItem('rb-lite')==='1'){root.classList.add('lite');return;}}catch(e){}
+  const target=document.querySelector('.showcase-section');
+  if(!target||!('IntersectionObserver' in window))return;
+  const io=new IntersectionObserver(entries=>{
+    if(!entries[0].isIntersecting||document.hidden)return;
+    io.disconnect();
+    const deltas=[];let last=performance.now();
+    function tick(now){
+      deltas.push(now-last);last=now;
+      if(deltas.length<60){requestAnimationFrame(tick);return;}
+      deltas.sort((a,b)=>a-b);
+      if(deltas[Math.floor(deltas.length/2)]>22){
+        root.classList.add('lite');
+        try{sessionStorage.setItem('rb-lite','1');}catch(e){}
+      }
+    }
+    requestAnimationFrame(tick);
+  });
+  io.observe(target);
+})();
 
 // Lightbox das páginas completas (carrossel de cima)
 (function(){
