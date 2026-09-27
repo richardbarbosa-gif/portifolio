@@ -52,7 +52,7 @@
       "name": "Richard Barbosa",
       "jobTitle": "Desenvolvedor Full-Stack, Copywriter e Especialista em Automações",
       "url": "https://richarddev.com.br/",
-      "image": "https://richarddev.com.br/fotos/richard.png",
+      "image": "https://richarddev.com.br/fotos/logo.jpg",
       "email": "mailto:richardbarbosa28@gmail.com",
       "telephone": "+55-14-99137-4928",
       "sameAs": ["https://www.linkedin.com/in/richardbarbosa28/"],
@@ -208,7 +208,22 @@ nav.nav-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45
 .hero-eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;box-shadow:0 0 12px rgba(0,255,102,.5)}
 @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 12px rgba(0,255,102,.5)}50%{opacity:.4;box-shadow:0 0 4px rgba(0,255,102,.2)}}
 .hero h1{font-family:'Outfit',sans-serif;font-size:clamp(2.6rem,6vw,5rem);font-weight:900;line-height:1.05;letter-spacing:-.04em;margin-bottom:1.8rem}
-.hero h1 .line{display:block}.hero h1 .accent{background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1 .line{display:block}
+/* "dá resultado." em cobre metálico: faixa clara em cima, horizonte escuro no meio, reflexo embaixo
+   + um brilho de luz que atravessa a palavra a cada ~4,5s. Laranja = oposto do verde/roxo do fundo. */
+.hero h1 .accent{
+  display:inline-block;
+  background-image:
+    linear-gradient(105deg,transparent 38%,rgba(255,255,255,.75) 48%,rgba(255,255,255,.2) 52%,transparent 60%),
+    linear-gradient(180deg,#ffd2a8 0%,#ff9a4d 30%,#e8621a 49%,#9a3412 52%,#ff7a18 70%,#ffb070 100%);
+  background-size:260% 100%,100% 100%;
+  background-position:120% 0,0 0;
+  background-repeat:no-repeat;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#ff8a3d;
+  filter:drop-shadow(0 2px 0 rgba(0,0,0,.45)) drop-shadow(0 0 22px rgba(255,122,24,.28));
+  animation:copperSheen 4.5s cubic-bezier(.45,0,.2,1) 1.2s infinite;
+}
+@keyframes copperSheen{0%,55%{background-position:120% 0,0 0}100%{background-position:-60% 0,0 0}}
 .hero-subtitle{font-family:'Outfit',sans-serif;font-size:clamp(1.05rem,1.8vw,1.3rem);font-weight:400;color:var(--text-body);max-width:580px;margin-bottom:3rem;line-height:1.7}.hero-subtitle strong{color:var(--text);font-weight:600}
 .hero-stats{display:flex;gap:3rem;flex-wrap:wrap;margin-bottom:3rem;padding:1.8rem 0;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)}
 .stat{display:flex;flex-direction:column;position:relative}.stat::after{content:'';position:absolute;right:-1.5rem;top:15%;height:70%;width:1px;background:rgba(255,255,255,.08)}.stat:last-child::after{display:none}
@@ -689,6 +704,7 @@ footer{padding:2rem;text-align:center;border-top:1px solid var(--border);font-fa
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   .reveal,.hero-content > *{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}
+  .hero h1 .accent{animation:none;background-position:-60% 0,0 0}
 }
 
 /* Responsividade unificada */
@@ -886,7 +902,7 @@ footer{padding:2rem;text-align:center;border-top:1px solid var(--border);font-fa
 <section id="sobre">
   <div class="section-header reveal"><div class="section-tag">// Quem sou eu</div><h2 class="section-title">A versão curta</h2></div>
   <div class="about-layout">
-    <div class="about-photo-wrap reveal"><img src="fotos/richard.png" alt="Richard Barbosa — desenvolvedor, copywriter e especialista em automações" class="about-photo" loading="lazy" decoding="async"><div class="about-photo-name">Richard Barbosa</div><div class="about-photo-role">Dev · Copy · Auto</div></div>
+    <div class="about-photo-wrap reveal"><img src="fotos/logo.jpg" alt="Richard Barbosa — desenvolvedor, copywriter e especialista em automações" class="about-photo" loading="lazy" decoding="async"><div class="about-photo-name">Richard Barbosa</div><div class="about-photo-role">Dev · Copy · Auto</div></div>
     <div class="about-text-col reveal reveal-d1">
       <p class="blog-lead">Eu poderia começar com "sou apaixonado por tecnologia desde criança." Mas prefiro ir direto.</p>
       <p>Construo sistemas, escrevo textos e configuro automações. Não porque quero fazer tudo — mas porque descobri que a maioria dos projetos digitais quebra exatamente na fronteira entre uma disciplina e outra. E essa fronteira, por muito tempo, ninguém quis ser responsável por ela.</p>
