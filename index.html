@@ -89,6 +89,12 @@
 }
 </script>
 
+<!-- Print ainda não enviado → card mostra placeholder em vez de ícone quebrado.
+     Fica no <head> pra capturar o erro mesmo das imagens que falham antes do script do rodapé rodar. -->
+<script>
+document.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='IMG'&&t.closest){var c=t.closest('.page-card');if(c)c.classList.add('is-missing');}},true);
+</script>
+
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -239,38 +245,53 @@ nav.nav-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45
   overflow: hidden;
   pointer-events: none;
   z-index: 0;
-  mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 80%);
-  opacity: 0.65;
+  mask-image: radial-gradient(ellipse 78% 88% at 50% 50%, black 38%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse 78% 88% at 50% 50%, black 38%, transparent 85%);
+  opacity: 0.9;
 }
 .projects-mb {
-  opacity: 0.85;
-  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 40%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 40%, transparent 100%);
+  opacity: 1;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 45%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 45%, transparent 100%);
 }
 .motherboard-container::before {
   content: ''; position: absolute; inset: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: 60px 60px; background-position: center center;
 }
+/* Trilhas tingidas com a cor do circuito (fallback: branco discreto) */
 .data-track { position: absolute; }
-.track-h { height: 1px; width: 100%; left: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04) 10%, rgba(255,255,255,0.04) 90%, transparent); }
-.track-v { width: 1px; height: 100%; top: 0; background: linear-gradient(180deg, transparent, rgba(255,255,255,0.04) 10%, rgba(255,255,255,0.04) 90%, transparent); }
-.data-pulse { position: absolute; }
-.track-h .data-pulse { height: 1px; width: 150px; top: 0; background: linear-gradient(90deg, transparent, currentColor 80%, #ffffff 100%); box-shadow: 0 0 10px currentColor; }
-.track-v .data-pulse { width: 1px; height: 150px; left: 0; background: linear-gradient(180deg, transparent, currentColor 80%, #ffffff 100%); box-shadow: 0 0 10px currentColor; }
-.pulse-right { animation: moveRight linear infinite; }
-.pulse-left { animation: moveLeft linear infinite; }
-.pulse-down { animation: moveDown linear infinite; }
-.pulse-up { animation: moveUp linear infinite; }
-@keyframes moveRight { 0% { left: -10%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 110%; opacity: 0; } }
-@keyframes moveLeft { 0% { right: -10%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { right: 110%; opacity: 0; } }
-@keyframes moveDown { 0% { top: -10%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 110%; opacity: 0; } }
-@keyframes moveUp { 0% { bottom: -10%; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { bottom: 110%; opacity: 0; } }
-.mb-node { position: absolute; width: 6px; height: 6px; background: var(--bg); border: 1px solid currentColor; border-radius: 50%; box-shadow: 0 0 5px currentColor, inset 0 0 2px currentColor; animation: pulseNode 3s infinite alternate; }
+.track-h { height: 1px; width: 100%; left: 0; container-type: inline-size; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06) 10%, rgba(255,255,255,0.06) 90%, transparent); background: linear-gradient(90deg, transparent, color-mix(in srgb, currentColor 22%, transparent) 10%, color-mix(in srgb, currentColor 22%, transparent) 90%, transparent); }
+.track-v { width: 1px; height: 100%; top: 0; container-type: size; background: linear-gradient(180deg, transparent, rgba(255,255,255,0.06) 10%, rgba(255,255,255,0.06) 90%, transparent); background: linear-gradient(180deg, transparent, color-mix(in srgb, currentColor 22%, transparent) 10%, color-mix(in srgb, currentColor 22%, transparent) 90%, transparent); }
+
+/* Pulso de dados: mais grosso, rastro mais longo e "faísca" branca na ponta.
+   Anima só transform/opacity (GPU) — nada de left/top recalculando layout a cada frame. */
+.data-pulse { position: absolute; border-radius: 2px; will-change: transform, opacity; }
+.track-h .data-pulse { height: 2px; width: 200px; top: -0.5px; background: linear-gradient(90deg, transparent, currentColor 75%, #ffffff 100%); box-shadow: 0 0 6px currentColor, 0 0 16px currentColor; }
+.track-v .data-pulse { width: 2px; height: 200px; left: -0.5px; background: linear-gradient(180deg, transparent, currentColor 75%, #ffffff 100%); box-shadow: 0 0 6px currentColor, 0 0 16px currentColor; }
+.track-h .pulse-left { background: linear-gradient(270deg, transparent, currentColor 75%, #ffffff 100%); }
+.track-v .pulse-up { background: linear-gradient(0deg, transparent, currentColor 75%, #ffffff 100%); }
+.data-pulse::after { content: ''; position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #fff; box-shadow: 0 0 6px 2px currentColor, 0 0 18px 6px currentColor; }
+.track-h .data-pulse::after { top: 50%; right: -3px; transform: translateY(-50%); }
+.track-h .pulse-left::after { right: auto; left: -3px; }
+.track-v .data-pulse::after { left: 50%; bottom: -3px; transform: translateX(-50%); }
+.track-v .pulse-up::after { bottom: auto; top: -3px; }
+.pulse-right { left: 0; animation: moveRight linear infinite; }
+.pulse-left { right: 0; animation: moveLeft linear infinite; }
+.pulse-down { top: 0; animation: moveDown linear infinite; }
+.pulse-up { bottom: 0; animation: moveUp linear infinite; }
+@keyframes moveRight { 0% { transform: translateX(-10cqw); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateX(110cqw); opacity: 0; } }
+@keyframes moveLeft { 0% { transform: translateX(10cqw); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateX(-110cqw); opacity: 0; } }
+@keyframes moveDown { 0% { transform: translateY(-10cqh); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(110cqh); opacity: 0; } }
+@keyframes moveUp { 0% { transform: translateY(10cqh); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-110cqh); opacity: 0; } }
+
+/* Nós = LEDs da placa: núcleo aceso + halo que "respira" (só opacity, sem repintar sombra) */
+.mb-node { position: absolute; width: 8px; height: 8px; background: radial-gradient(circle, currentColor 0 30%, var(--bg) 48%); border: 1.5px solid currentColor; border-radius: 50%; box-shadow: 0 0 6px currentColor, inset 0 0 2px currentColor; }
+.mb-node::after { content: ''; position: absolute; inset: -1.5px; border-radius: 50%; box-shadow: 0 0 10px 2px currentColor, 0 0 26px 5px currentColor; opacity: .2; animation: pulseNode 3s ease-in-out infinite alternate; }
+.mb-node:nth-child(odd)::after { animation-delay: -1.5s; }
 .track-h .mb-node { top: 50%; transform: translate(-50%, -50%); }
 .track-v .mb-node { left: 50%; transform: translate(-50%, -50%); }
-@keyframes pulseNode { 0% { box-shadow: 0 0 2px currentColor, inset 0 0 1px currentColor; filter: brightness(0.7); } 100% { box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, inset 0 0 4px currentColor; filter: brightness(1.3); } }
+@keyframes pulseNode { to { opacity: 1; } }
 
 .services-inner{position:relative;z-index:1;max-width:1200px;margin:0 auto}
 .services-header{text-align:center;margin-bottom:4rem}
@@ -392,6 +413,92 @@ section{padding:6rem 2.5rem}
 .showcase-card-type{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--green);letter-spacing:.06em;text-shadow:0 2px 6px rgba(0,0,0,.5)}
 .showcase-counter{text-align:center;margin-top:2.5rem;padding:0 2.5rem;font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim);letter-spacing:.08em}
 .showcase-counter span{color:var(--green);font-weight:600}
+/* clip (não hidden): o carrossel de páginas tem links focáveis — com hidden, o foco via Tab
+   "rola" a seção de lado e desalinha tudo. clip corta igual, mas não é rolável. */
+.showcase-section{overflow:clip}
+
+/* ============================
+   CARROSSEL DE PÁGINAS — prints completos (direita → esquerda, oposto ao de baixo)
+   ============================ */
+.pages-wrap{padding:.8rem 0 1.4rem;margin-bottom:1rem}
+.pages-track{display:flex;gap:1.5rem;width:max-content;animation:pagesScroll 60s linear infinite}
+.pages-track:hover,.pages-track:focus-within{animation-play-state:paused}
+@keyframes pagesScroll{0%{transform:translateX(0)}100%{transform:translateX(calc(-50% - 0.75rem))}}
+
+/* Cor de destaque por card (padrão 5n = original e duplicata ficam com a mesma cor) */
+.page-card{--accent:var(--neon-green);flex-shrink:0;width:380px;display:block;color:var(--text);text-decoration:none;cursor:zoom-in;border-radius:14px}
+.page-card:nth-child(5n+1){--accent:var(--neon-blue)}
+.page-card:nth-child(5n+2){--accent:var(--neon-purple)}
+.page-card:nth-child(5n+3){--accent:var(--neon-red)}
+.page-card:nth-child(5n+4){--accent:var(--neon-yellow)}
+.page-card:focus-visible{outline:none}
+
+/* O "quadro": janela de navegador com o topo da página + rolagem ao passar o mouse */
+.page-frame{position:relative;border-radius:14px;overflow:hidden;background:var(--bg-card);border:1px solid var(--border);box-shadow:0 12px 32px rgba(0,0,0,.35);transition:transform .5s cubic-bezier(.16,1,.3,1),border-color .4s,box-shadow .5s}
+.page-frame::before{content:'';position:absolute;top:0;left:22%;right:22%;height:1px;z-index:3;background:var(--accent);box-shadow:0 0 14px var(--accent);opacity:.55;transition:all .5s}
+.page-card:hover .page-frame,.page-card:focus-visible .page-frame{transform:translateY(-6px);border-color:rgba(255,255,255,.12);border-color:color-mix(in srgb,var(--accent) 45%,transparent);box-shadow:0 24px 54px rgba(0,0,0,.5),0 0 38px rgba(0,255,102,.08);box-shadow:0 24px 54px rgba(0,0,0,.5),0 0 38px color-mix(in srgb,var(--accent) 22%,transparent)}
+.page-card:hover .page-frame::before,.page-card:focus-visible .page-frame::before{left:8%;right:8%;height:2px;opacity:1}
+.page-chrome{display:flex;align-items:center;gap:.7rem;padding:.55rem .8rem;background:#0a0c10;border-bottom:1px solid var(--border)}
+.page-dots{display:flex;gap:5px;flex-shrink:0}
+.page-dots i{width:8px;height:8px;border-radius:50%;background:#262b36;transition:background .3s,box-shadow .3s}
+.page-card:hover .page-dots i:nth-child(1),.lb-chrome .page-dots i:nth-child(1){background:var(--neon-red);box-shadow:0 0 6px var(--neon-red)}
+.page-card:hover .page-dots i:nth-child(2),.lb-chrome .page-dots i:nth-child(2){background:var(--neon-yellow);box-shadow:0 0 6px var(--neon-yellow)}
+.page-card:hover .page-dots i:nth-child(3),.lb-chrome .page-dots i:nth-child(3){background:var(--neon-green);box-shadow:0 0 6px var(--neon-green)}
+.page-url{flex:1;min-width:0;display:flex;align-items:center;gap:.45rem;padding:.22rem .65rem;border-radius:6px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.05);font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--text-dim);letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.page-url::before{content:'';width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--accent);box-shadow:0 0 6px var(--accent)}
+.page-viewport{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--bg-elevated)}
+.page-viewport img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 0;filter:brightness(.92);transition:object-position 1.2s cubic-bezier(.16,1,.3,1),filter .4s}
+.page-card:hover .page-viewport img{object-position:50% 100%;filter:brightness(1);transition:object-position 7s cubic-bezier(.45,0,.55,1),filter .4s}
+.page-viewport::after{content:'';position:absolute;inset:auto 0 0 0;height:28%;background:linear-gradient(transparent,rgba(7,8,10,.5));pointer-events:none}
+.page-cta{position:absolute;left:50%;bottom:.9rem;z-index:2;display:inline-flex;align-items:center;gap:.45rem;padding:.45rem .95rem;border-radius:50px;background:rgba(7,8,10,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);font-family:'Outfit',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.04em;white-space:nowrap;color:var(--text);opacity:0;transform:translate(-50%,8px);transition:opacity .35s,transform .45s cubic-bezier(.16,1,.3,1)}
+.page-cta svg{width:14px;height:14px;fill:none;stroke:var(--accent);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.page-card:hover .page-cta,.page-card:focus-visible .page-cta{opacity:1;transform:translate(-50%,0)}
+@media (hover:none){.page-cta{opacity:1;transform:translate(-50%,0)}}
+.page-meta{display:flex;flex-direction:column;gap:.15rem;padding:.85rem .3rem 0}
+.page-name{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.page-hint{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+
+/* Print ainda não enviado: placeholder elegante em vez de ícone de imagem quebrada */
+.page-card.is-missing .page-viewport img{opacity:0}
+.page-card.is-missing .page-viewport::before{content:'print em breve';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);background:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px) 0 0/24px 24px,radial-gradient(ellipse at 50% 0%,rgba(0,255,102,.06),transparent 70%)}
+
+/* ============================
+   LIGHTBOX — página inteira (dialog nativo: foco preso, Esc e fundo inerte de graça)
+   ============================ */
+html.lb-lock{overflow:hidden;scrollbar-gutter:stable}
+.lightbox{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:var(--text);overflow:hidden}
+.lightbox[open]{display:flex;flex-direction:column}
+.lightbox::backdrop{background:rgba(3,4,6,.92);backdrop-filter:blur(10px)}
+.lightbox[open] .lb-stage{animation:lbIn .45s cubic-bezier(.16,1,.3,1)}
+@keyframes lbIn{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+.lb-bar{position:relative;flex-shrink:0;display:flex;align-items:center;gap:1rem;padding:.9rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(7,8,10,.6)}
+.lb-count{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.1em;color:var(--green);flex-shrink:0}
+.lb-title{flex:1;min-width:0;font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-open{flex-shrink:0;display:inline-flex;align-items:center;gap:.4rem;padding:.45rem 1rem;border-radius:50px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:var(--text-dim);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;text-decoration:none;transition:all .3s}
+.lb-open:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
+.lb-open svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lb-close{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-dim);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;font-family:'Outfit',sans-serif}
+.lb-close:hover{background:rgba(255,255,255,.12);color:var(--text)}
+.lb-close:focus-visible,.lb-nav:focus-visible{border-radius:50%}
+.lightbox:has(.lb-shot.is-error) .lb-open{visibility:hidden}
+.lb-progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));box-shadow:0 0 10px var(--green);transform-origin:0 50%;transform:scaleX(0)}
+.lb-stage{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:1.8rem 5.5rem 3rem}
+.lb-frame{max-width:1100px;margin:0 auto;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--bg-card);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.lb-chrome{display:flex;align-items:center;gap:.8rem;padding:.65rem 1rem;background:#0a0c10;border-bottom:1px solid var(--border)}
+.lb-chrome .page-url::before{background:var(--green);box-shadow:0 0 6px var(--green)}
+.lb-shot{position:relative;min-height:50vh;background:var(--bg-elevated)}
+.lb-shot img{display:block;width:100%;height:auto;transition:opacity .3s}
+.lb-shot.is-loading img{opacity:0}
+.lb-shot::after{content:'';position:absolute;top:calc(25vh - 18px);left:50%;width:36px;height:36px;margin-left:-18px;border-radius:50%;border:2px solid rgba(255,255,255,.1);border-top-color:var(--green);opacity:0;pointer-events:none;animation:lbSpin .8s linear infinite}
+.lb-shot.is-loading::after{opacity:1}
+@keyframes lbSpin{to{transform:rotate(360deg)}}
+.lb-shot.is-error img{display:none}
+.lb-shot.is-error::before{content:'Print desta página ainda não foi enviado.';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:2rem;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.8rem;letter-spacing:.06em;color:var(--text-dim)}
+.lb-nav{position:fixed;top:50%;z-index:2;width:52px;height:52px;margin-top:-26px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(14,16,21,.8);backdrop-filter:blur(10px);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.lb-nav:hover{border-color:rgba(0,255,102,.4);box-shadow:0 0 24px rgba(0,255,102,.15);color:var(--green)}
+.lb-nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lb-prev{left:1.4rem}.lb-next{right:1.4rem}
+.lb-hint{text-align:center;margin-top:1.4rem;font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.08em;color:var(--text-dim)}
 
 /* CASES — PREMIUM CARDS + MODAL */
 #projetos{position:relative;overflow:hidden;background:var(--bg-elevated)}
@@ -602,6 +709,15 @@ footer{padding:2rem;text-align:center;border-top:1px solid var(--border);font-fa
   .showcase-card{width:260px}
   .showcase-track{gap:1rem}
   @keyframes showcaseScroll{0%{transform:translateX(calc(-50% - 0.5rem))}100%{transform:translateX(0)}}
+  .page-card{width:300px}
+  .pages-track{gap:1rem}
+  @keyframes pagesScroll{0%{transform:translateX(0)}100%{transform:translateX(calc(-50% - 0.5rem))}}
+  .lb-bar{padding:.7rem 1rem;gap:.7rem}
+  .lb-open span{display:none}
+  .lb-open{padding:.5rem .6rem}
+  .lb-stage{padding:1rem .75rem 6.5rem}
+  .lb-nav{top:auto;bottom:1.2rem;margin-top:0;width:48px;height:48px}
+  .lb-prev{left:calc(50% - 60px)}.lb-next{right:calc(50% - 60px)}
   .projects-grid{grid-template-columns:1fr}
   .project-featured{grid-column:span 1}
   .project-featured .project-thumb{min-height:250px}
@@ -624,6 +740,7 @@ footer{padding:2rem;text-align:center;border-top:1px solid var(--border);font-fa
   .contact-section{padding:4rem 1.2rem}
   .services-row{grid-template-columns:1fr}
   .showcase-card{width:220px}
+  .page-card{width:264px}
   .showcase-section{padding:3.5rem 0}
 }
 </style>
@@ -793,8 +910,220 @@ footer{padding:2rem;text-align:center;border-top:1px solid var(--border);font-fa
   <div class="showcase-header reveal">
     <div class="section-tag">// Galeria</div>
     <h2 id="titulo-galeria">Projetos em destaque</h2>
-    <p>Deslize para explorar. Cada projeto é uma entrega real com problema resolvido.</p>
+    <p>Clique em qualquer página para ver o projeto inteiro, do topo ao rodapé. Cada entrega resolve um problema real.</p>
   </div>
+  <!-- CARROSSEL DE PÁGINAS (prints completos) — gira no sentido oposto ao de baixo; clique abre o print inteiro.
+       Imagens em fotos/paginas/ (nomes em minúsculo, .png). Para trocar/adicionar: edite os 2 conjuntos iguais. -->
+  <div class="showcase-track-wrap pages-wrap">
+    <div class="pages-track">
+
+      <!-- CONJUNTO 1 (ORIGINAL — 10 PÁGINAS) -->
+      <a class="page-card" href="fotos/paginas/delivery.png" data-index="0" aria-label="Ver página completa: Delivery">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">delivery</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/delivery.png" alt="Print da página Delivery — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Delivery</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/devbox.png" data-index="1" aria-label="Ver página completa: DevBox">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">devbox</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/devbox.png" alt="Print da página DevBox — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">DevBox</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/naoresidente.png" data-index="2" aria-label="Ver página completa: Não Residente">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">naoresidente</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/naoresidente.png" alt="Print da página Não Residente — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Não Residente</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/noiva.png" data-index="3" aria-label="Ver página completa: Noiva Protagonista">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">noiva</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/noiva.png" alt="Print da página Noiva Protagonista — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Noiva Protagonista</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/performancemed.png" data-index="4" aria-label="Ver página completa: Performance Med">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">performancemed</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/performancemed.png" alt="Print da página Performance Med — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Performance Med</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/petshoop.png" data-index="5" aria-label="Ver página completa: Pet Shop">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">petshoop</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/petshoop.png" alt="Print da página Pet Shop — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Pet Shop</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/polatto.png" data-index="6" aria-label="Ver página completa: Polatto Energia Solar">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">polatto</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/polatto.png" alt="Print da página Polatto Energia Solar — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Polatto Energia Solar</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/portaldotempo.png" data-index="7" aria-label="Ver página completa: Portal do Tempo">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">portaldotempo</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/portaldotempo.png" alt="Print da página Portal do Tempo — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Portal do Tempo</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/relacionamento.png" data-index="8" aria-label="Ver página completa: Guia de Relacionamento">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">relacionamento</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/relacionamento.png" alt="Print da página Guia de Relacionamento — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Guia de Relacionamento</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/saidafiscal.png" data-index="9" aria-label="Ver página completa: Saída Fiscal">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">saidafiscal</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/saidafiscal.png" alt="Print da página Saída Fiscal — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Saída Fiscal</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+
+      <!-- CONJUNTO 2 (DUPLICADO PARA O LOOP PERFEITO — fora do Tab e dos leitores de tela) -->
+      <a class="page-card" href="fotos/paginas/delivery.png" data-index="0" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">delivery</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/delivery.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Delivery</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/devbox.png" data-index="1" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">devbox</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/devbox.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">DevBox</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/naoresidente.png" data-index="2" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">naoresidente</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/naoresidente.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Não Residente</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/noiva.png" data-index="3" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">noiva</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/noiva.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Noiva Protagonista</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/performancemed.png" data-index="4" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">performancemed</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/performancemed.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Performance Med</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/petshoop.png" data-index="5" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">petshoop</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/petshoop.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Pet Shop</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/polatto.png" data-index="6" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">polatto</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/polatto.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Polatto Energia Solar</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/portaldotempo.png" data-index="7" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">portaldotempo</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/portaldotempo.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Portal do Tempo</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/relacionamento.png" data-index="8" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">relacionamento</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/relacionamento.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Guia de Relacionamento</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="fotos/paginas/saidafiscal.png" data-index="9" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">saidafiscal</span></div>
+          <div class="page-viewport">
+            <img src="fotos/paginas/saidafiscal.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Saída Fiscal</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+
+    </div>
+  </div>
+
   <div class="showcase-track-wrap">
     <div class="showcase-track">
 
@@ -964,7 +1293,7 @@ footer{padding:2rem;text-align:center;border-top:1px solid var(--border);font-fa
 
     </div>
   </div>
-  <div class="showcase-counter"> Projetos em destaque atualizados constantemente · Passe o mouse para pausar</div>
+  <div class="showcase-counter">Projetos em destaque atualizados constantemente · Passe o mouse para pausar · <span>Clique para ver a página inteira</span></div>
 </section>
 
 <!-- PROJETOS (SEÇÃO COM AS TRILHAS E MODAIS) -->
@@ -1246,6 +1575,26 @@ footer{padding:2rem;text-align:center;border-top:1px solid var(--border);font-fa
   </div>
 </div>
 
+<!-- LIGHTBOX: PÁGINA INTEIRA (carrossel de páginas) -->
+<dialog class="lightbox" id="pageLightbox" aria-labelledby="lbTitle">
+  <div class="lb-bar">
+    <span class="lb-count" id="lbCount">01 / 10</span>
+    <h2 class="lb-title" id="lbTitle">Página</h2>
+    <a class="lb-open" id="lbOpen" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>Tamanho original</span></a>
+    <button class="lb-close" type="button" data-lb-close aria-label="Fechar">✕</button>
+    <div class="lb-progress" id="lbProgress" aria-hidden="true"></div>
+  </div>
+  <div class="lb-stage" id="lbStage">
+    <div class="lb-frame">
+      <div class="lb-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url" id="lbUrl"></span></div>
+      <div class="lb-shot" id="lbShot"><img id="lbImg" alt="" decoding="async"></div>
+    </div>
+    <p class="lb-hint">Role para ver a página inteira · ← → troca de projeto · Esc fecha</p>
+  </div>
+  <button class="lb-nav lb-prev" type="button" data-lb-step="-1" aria-label="Página anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+  <button class="lb-nav lb-next" type="button" data-lb-step="1" aria-label="Próxima página"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+</dialog>
+
 <script>
 // Scroll Reveal Observer
 const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('visible')})},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
@@ -1310,6 +1659,88 @@ document.querySelectorAll('.case-card[onclick]').forEach(c=>{
     if(e.key==='Enter'||e.key===' '){e.preventDefault();c.click();}
   });
 });
+
+// Lightbox das páginas completas (carrossel de cima)
+(function(){
+  const lb=document.getElementById('pageLightbox');
+  const track=document.querySelector('.pages-track');
+  // Sem <dialog> (navegador muito antigo) o link segue normal e abre o PNG direto
+  if(!lb||!track||typeof lb.showModal!=='function')return;
+
+  const items=[...track.querySelectorAll('.page-card:not([aria-hidden])')].map(c=>({
+    src:c.getAttribute('href'),
+    title:c.querySelector('.page-name').textContent.trim(),
+    slug:c.querySelector('.page-url').textContent.trim()
+  }));
+  const $=id=>document.getElementById(id);
+  const stage=$('lbStage'),shot=$('lbShot'),img=$('lbImg'),bar=$('lbProgress');
+  const pad=n=>String(n).padStart(2,'0');
+  let idx=0,lastFocus=null;
+
+  function updateProgress(){
+    const max=stage.scrollHeight-stage.clientHeight;
+    bar.style.transform='scaleX('+(max>0?stage.scrollTop/max:0)+')';
+  }
+  function render(){
+    const it=items[idx];
+    shot.classList.remove('is-error');
+    shot.classList.add('is-loading');
+    img.onload=()=>{if(img.getAttribute('src')===it.src){shot.classList.remove('is-loading');updateProgress();}};
+    img.onerror=()=>{if(img.getAttribute('src')===it.src){shot.classList.remove('is-loading');shot.classList.add('is-error');}};
+    img.alt='Print da página completa — '+it.title;
+    img.src=it.src;
+    if(img.complete&&img.naturalWidth)img.onload();
+    $('lbTitle').textContent=it.title;
+    $('lbCount').textContent=pad(idx+1)+' / '+pad(items.length);
+    $('lbUrl').textContent=it.slug;
+    $('lbOpen').href=it.src;
+    stage.scrollTop=0;
+    updateProgress();
+    // Pré-carrega só o próximo (prints inteiros são pesados; não baixa tudo de uma vez)
+    const next=items[(idx+1)%items.length];
+    if(next)(new Image()).src=next.src;
+  }
+  function open(i){
+    idx=i;
+    lastFocus=document.activeElement;
+    render();
+    document.documentElement.classList.add('lb-lock');
+    lb.showModal();
+    lb.querySelector('.lb-close').focus();
+  }
+  function step(d){idx=(idx+d+items.length)%items.length;render();}
+
+  track.addEventListener('click',e=>{
+    const card=e.target.closest('.page-card');
+    // Ctrl/Cmd/Shift/botão do meio = comportamento normal do link (abrir PNG em nova aba)
+    if(!card||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+    e.preventDefault();
+    open(+card.dataset.index||0);
+  });
+  lb.addEventListener('click',e=>{
+    if(e.target.closest('[data-lb-close]')||e.target===lb||e.target===stage){lb.close();return;}
+    const s=e.target.closest('[data-lb-step]');
+    if(s)step(+s.dataset.lbStep);
+  });
+  lb.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'){e.preventDefault();step(1);}
+    else if(e.key==='ArrowLeft'){e.preventDefault();step(-1);}
+  });
+  lb.addEventListener('close',()=>{
+    document.documentElement.classList.remove('lb-lock');
+    img.removeAttribute('src');
+    if(lastFocus&&lastFocus.focus)lastFocus.focus({preventScroll:true});
+  });
+  stage.addEventListener('scroll',updateProgress,{passive:true});
+
+  // Swipe horizontal no celular troca de projeto (vertical continua rolando a página)
+  let tx=0,ty=0;
+  stage.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+  stage.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)step(dx<0?1:-1);
+  },{passive:true});
+})();
 </script>
 </body>
 </html>
