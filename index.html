@@ -271,6 +271,20 @@ nav.nav-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45
   mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 45%, transparent 100%);
   -webkit-mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 45%, transparent 100%);
 }
+.mb-flow-top,.mb-flow-bottom{-webkit-mask-composite:source-in;mask-composite:intersect}
+/* Serviços → Quem sou eu: um circuito só. Serviços apaga no topo/laterais e chega "aceso" na borda de baixo;
+   Quem sou eu começa aceso e apaga só no fim, antes da faixa de tecnologias. */
+.mb-flow-top{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,transparent,#000 32%);
+  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,transparent,#000 32%);
+}
+.mb-flow-bottom{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,#000 0%,#000 62%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent),linear-gradient(180deg,#000 0%,#000 62%,transparent);
+}
+.mb-flow-top::before,.mb-flow-bottom::before{background-position:center top}
+#sobre{position:relative;overflow:hidden}
+#sobre > .section-header,#sobre > .about-layout{position:relative;z-index:1}
 .motherboard-container::before {
   content: ''; position: absolute; inset: 0;
   background-image: linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
@@ -867,7 +881,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 <section class="services-section" aria-labelledby="titulo-servicos">
 
   <!-- BACKGROUND EFEITO PLACA MÃE -->
-  <div class="motherboard-container" aria-hidden="true">
+  <div class="motherboard-container mb-flow-top" aria-hidden="true">
       <div class="data-track track-h" style="top: 20%; color: var(--neon-blue);">
           <div class="data-pulse pulse-right" style="animation-duration: 6s; animation-delay: 0s;"></div>
           <div class="mb-node" style="left: 30%;"></div>
@@ -933,6 +947,40 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 
 <!-- QUEM SOU EU -->
 <section id="sobre">
+
+  <!-- BACKGROUND EFEITO PLACA MÃE — continuação do circuito dos Serviços -->
+  <div class="motherboard-container mb-flow-bottom" aria-hidden="true">
+      <div class="data-track track-v" style="left: 15%; color: var(--neon-red);">
+          <div class="data-pulse pulse-down" style="animation-duration: 8s; animation-delay: 2.5s;"></div>
+          <div class="mb-node" style="top: 22%;"></div>
+          <div class="mb-node" style="top: 64%;"></div>
+      </div>
+      <div class="data-track track-v" style="left: 85%; color: var(--neon-yellow);">
+          <div class="data-pulse pulse-up" style="animation-duration: 10s; animation-delay: 0.5s;"></div>
+          <div class="mb-node" style="top: 36%;"></div>
+          <div class="mb-node" style="top: 78%;"></div>
+      </div>
+      <div class="data-track track-v" style="left: 42%; color: var(--neon-purple); opacity: 0.55;">
+          <div class="data-pulse pulse-down" style="animation-duration: 11s; animation-delay: 4s;"></div>
+          <div class="mb-node" style="top: 48%;"></div>
+      </div>
+      <div class="data-track track-h" style="top: 14%; color: var(--neon-blue);">
+          <div class="data-pulse pulse-right" style="animation-duration: 7s; animation-delay: 1s;"></div>
+          <div class="mb-node" style="left: 42%;"></div>
+          <div class="mb-node" style="left: 85%;"></div>
+      </div>
+      <div class="data-track track-h" style="top: 48%; color: var(--neon-purple);">
+          <div class="data-pulse pulse-left" style="animation-duration: 9s; animation-delay: 3s;"></div>
+          <div class="mb-node" style="right: 58%;"></div>
+          <div class="mb-node" style="right: 15%;"></div>
+      </div>
+      <div class="data-track track-h" style="top: 76%; color: var(--neon-green);">
+          <div class="data-pulse pulse-right" style="animation-duration: 6s; animation-delay: 0s;"></div>
+          <div class="mb-node" style="left: 15%;"></div>
+          <div class="mb-node" style="left: 70%;"></div>
+      </div>
+  </div>
+
   <div class="section-header reveal"><div class="section-tag">// Quem sou eu</div><h2 class="section-title">Do interior de SP para o Brasil inteiro.</h2></div>
   <div class="about-layout">
     <div class="about-photo-wrap reveal"><img src="fotos/logo.jpg" alt="Richard Barbosa — desenvolvedor, copywriter e especialista em automações em Bauru e Jaú, SP" class="about-photo" loading="lazy" decoding="async"><div class="about-photo-name">Richard Barbosa</div><div class="about-photo-role">Dev · Copy · Auto</div></div>
