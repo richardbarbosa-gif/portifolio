@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ==================== SEO ==================== -->
-<title>Richard Barbosa — Desenvolvedor, Copywriter e Automações com IA</title>
-<meta name="description" content="Sites, sistemas, copy e automações com n8n, Make e IA que geram resultado real. Soluções digitais completas do zero ao funcionando — programação, copywriting e workflows inteligentes.">
+<title>Sites, Sistemas e Automações em Bauru e Jaú | Richard Barbosa</title>
+<meta name="description" content="Desenvolvedor em Bauru e Jaú (SP) que cria sites, sistemas, CRMs e automações com n8n e IA para empresas de todo o Brasil. Do zero ao funcionando.">
 <meta name="author" content="Richard Barbosa">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#07080a">
@@ -55,7 +55,7 @@
       "image": "https://richarddev.com.br/fotos/logo.jpg",
       "email": "mailto:richardbarbosa28@gmail.com",
       "telephone": "+55-14-99137-4928",
-      "sameAs": ["https://www.linkedin.com/in/richardbarbosa28/"],
+      "sameAs": ["https://www.linkedin.com/in/richardbarbosa28/", "https://omercadodetrabalho.com/profissionais/richard"],
       "knowsAbout": ["React", "Supabase", "PostgreSQL", "n8n", "Make", "Copywriting", "SEO", "Automação com Inteligência Artificial"],
       "address": { "@type": "PostalAddress", "addressRegion": "SP", "addressCountry": "BR" }
     },
@@ -67,7 +67,11 @@
       "image": "https://richarddev.com.br/fotos/capa.png",
       "telephone": "+55-14-99137-4928",
       "priceRange": "$$",
-      "areaServed": { "@type": "Country", "name": "Brasil" },
+      "areaServed": [
+        { "@type": "City", "name": "Bauru" },
+        { "@type": "City", "name": "Jaú" },
+        { "@type": "Country", "name": "Brasil" }
+      ],
       "founder": { "@id": "https://richarddev.com.br/#richard" },
       "address": { "@type": "PostalAddress", "addressRegion": "SP", "addressCountry": "BR" },
       "makesOffer": [
@@ -379,6 +383,16 @@ section{padding:6rem 2.5rem}
 .about-text-col .blog-lead{font-size:1.2rem;color:var(--text);font-weight:500;margin-bottom:1.3rem;line-height:1.8}
 .about-text-col p{color:var(--text-body);font-size:1.02rem;margin-bottom:1.2rem;line-height:1.85}
 .about-text-col .em{color:var(--green);font-weight:600;font-style:normal}
+.about-loc{display:inline-flex;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:1.4rem;padding:.45rem 1rem;border:1px solid var(--border);border-radius:50px;background:rgba(255,255,255,.02);font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim)}
+.about-loc svg{width:14px;height:14px;fill:none;stroke:var(--green);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 4px rgba(0,255,102,.5))}
+.about-text-col strong{color:var(--text);font-weight:600}
+.about-cases-label{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin:1.8rem 0 .8rem}
+.about-cases{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:1.8rem}
+.about-case{position:relative;padding:1.1rem 1.2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .3s,transform .3s}
+.about-case::before{content:'';position:absolute;top:0;left:18%;right:18%;height:1px;background:var(--c);box-shadow:0 0 12px var(--c);opacity:.7}
+.about-case:hover{border-color:rgba(255,255,255,.1);transform:translateY(-2px)}
+.about-case h3{font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:700;color:var(--c);margin-bottom:.35rem;letter-spacing:-.01em}
+.about-text-col .about-case p{font-size:.85rem;line-height:1.6;color:var(--text-dim);margin:0}
 .about-text-col .highlight-box{margin:1.8rem 0;padding:1.3rem 1.8rem;border-left:3px solid var(--green);background:var(--green-glow);border-radius:0 var(--radius) var(--radius) 0;font-style:italic;color:var(--text);font-size:.98rem}
 
 /* MARQUEE */
@@ -685,10 +699,13 @@ html.lb-lock{overflow:hidden;scrollbar-gutter:stable}
 .contact-card.whatsapp:hover{border-color:rgba(37,211,102,.3);box-shadow:0 12px 40px rgba(37,211,102,.1)}
 .contact-card.email:hover{border-color:rgba(0,210,255,.25);box-shadow:0 12px 40px rgba(0,210,255,.06)}
 .contact-card.linkedin:hover{border-color:rgba(0,119,181,.3);box-shadow:0 12px 40px rgba(0,119,181,.08)}
+.contact-card.mercado:hover{border-color:rgba(255,213,74,.3);box-shadow:0 12px 40px rgba(255,213,74,.08)}
 .contact-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .contact-icon.wpp{background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.2)}.contact-icon.wpp svg{fill:#25d366;width:24px;height:24px}
 .contact-icon.mail{background:rgba(0,210,255,.1);border:1px solid rgba(0,210,255,.15)}.contact-icon.mail svg{stroke:var(--cyan);width:22px;height:22px;fill:none}
 .contact-icon.lnkd{background:rgba(0,119,181,.1);border:1px solid rgba(0,119,181,.18)}.contact-icon.lnkd svg{fill:#0077b5;width:22px;height:22px}
+.contact-icon.merc{background:rgba(255,213,74,.1);border:1px solid rgba(255,213,74,.2)}.contact-icon.merc svg{fill:none;stroke:#ffd54a;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;width:22px;height:22px}
+.contact-text a{color:var(--green);text-decoration:underline;text-underline-offset:3px}
 .contact-info{display:flex;flex-direction:column}.contact-label{font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:700}
 .contact-detail{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--text-dim);letter-spacing:.02em;margin-top:.15rem}
 .contact-card .arrow{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--text-dim);transition:all .3s}.contact-card:hover .arrow{color:var(--green);transform:translateX(4px)}
@@ -771,6 +788,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
   .services-section{padding:4rem 1.2rem}
   .contact-section{padding:4rem 1.2rem}
   .services-row{grid-template-columns:1fr}
+  .about-cases{grid-template-columns:1fr}
   .showcase-card{width:220px}
   .page-card{width:264px}
   .showcase-section{padding:3.5rem 0}
@@ -807,7 +825,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
     <!-- LADO ESQUERDO: Texto -->
     <div class="hero-text">
       <div class="hero-eyebrow"><span class="pulse"></span> Disponível para projetos</div>
-      <h1><span class="line">Eu construo, escrevo</span><span class="line">e automatizo o que</span><span class="line"><span class="accent">dá resultado.</span></span></h1>
+      <h1><span class="line">Eu construo, escrevo</span> <span class="line">e automatizo o que</span> <span class="line"><span class="accent">dá resultado.</span></span></h1>
       <p class="hero-subtitle"><strong>Programação. Copy. Automações.</strong> Um sistema completo. Do zero ao funcionando.</p>
       <div class="hero-stats">
         <div class="stat"><div class="stat-val"><span class="num">100</span><span class="symbol">+</span></div><div class="stat-label">Projetos entregues</div></div>
@@ -915,15 +933,37 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 
 <!-- QUEM SOU EU -->
 <section id="sobre">
-  <div class="section-header reveal"><div class="section-tag">// Quem sou eu</div><h2 class="section-title">A versão curta</h2></div>
+  <div class="section-header reveal"><div class="section-tag">// Quem sou eu</div><h2 class="section-title">Do interior de SP para o Brasil inteiro.</h2></div>
   <div class="about-layout">
-    <div class="about-photo-wrap reveal"><img src="fotos/logo.jpg" alt="Richard Barbosa — desenvolvedor, copywriter e especialista em automações" class="about-photo" loading="lazy" decoding="async"><div class="about-photo-name">Richard Barbosa</div><div class="about-photo-role">Dev · Copy · Auto</div></div>
+    <div class="about-photo-wrap reveal"><img src="fotos/logo.jpg" alt="Richard Barbosa — desenvolvedor, copywriter e especialista em automações em Bauru e Jaú, SP" class="about-photo" loading="lazy" decoding="async"><div class="about-photo-name">Richard Barbosa</div><div class="about-photo-role">Dev · Copy · Auto</div></div>
     <div class="about-text-col reveal reveal-d1">
+      <div class="about-loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Bauru · Jaú — SP <span aria-hidden="true">·</span> Atendo todo o Brasil</div>
       <p class="blog-lead">Eu poderia começar com "sou apaixonado por tecnologia desde criança." Mas prefiro ir direto.</p>
-      <p>Construo sistemas, escrevo textos e configuro automações. Não porque quero fazer tudo — mas porque descobri que a maioria dos projetos digitais quebra exatamente na fronteira entre uma disciplina e outra. E essa fronteira, por muito tempo, ninguém quis ser responsável por ela.</p>
+      <p>Construo sistemas, escrevo textos e configuro automações. Não porque quero fazer tudo — mas porque a maioria dos projetos digitais quebra exatamente na fronteira entre uma disciplina e outra. E essa fronteira, por muito tempo, ninguém quis ser responsável por ela.</p>
       <p style="color:var(--green);font-family:'Outfit',sans-serif;font-weight:700;font-size:1.1rem;margin:1.5rem 0">Eu fui.</p>
-      <p>Minha stack vai de <span class="em">React e Supabase</span> até landing pages escritas e codadas do zero. Nos últimos meses mergulhei fundo em <span class="em">automações com n8n e Make</span> — porque percebi que 80% do trabalho manual que as empresas fazem hoje pode ser eliminado com um workflow bem construído.</p>
-      <p>E a copy? A copy é o fio invisível que conecta tudo. Não existe sistema bom com texto ruim. Não existe funil bonito que sobreviva a uma mensagem que não move ninguém. Cada palavra que escrevo tem uma função: levar a pessoa de onde ela está até onde ela precisa chegar.</p>
+      <p>Trabalho do interior de São Paulo, entre <strong>Bauru e Jaú</strong>. Mas o endereço não limita o alcance: atendo empresas do <strong>Brasil inteiro</strong>, com reunião por vídeo, entregas por etapas e suporte direto no WhatsApp. E se você é da região, dá pra tomar um café e conversar pessoalmente.</p>
+
+      <div class="about-cases-label">O que já saiu daqui</div>
+      <div class="about-cases">
+        <div class="about-case" style="--c:var(--neon-blue)">
+          <h3>CRMs sob medida</h3>
+          <p>Sistemas de gestão comercial em React e Supabase, com funil de vendas, permissões por usuário e os dados de cada empresa separados — inclusive para o setor de energia solar.</p>
+        </div>
+        <div class="about-case" style="--c:var(--neon-purple)">
+          <h3>Aplicativos e plataformas</h3>
+          <p>Sistemas com login, painel administrativo e agendamento online, que o cliente usa direto no celular, sem instalar nada.</p>
+        </div>
+        <div class="about-case" style="--c:var(--neon-red)">
+          <h3>Sites e páginas de venda</h3>
+          <p>Sites institucionais, landing pages e páginas de vendas para infoprodutos — com a copy e o código feitos pela mesma pessoa.</p>
+        </div>
+        <div class="about-case" style="--c:var(--neon-green)">
+          <h3>Automações com IA</h3>
+          <p>Fluxos em n8n e Make que capturam o lead, qualificam com IA e já entregam no CRM e no WhatsApp — sem ninguém copiando planilha.</p>
+        </div>
+      </div>
+
+      <p>E a copy? É o fio invisível que conecta tudo. Não existe sistema bom com texto ruim. Não existe funil bonito que sobreviva a uma mensagem que não move ninguém. Cada palavra que escrevo tem uma função: levar a pessoa de onde ela está até onde ela precisa chegar.</p>
       <div class="highlight-box">"Não vendo serviço digital. Vendo resultado com tecnologia. Se o resultado não vem, o serviço não valeu nada."</div>
     </div>
   </div>
@@ -1505,11 +1545,12 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 <section class="contact-section" id="contato" aria-labelledby="titulo-contato">
   <div class="orb" aria-hidden="true"></div>
   <div class="contact-wrapper">
-    <div class="contact-text reveal"><div class="section-tag">// Contato</div><h2 id="titulo-contato">Vamos conversar?</h2><p>Tem um projeto, uma ideia, ou só quer trocar uma ideia sobre como resolver um problema digital? Escolhe o canal que preferir.</p></div>
+    <div class="contact-text reveal"><div class="section-tag">// Contato</div><h2 id="titulo-contato">Vamos conversar?</h2><p>Tem um projeto, uma ideia, ou só quer trocar uma ideia sobre como resolver um problema digital? Escolhe o canal que preferir.</p><p>Quer saber como é trabalhar comigo antes de chamar? Leia os <a href="https://omercadodetrabalho.com/profissionais/richard" target="_blank" rel="noopener noreferrer">depoimentos de clientes no meu perfil na plataforma O Novo Mercado</a>.</p></div>
     <div class="contact-channels reveal reveal-d1">
       <a href="https://wa.me/5514991374928?text=Oi%20Richard%2C%20vim%20pelo%20seu%20portf%C3%B3lio" target="_blank" rel="noopener noreferrer" class="contact-card whatsapp"><div class="contact-icon wpp"><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg></div><div class="contact-info"><span class="contact-label">WhatsApp</span><span class="contact-detail">(14) 99137-4928</span></div><span class="arrow" aria-hidden="true">→</span></a>
       <a href="mailto:richardbarbosa28@gmail.com" class="contact-card email"><div class="contact-icon mail"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div><div class="contact-info"><span class="contact-label">E-mail</span><span class="contact-detail">richardbarbosa28@gmail.com</span></div><span class="arrow" aria-hidden="true">→</span></a>
       <a href="https://www.linkedin.com/in/richardbarbosa28/" target="_blank" rel="noopener noreferrer" class="contact-card linkedin"><div class="contact-icon lnkd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div><div class="contact-info"><span class="contact-label">LinkedIn</span><span class="contact-detail">/in/richardbarbosa28</span></div><span class="arrow" aria-hidden="true">→</span></a>
+      <a href="https://omercadodetrabalho.com/profissionais/richard" target="_blank" rel="noopener noreferrer" class="contact-card mercado"><div class="contact-icon merc"><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="contact-info"><span class="contact-label">O Novo Mercado</span><span class="contact-detail">Perfil com depoimentos de clientes</span></div><span class="arrow" aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
