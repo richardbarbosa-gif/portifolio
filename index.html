@@ -384,7 +384,8 @@ section{padding:6rem 2.5rem}
 /* MARQUEE */
 .marquee-section{padding:2.5rem 0;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-card)}
 .marquee-track{display:flex;width:max-content;animation:marquee 25s linear infinite}.marquee-track:hover{animation-play-state:paused}
-@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+/* Faixa de tecnologias → direita. Alterna com os carrosséis abaixo: páginas ← e projetos → */
+@keyframes marquee{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
 .marquee-chip{display:inline-flex;align-items:center;gap:.5rem;padding:.55rem 1.2rem;margin:0 .5rem;border-radius:50px;font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:600;letter-spacing:.04em;white-space:nowrap;border:1px solid;transition:transform .2s}
 .marquee-chip:hover{transform:scale(1.08)}
 .marquee-chip::before{content:'';width:5px;height:5px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor;flex-shrink:0}
@@ -408,7 +409,7 @@ section{padding:6rem 2.5rem}
 .showcase-track-wrap::before{left:0;background:linear-gradient(90deg,var(--bg),rgba(7,8,10,0))}
 .showcase-track-wrap::after{right:0;background:linear-gradient(270deg,var(--bg),rgba(7,8,10,0))}
 
-/* Carrossel invertido: desliza da esquerda pra direita, no sentido OPOSTO ao marquee de tecnologias */
+/* Carrossel de projetos: esquerda → direita (oposto ao carrossel de páginas logo acima) */
 .showcase-track{display:flex;gap:1.5rem;width:max-content;animation:showcaseScroll 45s linear infinite;will-change:transform}
 .showcase-track:hover{animation-play-state:paused}
 @keyframes showcaseScroll{0%{transform:translateX(calc(-50% - 0.75rem))}100%{transform:translateX(0)}}
