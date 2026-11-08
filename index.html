@@ -217,14 +217,40 @@ nav.nav-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45
    Roxo e azul = as cores "de tecnologia" do site; separa o destaque do verde do botão de WhatsApp. */
 .hero h1 .accent{
   display:inline-block;
-  background-image:linear-gradient(90deg,#e3adff,#94dcff,#e3adff);
-  background-size:200% 100%;
-  background-repeat:repeat-x; /* o degradê se repete: a cor flui sem nunca deixar letra "vazia" */
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#c9b8ff;
-  filter:drop-shadow(0 0 2px rgba(255,255,255,.55)) drop-shadow(0 0 10px #b700ff) drop-shadow(0 0 28px rgba(0,170,255,.55));
-  animation:neonFlow 6s linear infinite;
+
+  /* Verde neon + prata, passando continuamente sobre o texto */
+  background-image:linear-gradient(
+    90deg,
+    #00ff66 0%,
+    #00c950 20%,
+    #dfe5e2 40%,
+    #ffffff 50%,
+    #b8c2bd 60%,
+    #00ff66 80%,
+    #00c950 100%
+  );
+
+  background-size:250% 100%;
+  background-repeat:repeat-x;
+
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:#00ff66;
+
+  /* Iluminação verde e prata */
+  filter:
+    drop-shadow(0 0 2px rgba(255,255,255,.75))
+    drop-shadow(0 0 10px rgba(0,255,102,.9))
+    drop-shadow(0 0 26px rgba(0,255,102,.55));
+
+  animation:neonFlow 20s linear infinite;
 }
-@keyframes neonFlow{from{background-position:0 0}to{background-position:-200% 0}}
+
+@keyframes neonFlow{
+  from{background-position:250% 0}
+  to{background-position:-250% 0}
+}
 .hero-subtitle{font-family:'Outfit',sans-serif;font-size:clamp(1.05rem,1.8vw,1.3rem);font-weight:400;color:var(--text-body);max-width:580px;margin-bottom:3rem;line-height:1.7}.hero-subtitle strong{color:var(--text);font-weight:600}
 .hero-stats{display:flex;gap:3rem;flex-wrap:wrap;margin-bottom:3rem;padding:1.8rem 0;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)}
 .stat{display:flex;flex-direction:column;position:relative}.stat::after{content:'';position:absolute;right:-1.5rem;top:15%;height:70%;width:1px;background:rgba(255,255,255,.08)}.stat:last-child::after{display:none}
