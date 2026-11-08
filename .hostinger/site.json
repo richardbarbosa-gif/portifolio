@@ -1,0 +1,6 @@
+{
+  "domain": "richarddev.com.br",
+  "username": "u203058587",
+  "type": "static",
+  "deploy": "Enviar só os arquivos alterados (upload individual). NÃO usar deploy de pacote/Git: paginas/, fotos/, blog/ e o google3c546aa75b0dad1e.html existem só no servidor e seriam apagados."
+}
