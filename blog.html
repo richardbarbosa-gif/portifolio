@@ -113,8 +113,78 @@ nav.scrolled{background:rgba(7,8,10,.6);border-bottom-color:rgba(30,34,45,.4)}
 .blog-hero{padding:10rem 2.5rem 4rem;text-align:center;position:relative}
 .blog-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:400px;background:radial-gradient(ellipse 60% 50% at 50% 20%,rgba(0,255,102,.06),transparent);pointer-events:none}
 .blog-hero h1{font-family:'Outfit',sans-serif;font-size:clamp(2.2rem,5vw,3.5rem);font-weight:900;letter-spacing:-.03em;margin-bottom:1rem;position:relative}
-.blog-hero h1 .accent{background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+/* "persuasão" em vermelho neon + prata passando — mesmo efeito do "dá resultado." da home, na cor da Copy.
+   Base = vermelho sólido com brilho (qualquer navegador); o degradê animado só entra onde o recorte no texto funciona,
+   pra nunca virar um retângulo colorido atrás da palavra em navegador antigo. */
+.blog-hero h1 .accent{display:inline-block;color:#ff2a55;text-shadow:0 0 18px rgba(255,42,85,.45)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .blog-hero h1 .accent{
+    text-shadow:none;
+    /* começa e termina no mesmo vermelho: o loop não tem emenda */
+    background-image:linear-gradient(90deg,#ff2a55 0%,#d01640 22%,#dfe4e7 38%,#ffffff 50%,#b9c0c6 62%,#d01640 78%,#ff2a55 100%);
+    background-size:250% 100%;
+    background-repeat:repeat-x;
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 2px rgba(255,255,255,.75)) drop-shadow(0 0 10px rgba(255,42,85,.9)) drop-shadow(0 0 26px rgba(255,42,85,.55));
+    animation:neonFlow 20s linear infinite;
+  }
+}
+@keyframes neonFlow{from{background-position:250% 0}to{background-position:-250% 0}}
 .blog-hero p{font-family:'Outfit',sans-serif;font-size:1.1rem;color:var(--text-dim);max-width:600px;margin:0 auto;position:relative}
+
+/* ============================
+   CIRCUITOS DE FUNDO — versão leve do efeito "placa-mãe" da home, em 3 trechos:
+   topo, meio da lista e fim da lista (aparecem nas margens e nos vãos entre os cards).
+   Feito pra rodar liso em PC antigo e novo:
+   - só transform/opacity animam (placa de vídeo), nada recalcula layout;
+   - trecho fora da tela fica pausado (.anim-off, via JS);
+   - modo leve automático (html.lite) se o PC engasgar;
+   - navegador sem unidades cqw/cqh: os pulsos somem e ficam só as trilhas (nada quebra).
+   ============================ */
+.motherboard-container{position:absolute;top:0;right:0;bottom:0;left:0;overflow:hidden;pointer-events:none;z-index:0;opacity:.5}
+.motherboard-container::before{content:'';position:absolute;top:0;right:0;bottom:0;left:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px;background-position:center center}
+.mb-hero{-webkit-mask-image:radial-gradient(ellipse 60% 90% at 50% 50%,#000 45%,transparent 100%);mask-image:radial-gradient(ellipse 60% 90% at 50% 50%,#000 45%,transparent 100%)}
+.blog-grid{position:relative}
+/* Faixas da lista: largura total da tela (o body já corta o excesso lateral), somem suaves em cima e embaixo */
+.mb-band{bottom:auto;right:auto;left:calc(50% - 50vw);width:100vw;-webkit-mask-image:linear-gradient(180deg,transparent,#000 20%,#000 80%,transparent);mask-image:linear-gradient(180deg,transparent,#000 20%,#000 80%,transparent)}
+.data-track{position:absolute}
+.track-h{height:1px;width:100%;left:0;container-type:inline-size;background:linear-gradient(90deg,transparent,rgba(255,255,255,.06) 10%,rgba(255,255,255,.06) 90%,transparent);background:linear-gradient(90deg,transparent,color-mix(in srgb,currentColor 22%,transparent) 10%,color-mix(in srgb,currentColor 22%,transparent) 90%,transparent)}
+.track-v{width:1px;height:100%;top:0;container-type:size;background:linear-gradient(180deg,transparent,rgba(255,255,255,.06) 10%,rgba(255,255,255,.06) 90%,transparent);background:linear-gradient(180deg,transparent,color-mix(in srgb,currentColor 22%,transparent) 10%,color-mix(in srgb,currentColor 22%,transparent) 90%,transparent)}
+.data-pulse{position:absolute;border-radius:2px;will-change:transform,opacity}
+.track-h .data-pulse{height:2px;width:160px;top:-.5px;background:linear-gradient(90deg,transparent,currentColor 75%,#fff 100%);box-shadow:0 0 6px currentColor,0 0 14px currentColor}
+.track-v .data-pulse{width:2px;height:160px;left:-.5px;background:linear-gradient(180deg,transparent,currentColor 75%,#fff 100%);box-shadow:0 0 6px currentColor,0 0 14px currentColor}
+.track-h .pulse-left{background:linear-gradient(270deg,transparent,currentColor 75%,#fff 100%)}
+.track-v .pulse-up{background:linear-gradient(0deg,transparent,currentColor 75%,#fff 100%)}
+.data-pulse::after{content:'';position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 6px 2px currentColor,0 0 16px 5px currentColor}
+.track-h .data-pulse::after{top:50%;right:-3px;transform:translateY(-50%)}
+.track-h .pulse-left::after{right:auto;left:-3px}
+.track-v .data-pulse::after{left:50%;bottom:-3px;transform:translateX(-50%)}
+.track-v .pulse-up::after{bottom:auto;top:-3px}
+.pulse-right{left:0;animation:moveRight linear infinite}
+.pulse-left{right:0;animation:moveLeft linear infinite}
+.pulse-down{top:0;animation:moveDown linear infinite}
+.pulse-up{bottom:0;animation:moveUp linear infinite}
+@keyframes moveRight{0%{transform:translateX(-10cqw);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateX(110cqw);opacity:0}}
+@keyframes moveLeft{0%{transform:translateX(10cqw);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateX(-110cqw);opacity:0}}
+@keyframes moveDown{0%{transform:translateY(-10cqh);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(110cqh);opacity:0}}
+@keyframes moveUp{0%{transform:translateY(10cqh);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-110cqh);opacity:0}}
+/* Nós = LEDs da placa: halo que "respira" só com opacity */
+.mb-node{position:absolute;width:8px;height:8px;background:radial-gradient(circle,currentColor 0 30%,var(--bg) 48%);border:1.5px solid currentColor;border-radius:50%;box-shadow:0 0 6px currentColor,inset 0 0 2px currentColor}
+.mb-node::after{content:'';position:absolute;top:-1.5px;right:-1.5px;bottom:-1.5px;left:-1.5px;border-radius:50%;box-shadow:0 0 10px 2px currentColor,0 0 22px 4px currentColor;opacity:.2;animation:pulseNode 3s ease-in-out infinite alternate}
+.mb-node:nth-child(odd)::after{animation-delay:-1.5s}
+.track-h .mb-node{top:50%;transform:translate(-50%,-50%)}
+.track-v .mb-node{left:50%;transform:translate(-50%,-50%)}
+@keyframes pulseNode{to{opacity:1}}
+@supports not (width:1cqw){.data-pulse{display:none}}
+
+/* PERFORMANCE: fora da tela = pausado; .lite = PC engasgando (medido pelo JS, igual à home) */
+.anim-off,.anim-off *,.anim-off *::before,.anim-off *::after{animation-play-state:paused!important}
+html.lite nav{backdrop-filter:none!important;background:rgba(7,8,10,.96)!important}
+html.lite .modal-overlay{backdrop-filter:none;background:rgba(0,0,0,.94)}
+html.lite .blog-hero h1 .accent{animation:none}
+html.lite .mb-node::after{animation:none;opacity:.6}
+html.lite .data-pulse{box-shadow:0 0 6px currentColor;will-change:auto}
+html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 
 /* BLOG GRID */
 .blog-grid{max-width:1200px;margin:0 auto;padding:3rem 2.5rem 6rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:1.8rem}
@@ -168,6 +238,7 @@ nav a, nav ul{position:relative;z-index:101}
    congelava hovers e transições em máquinas com animações desativadas no SO) */
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
+  .blog-hero h1 .accent{animation:none}
 }
 
 /* RESPONSIVE — só 2 links na nav: mantém visíveis no mobile em vez de esconder */
@@ -178,6 +249,7 @@ nav a, nav ul{position:relative;z-index:101}
   .nav-links a{font-size:.72rem}
   .modal-body{padding:1.8rem 1.5rem 2rem}
   .blog-hero{padding:8rem 1.2rem 3rem}
+  .mb-hero .track-v{display:none} /* no celular as verticais passariam atrás do texto */
 }
 @media(max-width:480px){.blog-hero h1{font-size:1.8rem}}
 </style>
@@ -197,12 +269,73 @@ nav a, nav ul{position:relative;z-index:101}
 
 <!-- HERO -->
 <section class="blog-hero">
+
+  <!-- CIRCUITOS DE FUNDO (trecho 1/3: topo) — decorativo, sem texto -->
+  <div class="motherboard-container mb-hero" aria-hidden="true">
+    <div class="data-track track-h" style="top: 22%; color: var(--neon-red);">
+      <div class="data-pulse pulse-right" style="animation-duration: 9s; animation-delay: 0s;"></div>
+      <div class="mb-node" style="left: 14%;"></div>
+      <div class="mb-node" style="left: 86%;"></div>
+    </div>
+    <div class="data-track track-h" style="top: 90%; color: var(--neon-blue);">
+      <div class="data-pulse pulse-left" style="animation-duration: 12s; animation-delay: 2s;"></div>
+      <div class="mb-node" style="left: 14%;"></div>
+      <div class="mb-node" style="left: 62%;"></div>
+    </div>
+    <div class="data-track track-v" style="left: 14%; color: var(--neon-purple);">
+      <div class="data-pulse pulse-down" style="animation-duration: 8s; animation-delay: 1s;"></div>
+      <div class="mb-node" style="top: 22%;"></div>
+      <div class="mb-node" style="top: 90%;"></div>
+    </div>
+    <div class="data-track track-v" style="left: 86%; color: var(--neon-green);">
+      <div class="data-pulse pulse-up" style="animation-duration: 10s; animation-delay: 3.5s;"></div>
+      <div class="mb-node" style="top: 22%;"></div>
+      <div class="mb-node" style="top: 58%;"></div>
+    </div>
+  </div>
+
   <h1>A engenharia da <span class="accent">persuasão</span></h1>
   <p>Isso aqui não é blog. É o meu laboratório aberto. Onde eu documento o que funciona quando você cruza comportamento humano com tecnologia — e joga fora o resto.</p>
 </section>
 
 <!-- BLOG GRID -->
 <div class="blog-grid">
+
+  <!-- CIRCUITOS DE FUNDO (trecho 2/3: meio da lista) — aparecem nas margens e nos vãos entre os cards -->
+  <div class="motherboard-container mb-band" style="top: 12%; height: 44%;" aria-hidden="true">
+    <div class="data-track track-h" style="top: 28%; color: var(--neon-purple);">
+      <div class="data-pulse pulse-left" style="animation-duration: 11s; animation-delay: 0.5s;"></div>
+      <div class="mb-node" style="left: 3%;"></div>
+      <div class="mb-node" style="left: 97%;"></div>
+    </div>
+    <div class="data-track track-h" style="top: 84%; color: var(--neon-green);">
+      <div class="data-pulse pulse-right" style="animation-duration: 9s; animation-delay: 2.5s;"></div>
+      <div class="mb-node" style="left: 3%;"></div>
+      <div class="mb-node" style="left: 97%;"></div>
+    </div>
+    <div class="data-track track-v" style="left: 3%; color: var(--neon-blue);">
+      <div class="data-pulse pulse-down" style="animation-duration: 10s; animation-delay: 1s;"></div>
+    </div>
+    <div class="data-track track-v" style="left: 97%; color: var(--neon-red);">
+      <div class="data-pulse pulse-up" style="animation-duration: 12s; animation-delay: 4s;"></div>
+    </div>
+  </div>
+
+  <!-- CIRCUITOS DE FUNDO (trecho 3/3: fim da lista) -->
+  <div class="motherboard-container mb-band" style="top: 66%; height: 34%;" aria-hidden="true">
+    <div class="data-track track-h" style="top: 17%; color: var(--neon-yellow);">
+      <div class="data-pulse pulse-right" style="animation-duration: 10s; animation-delay: 1.5s;"></div>
+      <div class="mb-node" style="left: 62%;"></div>
+    </div>
+    <div class="data-track track-h" style="top: 60%; color: var(--neon-red);">
+      <div class="data-pulse pulse-left" style="animation-duration: 12s; animation-delay: 0s;"></div>
+      <div class="mb-node" style="left: 62%;"></div>
+      <div class="mb-node" style="left: 84%;"></div>
+    </div>
+    <div class="data-track track-v" style="left: 62%; color: var(--neon-blue);">
+      <div class="data-pulse pulse-down" style="animation-duration: 9s; animation-delay: 3s;"></div>
+    </div>
+  </div>
 
   <article class="blog-card" onclick="openModal('m1')">
     <div class="blog-card-img"><img src="blog/natal.png" alt="Carta do Papai Noel — texto de mindset sobre execução e metas" loading="lazy" decoding="async"></div>
@@ -650,6 +783,37 @@ document.querySelectorAll('.blog-card[onclick]').forEach(c=>{
     if(e.key==='Enter'||e.key===' '){e.preventDefault();c.click();}
   });
 });
+
+// Performance 1: circuito fora da tela fica pausado (só anima o que o visitante está vendo)
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(en=>en.target.classList.toggle('anim-off',!en.isIntersecting));
+  },{rootMargin:'150px 0px'});
+  document.querySelectorAll('.motherboard-container').forEach(el=>io.observe(el));
+})();
+
+// Performance 2: modo leve automático — mesmo critério e mesma memória da home (rb-lite na visita).
+// Mede ~1s de quadros depois que a página carrega; mediana acima de 22ms (abaixo de ~45 fps) = PC engasgando.
+(function(){
+  const root=document.documentElement;
+  try{if(sessionStorage.getItem('rb-lite')==='1'){root.classList.add('lite');return;}}catch(e){}
+  if(!('requestAnimationFrame' in window))return;
+  function measure(){
+    if(document.hidden){document.addEventListener('visibilitychange',measure,{once:true});return;}
+    const d=[];let last=performance.now();
+    function tick(now){
+      const dt=now-last;last=now;
+      if(dt<250)d.push(dt); // ignora pausa de aba em segundo plano (não é lentidão do PC)
+      if(d.length<60){requestAnimationFrame(tick);return;}
+      d.sort((a,b)=>a-b);
+      if(d[30]>22){root.classList.add('lite');try{sessionStorage.setItem('rb-lite','1');}catch(e){}}
+    }
+    requestAnimationFrame(tick);
+  }
+  if(document.readyState==='complete')setTimeout(measure,400);
+  else window.addEventListener('load',()=>setTimeout(measure,400));
+})();
 </script>
 </body>
 </html>

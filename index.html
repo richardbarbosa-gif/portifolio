@@ -212,10 +212,12 @@ nav.nav-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45
 .hero-eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;box-shadow:0 0 12px rgba(0,255,102,.5)}
 @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 12px rgba(0,255,102,.5)}50%{opacity:.4;box-shadow:0 0 4px rgba(0,255,102,.2)}}
 /* Selo do topo com foto de perfil: rosto + nome + status "online", pequeno e discreto.
-   Avatar já recortado em 144px (fotos/perfil-avatar.jpg, ~5 KB): não baixa a foto inteira pra mostrar 46px. */
+   Usa a foto inteira (fotos/perfil.jpg) e enquadra o rosto por CSS: a imagem fica 2x maior que o círculo
+   e é deslocada até o rosto. Para trocar a foto, basta substituir o arquivo (e ajustar left/top se precisar). */
 .hero-id{gap:.8rem;padding:.32rem 1.2rem .32rem .32rem}
 .hero-id-avatar{position:relative;flex-shrink:0;width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(0,255,102,.55);box-shadow:0 0 0 3px rgba(7,8,10,.55),0 0 18px rgba(0,255,102,.25)}
-.hero-id-avatar img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.hero-id-photo{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:var(--bg-elevated)}
+.hero-id-photo img{position:absolute;max-width:none;width:200%;height:auto;left:-25.6%;top:-24.4%}
 .hero-id-dot{position:absolute;right:-1px;bottom:-1px;width:12px;height:12px;border-radius:50%;background:var(--green);border:2px solid var(--bg)}
 .hero-id-dot::after{content:'';position:absolute;inset:-2px;border-radius:50%;box-shadow:0 0 10px 2px rgba(0,255,102,.75);opacity:.25;animation:dotGlow 2s ease-in-out infinite alternate}
 @keyframes dotGlow{to{opacity:1}}
@@ -352,6 +354,9 @@ nav.nav-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45
 @keyframes moveLeft { 0% { transform: translateX(10cqw); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateX(-110cqw); opacity: 0; } }
 @keyframes moveDown { 0% { transform: translateY(-10cqh); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(110cqh); opacity: 0; } }
 @keyframes moveUp { 0% { transform: translateY(10cqh); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-110cqh); opacity: 0; } }
+/* Navegador antigo sem unidades cqw/cqh: os pulsos ficariam parados piscando no início da trilha — some com eles
+   e ficam só as trilhas e os LEDs (o efeito continua bonito, nada quebra). */
+@supports not (width:1cqw) { .data-pulse { display: none; } }
 
 /* Nós = LEDs da placa: núcleo aceso + halo que "respira" (só opacity, sem repintar sombra) */
 .mb-node { position: absolute; width: 8px; height: 8px; background: radial-gradient(circle, currentColor 0 30%, var(--bg) 48%); border: 1.5px solid currentColor; border-radius: 50%; box-shadow: 0 0 6px currentColor, inset 0 0 2px currentColor; }
@@ -874,7 +879,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
     <!-- LADO ESQUERDO: Texto -->
     <div class="hero-text">
       <div class="hero-eyebrow hero-id">
-        <span class="hero-id-avatar"><img src="fotos/perfil-avatar.jpg" alt="Foto de Richard Barbosa" width="46" height="46" decoding="async"><span class="hero-id-dot" aria-hidden="true"></span></span>
+        <span class="hero-id-avatar"><span class="hero-id-photo"><img src="fotos/perfil.jpg" alt="Foto de Richard Barbosa" width="1600" height="2402" decoding="async" fetchpriority="low"></span><span class="hero-id-dot" aria-hidden="true"></span></span>
         <span class="hero-id-text"><span class="hero-id-name">Richard Barbosa</span><span class="hero-id-status">Disponível para projetos</span></span>
       </div>
       <h1><span class="line">Eu construo, escrevo</span> <span class="line">e automatizo o que</span> <span class="line"><span class="accent">dá resultado.</span></span></h1>
