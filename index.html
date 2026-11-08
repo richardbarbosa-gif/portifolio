@@ -52,7 +52,7 @@
       "name": "Richard Barbosa",
       "jobTitle": "Desenvolvedor Full-Stack, Copywriter e Especialista em Automações",
       "url": "https://richarddev.com.br/",
-      "image": "https://richarddev.com.br/fotos/logo.jpg",
+      "image": "https://richarddev.com.br/fotos/perfil.jpg",
       "email": "mailto:richardbarbosa28@gmail.com",
       "telephone": "+55-14-99137-4928",
       "sameAs": ["https://www.linkedin.com/in/richardbarbosa28/", "https://omercadodetrabalho.com/profissionais/richard"],
@@ -211,6 +211,17 @@ nav.nav-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45
 .hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--green);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.8rem;display:inline-flex;align-items:center;gap:.7rem;padding:.45rem 1.1rem;border:1px solid rgba(0,255,102,.18);border-radius:50px;background:rgba(0,255,102,.05);backdrop-filter:blur(8px)}
 .hero-eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;box-shadow:0 0 12px rgba(0,255,102,.5)}
 @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 12px rgba(0,255,102,.5)}50%{opacity:.4;box-shadow:0 0 4px rgba(0,255,102,.2)}}
+/* Selo do topo com foto de perfil: rosto + nome + status "online", pequeno e discreto.
+   Avatar já recortado em 144px (fotos/perfil-avatar.jpg, ~5 KB): não baixa a foto inteira pra mostrar 46px. */
+.hero-id{gap:.8rem;padding:.32rem 1.2rem .32rem .32rem}
+.hero-id-avatar{position:relative;flex-shrink:0;width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(0,255,102,.55);box-shadow:0 0 0 3px rgba(7,8,10,.55),0 0 18px rgba(0,255,102,.25)}
+.hero-id-avatar img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.hero-id-dot{position:absolute;right:-1px;bottom:-1px;width:12px;height:12px;border-radius:50%;background:var(--green);border:2px solid var(--bg)}
+.hero-id-dot::after{content:'';position:absolute;inset:-2px;border-radius:50%;box-shadow:0 0 10px 2px rgba(0,255,102,.75);opacity:.25;animation:dotGlow 2s ease-in-out infinite alternate}
+@keyframes dotGlow{to{opacity:1}}
+.hero-id-text{display:flex;flex-direction:column;gap:.18rem;line-height:1.25}
+.hero-id-name{font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:-.01em;text-transform:none;color:var(--text)}
+.hero-id-status{font-size:.62rem;letter-spacing:.14em}
 .hero h1{font-family:'Outfit',sans-serif;font-size:clamp(2.6rem,6vw,5rem);font-weight:900;line-height:1.05;letter-spacing:-.04em;margin-bottom:1.8rem}
 .hero h1 .line{display:block}
 /* "dá resultado." em degradê neon roxo → azul: tubo aceso cuja cor flui devagar ao longo da palavra.
@@ -493,16 +504,13 @@ section{padding:6rem 2.5rem}
    CARROSSEL DE PÁGINAS — prints completos (direita → esquerda, oposto ao de baixo)
    ============================ */
 .pages-wrap{padding:.8rem 0 1.4rem;margin-bottom:1rem}
-.pages-track{display:flex;gap:1.5rem;width:max-content;animation:pagesScroll 60s linear infinite;will-change:transform}
+.pages-track{display:flex;gap:1.5rem;width:max-content;animation:pagesScroll 66s linear infinite;will-change:transform}
 .pages-track:hover,.pages-track:focus-within{animation-play-state:paused}
 @keyframes pagesScroll{0%{transform:translateX(0)}100%{transform:translateX(calc(-50% - 0.75rem))}}
 
-/* Cor de destaque por card (padrão 5n = original e duplicata ficam com a mesma cor) */
+/* Cor de destaque: vem do próprio card (style="--accent:var(--neon-...)"), então original e duplicata
+   ficam sempre iguais, com qualquer quantidade de páginas. Card sem --accent = verde. */
 .page-card{--accent:var(--neon-green);flex-shrink:0;width:380px;display:block;color:var(--text);text-decoration:none;cursor:zoom-in;border-radius:14px}
-.page-card:nth-child(5n+1){--accent:var(--neon-blue)}
-.page-card:nth-child(5n+2){--accent:var(--neon-purple)}
-.page-card:nth-child(5n+3){--accent:var(--neon-red)}
-.page-card:nth-child(5n+4){--accent:var(--neon-yellow)}
 .page-card:focus-visible{outline:none}
 
 /* O "quadro": janela de navegador com o topo da página + rolagem ao passar o mouse */
@@ -767,6 +775,7 @@ html.lite .hero-eyebrow,html.lite .btn-ghost{backdrop-filter:none}
 html.lite .hero-float-card{backdrop-filter:none;background:rgba(14,16,21,.94);animation:none}
 html.lite .hero-bg .orb,html.lite .hero h1 .accent{animation:none}
 html.lite .mb-node::after{animation:none;opacity:.6}
+html.lite .hero-id-dot::after{animation:none;opacity:.7}
 html.lite .data-pulse{box-shadow:0 0 6px currentColor;will-change:auto}
 html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 
@@ -864,7 +873,10 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
   <div class="hero-content">
     <!-- LADO ESQUERDO: Texto -->
     <div class="hero-text">
-      <div class="hero-eyebrow"><span class="pulse"></span> Disponível para projetos</div>
+      <div class="hero-eyebrow hero-id">
+        <span class="hero-id-avatar"><img src="fotos/perfil-avatar.jpg" alt="Foto de Richard Barbosa" width="46" height="46" decoding="async"><span class="hero-id-dot" aria-hidden="true"></span></span>
+        <span class="hero-id-text"><span class="hero-id-name">Richard Barbosa</span><span class="hero-id-status">Disponível para projetos</span></span>
+      </div>
       <h1><span class="line">Eu construo, escrevo</span> <span class="line">e automatizo o que</span> <span class="line"><span class="accent">dá resultado.</span></span></h1>
       <p class="hero-subtitle"><strong>Programação. Copy. Automações.</strong> Um sistema completo. Do zero ao funcionando.</p>
       <div class="hero-stats">
@@ -1059,12 +1071,12 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
     <p>Clique em qualquer página para ver o projeto inteiro, do topo ao rodapé. Cada entrega resolve um problema real.</p>
   </div>
   <!-- CARROSSEL DE PÁGINAS (prints completos) — gira no sentido oposto ao de baixo; clique abre o print inteiro.
-       Imagens em paginas/ (nomes em minúsculo, .png). Para trocar/adicionar: edite os 2 conjuntos iguais. -->
+       Imagens em paginas/ (nomes em minúsculo, .png). Para trocar/adicionar: edite os 2 conjuntos iguais (data-index na ordem e a mesma --accent no par). -->
   <div class="showcase-track-wrap pages-wrap">
     <div class="pages-track">
 
-      <!-- CONJUNTO 1 (ORIGINAL — 10 PÁGINAS) -->
-      <a class="page-card" href="paginas/delivery.png" data-index="0" aria-label="Ver página completa: Delivery">
+      <!-- CONJUNTO 1 (ORIGINAL — 11 PÁGINAS) -->
+      <a class="page-card" href="paginas/delivery.png" data-index="0" style="--accent:var(--neon-blue)" aria-label="Ver página completa: Delivery">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">delivery</span></div>
           <div class="page-viewport">
@@ -1074,7 +1086,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Delivery</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/devbox.png" data-index="1" aria-label="Ver página completa: DevBox">
+      <a class="page-card" href="paginas/devbox.png" data-index="1" style="--accent:var(--neon-purple)" aria-label="Ver página completa: DevBox">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">devbox</span></div>
           <div class="page-viewport">
@@ -1084,7 +1096,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">DevBox</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/naoresidente.png" data-index="2" aria-label="Ver página completa: Não Residente">
+      <a class="page-card" href="paginas/naoresidente.png" data-index="2" style="--accent:var(--neon-red)" aria-label="Ver página completa: Não Residente">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">naoresidente</span></div>
           <div class="page-viewport">
@@ -1094,7 +1106,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Não Residente</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/noiva.png" data-index="3" aria-label="Ver página completa: Noiva Protagonista">
+      <a class="page-card" href="paginas/noiva.png" data-index="3" style="--accent:var(--neon-yellow)" aria-label="Ver página completa: Noiva Protagonista">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">noiva</span></div>
           <div class="page-viewport">
@@ -1104,7 +1116,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Noiva Protagonista</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/performancemed.png" data-index="4" aria-label="Ver página completa: Performance Med">
+      <a class="page-card" href="paginas/performancemed.png" data-index="4" style="--accent:var(--neon-green)" aria-label="Ver página completa: Performance Med">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">performancemed</span></div>
           <div class="page-viewport">
@@ -1114,7 +1126,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Performance Med</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/petshoop.png" data-index="5" aria-label="Ver página completa: Pet Shop">
+      <a class="page-card" href="paginas/petshoop.png" data-index="5" style="--accent:var(--neon-blue)" aria-label="Ver página completa: Pet Shop">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">petshoop</span></div>
           <div class="page-viewport">
@@ -1124,7 +1136,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Pet Shop</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/polatto.png" data-index="6" aria-label="Ver página completa: Polatto Energia Solar">
+      <a class="page-card" href="paginas/polatto.png" data-index="6" style="--accent:var(--neon-purple)" aria-label="Ver página completa: Polatto Energia Solar">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">polatto</span></div>
           <div class="page-viewport">
@@ -1134,7 +1146,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Polatto Energia Solar</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/portaldotempo.png" data-index="7" aria-label="Ver página completa: Portal do Tempo">
+      <a class="page-card" href="paginas/portaldotempo.png" data-index="7" style="--accent:var(--neon-red)" aria-label="Ver página completa: Portal do Tempo">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">portaldotempo</span></div>
           <div class="page-viewport">
@@ -1144,7 +1156,17 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Portal do Tempo</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/relacionamento.png" data-index="8" aria-label="Ver página completa: Guia de Relacionamento">
+      <a class="page-card" href="paginas/quadrinhos.png" data-index="8" style="--accent:var(--neon-blue)" aria-label="Ver página completa: Krypt &amp; Stark Co.">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">quadrinhos</span></div>
+          <div class="page-viewport">
+            <img src="paginas/quadrinhos.png" alt="Print da página Krypt &amp; Stark Co. — loja de quadrinhos, projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Krypt &amp; Stark Co.</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="paginas/relacionamento.png" data-index="9" style="--accent:var(--neon-yellow)" aria-label="Ver página completa: Guia de Relacionamento">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">relacionamento</span></div>
           <div class="page-viewport">
@@ -1154,7 +1176,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Guia de Relacionamento</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/saidafiscal.png" data-index="9" aria-label="Ver página completa: Saída Fiscal">
+      <a class="page-card" href="paginas/saidafiscal.png" data-index="10" style="--accent:var(--neon-green)" aria-label="Ver página completa: Saída Fiscal">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">saidafiscal</span></div>
           <div class="page-viewport">
@@ -1166,7 +1188,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </a>
 
       <!-- CONJUNTO 2 (DUPLICADO PARA O LOOP PERFEITO — fora do Tab e dos leitores de tela) -->
-      <a class="page-card" href="paginas/delivery.png" data-index="0" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/delivery.png" data-index="0" style="--accent:var(--neon-blue)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">delivery</span></div>
           <div class="page-viewport">
@@ -1176,7 +1198,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Delivery</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/devbox.png" data-index="1" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/devbox.png" data-index="1" style="--accent:var(--neon-purple)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">devbox</span></div>
           <div class="page-viewport">
@@ -1186,7 +1208,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">DevBox</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/naoresidente.png" data-index="2" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/naoresidente.png" data-index="2" style="--accent:var(--neon-red)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">naoresidente</span></div>
           <div class="page-viewport">
@@ -1196,7 +1218,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Não Residente</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/noiva.png" data-index="3" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/noiva.png" data-index="3" style="--accent:var(--neon-yellow)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">noiva</span></div>
           <div class="page-viewport">
@@ -1206,7 +1228,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Noiva Protagonista</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/performancemed.png" data-index="4" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/performancemed.png" data-index="4" style="--accent:var(--neon-green)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">performancemed</span></div>
           <div class="page-viewport">
@@ -1216,7 +1238,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Performance Med</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/petshoop.png" data-index="5" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/petshoop.png" data-index="5" style="--accent:var(--neon-blue)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">petshoop</span></div>
           <div class="page-viewport">
@@ -1226,7 +1248,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Pet Shop</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/polatto.png" data-index="6" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/polatto.png" data-index="6" style="--accent:var(--neon-purple)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">polatto</span></div>
           <div class="page-viewport">
@@ -1236,7 +1258,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Polatto Energia Solar</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/portaldotempo.png" data-index="7" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/portaldotempo.png" data-index="7" style="--accent:var(--neon-red)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">portaldotempo</span></div>
           <div class="page-viewport">
@@ -1246,7 +1268,17 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Portal do Tempo</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/relacionamento.png" data-index="8" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/quadrinhos.png" data-index="8" style="--accent:var(--neon-blue)" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">quadrinhos</span></div>
+          <div class="page-viewport">
+            <img src="paginas/quadrinhos.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Krypt &amp; Stark Co.</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="paginas/relacionamento.png" data-index="9" style="--accent:var(--neon-yellow)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">relacionamento</span></div>
           <div class="page-viewport">
@@ -1256,7 +1288,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Guia de Relacionamento</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/saidafiscal.png" data-index="9" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/saidafiscal.png" data-index="10" style="--accent:var(--neon-green)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">saidafiscal</span></div>
           <div class="page-viewport">
@@ -1725,7 +1757,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 <!-- LIGHTBOX: PÁGINA INTEIRA (carrossel de páginas) -->
 <dialog class="lightbox" id="pageLightbox" aria-labelledby="lbTitle">
   <div class="lb-bar">
-    <span class="lb-count" id="lbCount">01 / 10</span>
+    <span class="lb-count" id="lbCount">01 / 11</span>
     <h2 class="lb-title" id="lbTitle">Página</h2>
     <a class="lb-open" id="lbOpen" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>Tamanho original</span></a>
     <button class="lb-close" type="button" data-lb-close aria-label="Fechar">✕</button>
