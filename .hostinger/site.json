@@ -2,5 +2,6 @@
   "domain": "richarddev.com.br",
   "username": "u203058587",
   "type": "static",
-  "deploy": "Enviar só os arquivos alterados (upload individual). NÃO usar deploy de pacote/Git: paginas/, fotos/, blog/ e o google3c546aa75b0dad1e.html existem só no servidor e seriam apagados."
+  "deploy": "Enviar só os arquivos alterados (upload individual). NÃO usar deploy de pacote/Git: paginas/, fotos/, blog/, otimizadas/ e o google3c546aa75b0dad1e.html existem só no servidor e seriam apagados.",
+  "imagens": "Originais ficam em paginas/, fotos/ e blog/ (intocados). As versões leves usadas pelo site ficam em otimizadas/, geradas por scripts/otimizar-imagens.py. Print novo sem versão leve continua funcionando (cai no original via data-orig), só fica mais pesado até ser otimizado."
 }

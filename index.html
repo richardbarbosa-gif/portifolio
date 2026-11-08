@@ -94,10 +94,12 @@
 }
 </script>
 
-<!-- Print ainda não enviado → card mostra placeholder em vez de ícone quebrado.
+<!-- Imagens: o site usa as versões leves de otimizadas/ (srcset = o navegador escolhe a largura certa).
+     1) Versão leve faltando (ex.: print novo ainda sem otimizar) → cai no original (data-orig), nada quebra.
+     2) Nem o original existe → card de página mostra placeholder em vez de ícone quebrado.
      Fica no <head> pra capturar o erro mesmo das imagens que falham antes do script do rodapé rodar. -->
 <script>
-document.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='IMG'&&t.closest){var c=t.closest('.page-card');if(c)c.classList.add('is-missing');}},true);
+document.addEventListener('error',function(e){var t=e.target;if(!t||t.tagName!=='IMG')return;var o=t.getAttribute('data-orig');if(o&&t.getAttribute('src')!==o){t.removeAttribute('srcset');t.src=o;return;}if(t.closest){var c=t.closest('.page-card');if(c)c.classList.add('is-missing');}},true);
 </script>
 
 <style>
@@ -212,8 +214,9 @@ nav.nav-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45
 .hero-eyebrow .pulse{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;box-shadow:0 0 12px rgba(0,255,102,.5)}
 @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 12px rgba(0,255,102,.5)}50%{opacity:.4;box-shadow:0 0 4px rgba(0,255,102,.2)}}
 /* Selo do topo com foto de perfil: rosto + nome + status "online", pequeno e discreto.
-   Usa a foto inteira (fotos/perfil.jpg) e enquadra o rosto por CSS: a imagem fica 2x maior que o círculo
-   e é deslocada até o rosto. Para trocar a foto, basta substituir o arquivo (e ajustar left/top se precisar). */
+   Usa fotos/perfil.jpg (versão leve de 400 px em otimizadas/, mesma proporção) e enquadra o rosto por CSS:
+   a imagem fica 2x maior que o círculo e é deslocada até o rosto. Trocou a foto? Gere de novo com
+   scripts/otimizar-imagens.py (e ajuste left/top se o rosto mudar de lugar). */
 .hero-id{gap:.8rem;padding:.32rem 1.2rem .32rem .32rem}
 .hero-id-avatar{position:relative;flex-shrink:0;width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(0,255,102,.55);box-shadow:0 0 0 3px rgba(7,8,10,.55),0 0 18px rgba(0,255,102,.25)}
 .hero-id-photo{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:var(--bg-elevated)}
@@ -879,7 +882,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
     <!-- LADO ESQUERDO: Texto -->
     <div class="hero-text">
       <div class="hero-eyebrow hero-id">
-        <span class="hero-id-avatar"><span class="hero-id-photo"><img src="fotos/perfil.jpg" alt="Foto de Richard Barbosa" width="1600" height="2402" decoding="async" fetchpriority="low"></span><span class="hero-id-dot" aria-hidden="true"></span></span>
+        <span class="hero-id-avatar"><span class="hero-id-photo"><img src="otimizadas/fotos/perfil-400.jpg" data-orig="fotos/perfil.jpg" alt="Foto de Richard Barbosa" width="400" height="600" decoding="async"></span><span class="hero-id-dot" aria-hidden="true"></span></span>
         <span class="hero-id-text"><span class="hero-id-name">Richard Barbosa</span><span class="hero-id-status">Disponível para projetos</span></span>
       </div>
       <h1><span class="line">Eu construo, escrevo</span> <span class="line">e automatizo o que</span> <span class="line"><span class="accent">dá resultado.</span></span></h1>
@@ -1026,7 +1029,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 
   <div class="section-header reveal"><div class="section-tag">// Quem sou eu</div><h2 class="section-title">Do interior de SP para o Brasil inteiro.</h2></div>
   <div class="about-layout">
-    <div class="about-photo-wrap reveal"><img src="fotos/logo.jpg" alt="Richard Barbosa — desenvolvedor, copywriter e especialista em automações em Bauru e Jaú, SP" class="about-photo" loading="lazy" decoding="async"><div class="about-photo-name">Richard Barbosa</div><div class="about-photo-role">Dev · Copy · Auto</div></div>
+    <div class="about-photo-wrap reveal"><img src="otimizadas/fotos/logo-800.jpg" srcset="otimizadas/fotos/logo-400.jpg 400w, otimizadas/fotos/logo-800.jpg 800w, fotos/logo.jpg 1600w" sizes="(max-width:1024px) 320px, 400px" data-orig="fotos/logo.jpg" alt="Richard Barbosa — desenvolvedor, copywriter e especialista em automações em Bauru e Jaú, SP" class="about-photo" loading="lazy" decoding="async"><div class="about-photo-name">Richard Barbosa</div><div class="about-photo-role">Dev · Copy · Auto</div></div>
     <div class="about-text-col reveal reveal-d1">
       <div class="about-loc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> Bauru · Jaú — SP <span aria-hidden="true">·</span> Atendo todo o Brasil</div>
       <p class="blog-lead">Eu poderia começar com "sou apaixonado por tecnologia desde criança." Mas prefiro ir direto.</p>
@@ -1085,7 +1088,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">delivery</span></div>
           <div class="page-viewport">
-            <img src="paginas/delivery.png" alt="Print da página Delivery — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/delivery-760.jpg" srcset="otimizadas/paginas/delivery-400.jpg 400w, otimizadas/paginas/delivery-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/delivery.png" alt="Print da página Delivery — projeto de Richard Barbosa" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1095,7 +1098,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">devbox</span></div>
           <div class="page-viewport">
-            <img src="paginas/devbox.png" alt="Print da página DevBox — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/devbox-760.jpg" srcset="otimizadas/paginas/devbox-400.jpg 400w, otimizadas/paginas/devbox-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/devbox.png" alt="Print da página DevBox — projeto de Richard Barbosa" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1105,7 +1108,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">naoresidente</span></div>
           <div class="page-viewport">
-            <img src="paginas/naoresidente.png" alt="Print da página Não Residente — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/naoresidente-760.jpg" srcset="otimizadas/paginas/naoresidente-400.jpg 400w, otimizadas/paginas/naoresidente-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/naoresidente.png" alt="Print da página Não Residente — projeto de Richard Barbosa" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1115,7 +1118,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">noiva</span></div>
           <div class="page-viewport">
-            <img src="paginas/noiva.png" alt="Print da página Noiva Protagonista — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/noiva-760.jpg" srcset="otimizadas/paginas/noiva-400.jpg 400w, otimizadas/paginas/noiva-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/noiva.png" alt="Print da página Noiva Protagonista — projeto de Richard Barbosa" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1125,7 +1128,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">performancemed</span></div>
           <div class="page-viewport">
-            <img src="paginas/performancemed.png" alt="Print da página Performance Med — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/performancemed-760.jpg" srcset="otimizadas/paginas/performancemed-400.jpg 400w, otimizadas/paginas/performancemed-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/performancemed.png" alt="Print da página Performance Med — projeto de Richard Barbosa" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1135,7 +1138,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">petshoop</span></div>
           <div class="page-viewport">
-            <img src="paginas/petshoop.png" alt="Print da página Pet Shop — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/petshoop-760.jpg" srcset="otimizadas/paginas/petshoop-400.jpg 400w, otimizadas/paginas/petshoop-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/petshoop.png" alt="Print da página Pet Shop — projeto de Richard Barbosa" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1145,7 +1148,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">polatto</span></div>
           <div class="page-viewport">
-            <img src="paginas/polatto.png" alt="Print da página Polatto Energia Solar — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/polatto-760.jpg" srcset="otimizadas/paginas/polatto-400.jpg 400w, otimizadas/paginas/polatto-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/polatto.png" alt="Print da página Polatto Energia Solar — projeto de Richard Barbosa" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1155,7 +1158,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">portaldotempo</span></div>
           <div class="page-viewport">
-            <img src="paginas/portaldotempo.png" alt="Print da página Portal do Tempo — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/portaldotempo-760.jpg" srcset="otimizadas/paginas/portaldotempo-400.jpg 400w, otimizadas/paginas/portaldotempo-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/portaldotempo.png" alt="Print da página Portal do Tempo — projeto de Richard Barbosa" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1165,7 +1168,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">quadrinhos</span></div>
           <div class="page-viewport">
-            <img src="paginas/quadrinhos.png" alt="Print da página Krypt &amp; Stark Co. — loja de quadrinhos, projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/quadrinhos-760.jpg" srcset="otimizadas/paginas/quadrinhos-400.jpg 400w, otimizadas/paginas/quadrinhos-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/quadrinhos.png" alt="Print da página Krypt &amp; Stark Co. — loja de quadrinhos, projeto de Richard Barbosa" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1175,7 +1178,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">relacionamento</span></div>
           <div class="page-viewport">
-            <img src="paginas/relacionamento.png" alt="Print da página Guia de Relacionamento — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/relacionamento-760.jpg" srcset="otimizadas/paginas/relacionamento-400.jpg 400w, otimizadas/paginas/relacionamento-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/relacionamento.png" alt="Print da página Guia de Relacionamento — projeto de Richard Barbosa" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1185,7 +1188,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">saidafiscal</span></div>
           <div class="page-viewport">
-            <img src="paginas/saidafiscal.png" alt="Print da página Saída Fiscal — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/saidafiscal-760.jpg" srcset="otimizadas/paginas/saidafiscal-400.jpg 400w, otimizadas/paginas/saidafiscal-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/saidafiscal.png" alt="Print da página Saída Fiscal — projeto de Richard Barbosa" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1197,7 +1200,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">delivery</span></div>
           <div class="page-viewport">
-            <img src="paginas/delivery.png" alt="" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/delivery-760.jpg" srcset="otimizadas/paginas/delivery-400.jpg 400w, otimizadas/paginas/delivery-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/delivery.png" alt="" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1207,7 +1210,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">devbox</span></div>
           <div class="page-viewport">
-            <img src="paginas/devbox.png" alt="" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/devbox-760.jpg" srcset="otimizadas/paginas/devbox-400.jpg 400w, otimizadas/paginas/devbox-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/devbox.png" alt="" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1217,7 +1220,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">naoresidente</span></div>
           <div class="page-viewport">
-            <img src="paginas/naoresidente.png" alt="" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/naoresidente-760.jpg" srcset="otimizadas/paginas/naoresidente-400.jpg 400w, otimizadas/paginas/naoresidente-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/naoresidente.png" alt="" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1227,7 +1230,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">noiva</span></div>
           <div class="page-viewport">
-            <img src="paginas/noiva.png" alt="" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/noiva-760.jpg" srcset="otimizadas/paginas/noiva-400.jpg 400w, otimizadas/paginas/noiva-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/noiva.png" alt="" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1237,7 +1240,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">performancemed</span></div>
           <div class="page-viewport">
-            <img src="paginas/performancemed.png" alt="" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/performancemed-760.jpg" srcset="otimizadas/paginas/performancemed-400.jpg 400w, otimizadas/paginas/performancemed-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/performancemed.png" alt="" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1247,7 +1250,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">petshoop</span></div>
           <div class="page-viewport">
-            <img src="paginas/petshoop.png" alt="" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/petshoop-760.jpg" srcset="otimizadas/paginas/petshoop-400.jpg 400w, otimizadas/paginas/petshoop-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/petshoop.png" alt="" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1257,7 +1260,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">polatto</span></div>
           <div class="page-viewport">
-            <img src="paginas/polatto.png" alt="" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/polatto-760.jpg" srcset="otimizadas/paginas/polatto-400.jpg 400w, otimizadas/paginas/polatto-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/polatto.png" alt="" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1267,7 +1270,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">portaldotempo</span></div>
           <div class="page-viewport">
-            <img src="paginas/portaldotempo.png" alt="" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/portaldotempo-760.jpg" srcset="otimizadas/paginas/portaldotempo-400.jpg 400w, otimizadas/paginas/portaldotempo-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/portaldotempo.png" alt="" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1277,7 +1280,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">quadrinhos</span></div>
           <div class="page-viewport">
-            <img src="paginas/quadrinhos.png" alt="" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/quadrinhos-760.jpg" srcset="otimizadas/paginas/quadrinhos-400.jpg 400w, otimizadas/paginas/quadrinhos-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/quadrinhos.png" alt="" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1287,7 +1290,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">relacionamento</span></div>
           <div class="page-viewport">
-            <img src="paginas/relacionamento.png" alt="" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/relacionamento-760.jpg" srcset="otimizadas/paginas/relacionamento-400.jpg 400w, otimizadas/paginas/relacionamento-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/relacionamento.png" alt="" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1297,7 +1300,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">saidafiscal</span></div>
           <div class="page-viewport">
-            <img src="paginas/saidafiscal.png" alt="" loading="lazy" decoding="async">
+            <img src="otimizadas/paginas/saidafiscal-760.jpg" srcset="otimizadas/paginas/saidafiscal-400.jpg 400w, otimizadas/paginas/saidafiscal-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/saidafiscal.png" alt="" loading="lazy" decoding="async">
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1313,7 +1316,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       <!-- CONJUNTO 1 (ORIGINAL 8 CARDS) -->
       <div class="showcase-card">
         <div class="showcase-card-img">
-          <img src="fotos/crm.png" alt="CRM Polatto — SaaS multi-tenant em React e Supabase para o setor de energia solar" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/crm-720.jpg" srcset="otimizadas/fotos/crm-400.jpg 400w, otimizadas/fotos/crm-720.jpg 720w, fotos/crm.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/crm.png" alt="CRM Polatto — SaaS multi-tenant em React e Supabase para o setor de energia solar" loading="lazy" decoding="async">
           <span class="showcase-badge badge-dev">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <h3 class="showcase-card-name">CRM Polatto</h3>
@@ -1323,7 +1326,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card">
         <div class="showcase-card-img">
-          <img src="fotos/polatto.png" alt="Landing page da Polatto Energia Solar com copy focada em conversão" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/polatto-720.jpg" srcset="otimizadas/fotos/polatto-400.jpg 400w, otimizadas/fotos/polatto-720.jpg 720w, fotos/polatto.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/polatto.png" alt="Landing page da Polatto Energia Solar com copy focada em conversão" loading="lazy" decoding="async">
           <span class="showcase-badge badge-both">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <h3 class="showcase-card-name">Polatto Energia Solar</h3>
@@ -1333,7 +1336,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card">
         <div class="showcase-card-img">
-          <img src="fotos/relacionamento.png" alt="Página de vendas do Guia de Relacionamento para a Hotmart" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/relacionamento-720.jpg" srcset="otimizadas/fotos/relacionamento-400.jpg 400w, otimizadas/fotos/relacionamento-720.jpg 720w, fotos/relacionamento.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/relacionamento.png" alt="Página de vendas do Guia de Relacionamento para a Hotmart" loading="lazy" decoding="async">
           <span class="showcase-badge badge-copy">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <h3 class="showcase-card-name">Guia de Relacionamento</h3>
@@ -1343,7 +1346,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card">
         <div class="showcase-card-img">
-          <img src="fotos/alura.png" alt="Landing page de plataforma de cursos com foco em UI/UX para EdTech" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/alura-720.jpg" srcset="otimizadas/fotos/alura-400.jpg 400w, otimizadas/fotos/alura-720.jpg 720w, fotos/alura.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/alura.png" alt="Landing page de plataforma de cursos com foco em UI/UX para EdTech" loading="lazy" decoding="async">
           <span class="showcase-badge badge-dev">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <h3 class="showcase-card-name">Plataforma de Cursos</h3>
@@ -1353,7 +1356,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card">
         <div class="showcase-card-img">
-          <img src="fotos/cabelereiro.png" alt="Site institucional de barbearia premium com sistema de agendamento" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/cabelereiro-720.jpg" srcset="otimizadas/fotos/cabelereiro-400.jpg 400w, otimizadas/fotos/cabelereiro-720.jpg 720w, fotos/cabelereiro.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/cabelereiro.png" alt="Site institucional de barbearia premium com sistema de agendamento" loading="lazy" decoding="async">
           <span class="showcase-badge badge-dev">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <h3 class="showcase-card-name">Barbearia Premium</h3>
@@ -1363,7 +1366,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card">
         <div class="showcase-card-img">
-          <img src="fotos/noiva.png" alt="Site Noiva Protagonista com UX pensada para o mercado de casamentos" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/noiva-720.jpg" srcset="otimizadas/fotos/noiva-400.jpg 400w, otimizadas/fotos/noiva-720.jpg 720w, fotos/noiva.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/noiva.png" alt="Site Noiva Protagonista com UX pensada para o mercado de casamentos" loading="lazy" decoding="async">
           <span class="showcase-badge badge-both">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <h3 class="showcase-card-name">Noiva Protagonista</h3>
@@ -1373,7 +1376,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card">
         <div class="showcase-card-img">
-          <img src="fotos/pet.png" alt="Landing page do Método PetDominante com copy para pet shop" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/pet-720.jpg" srcset="otimizadas/fotos/pet-400.jpg 400w, otimizadas/fotos/pet-720.jpg 720w, fotos/pet.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/pet.png" alt="Landing page do Método PetDominante com copy para pet shop" loading="lazy" decoding="async">
           <span class="showcase-badge badge-both">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <h3 class="showcase-card-name">Método PetDominante</h3>
@@ -1383,7 +1386,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card">
         <div class="showcase-card-img">
-          <img src="fotos/gibi.png" alt="Plataforma de e-commerce Universo dos Gibis para venda de HQs" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/gibi-720.jpg" srcset="otimizadas/fotos/gibi-400.jpg 400w, otimizadas/fotos/gibi-720.jpg 720w, fotos/gibi.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/gibi.png" alt="Plataforma de e-commerce Universo dos Gibis para venda de HQs" loading="lazy" decoding="async">
           <span class="showcase-badge badge-dev">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <h3 class="showcase-card-name">Universo dos Gibis</h3>
@@ -1395,7 +1398,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       <!-- CONJUNTO 2 (DUPLICADO PARA O LOOP PERFEITO — invisível pra leitores de tela) -->
       <div class="showcase-card" aria-hidden="true">
         <div class="showcase-card-img">
-          <img src="fotos/crm.png" alt="" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/crm-720.jpg" srcset="otimizadas/fotos/crm-400.jpg 400w, otimizadas/fotos/crm-720.jpg 720w, fotos/crm.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/crm.png" alt="" loading="lazy" decoding="async">
           <span class="showcase-badge badge-dev">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <div class="showcase-card-name">CRM Polatto</div>
@@ -1405,7 +1408,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card" aria-hidden="true">
         <div class="showcase-card-img">
-          <img src="fotos/polatto.png" alt="" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/polatto-720.jpg" srcset="otimizadas/fotos/polatto-400.jpg 400w, otimizadas/fotos/polatto-720.jpg 720w, fotos/polatto.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/polatto.png" alt="" loading="lazy" decoding="async">
           <span class="showcase-badge badge-both">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <div class="showcase-card-name">Polatto Energia Solar</div>
@@ -1415,7 +1418,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card" aria-hidden="true">
         <div class="showcase-card-img">
-          <img src="fotos/relacionamento.png" alt="" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/relacionamento-720.jpg" srcset="otimizadas/fotos/relacionamento-400.jpg 400w, otimizadas/fotos/relacionamento-720.jpg 720w, fotos/relacionamento.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/relacionamento.png" alt="" loading="lazy" decoding="async">
           <span class="showcase-badge badge-copy">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <div class="showcase-card-name">Guia de Relacionamento</div>
@@ -1425,7 +1428,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card" aria-hidden="true">
         <div class="showcase-card-img">
-          <img src="fotos/alura.png" alt="" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/alura-720.jpg" srcset="otimizadas/fotos/alura-400.jpg 400w, otimizadas/fotos/alura-720.jpg 720w, fotos/alura.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/alura.png" alt="" loading="lazy" decoding="async">
           <span class="showcase-badge badge-dev">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <div class="showcase-card-name">Plataforma de Cursos</div>
@@ -1435,7 +1438,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card" aria-hidden="true">
         <div class="showcase-card-img">
-          <img src="fotos/cabelereiro.png" alt="" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/cabelereiro-720.jpg" srcset="otimizadas/fotos/cabelereiro-400.jpg 400w, otimizadas/fotos/cabelereiro-720.jpg 720w, fotos/cabelereiro.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/cabelereiro.png" alt="" loading="lazy" decoding="async">
           <span class="showcase-badge badge-dev">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <div class="showcase-card-name">Barbearia Premium</div>
@@ -1445,7 +1448,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card" aria-hidden="true">
         <div class="showcase-card-img">
-          <img src="fotos/noiva.png" alt="" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/noiva-720.jpg" srcset="otimizadas/fotos/noiva-400.jpg 400w, otimizadas/fotos/noiva-720.jpg 720w, fotos/noiva.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/noiva.png" alt="" loading="lazy" decoding="async">
           <span class="showcase-badge badge-both">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <div class="showcase-card-name">Noiva Protagonista</div>
@@ -1455,7 +1458,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card" aria-hidden="true">
         <div class="showcase-card-img">
-          <img src="fotos/pet.png" alt="" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/pet-720.jpg" srcset="otimizadas/fotos/pet-400.jpg 400w, otimizadas/fotos/pet-720.jpg 720w, fotos/pet.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/pet.png" alt="" loading="lazy" decoding="async">
           <span class="showcase-badge badge-both">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <div class="showcase-card-name">Método PetDominante</div>
@@ -1465,7 +1468,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
       <div class="showcase-card" aria-hidden="true">
         <div class="showcase-card-img">
-          <img src="fotos/gibi.png" alt="" loading="lazy" decoding="async">
+          <img src="otimizadas/fotos/gibi-720.jpg" srcset="otimizadas/fotos/gibi-400.jpg 400w, otimizadas/fotos/gibi-720.jpg 720w, fotos/gibi.png 1080w" sizes="(max-width:480px) 220px, (max-width:768px) 260px, 320px" data-orig="fotos/gibi.png" alt="" loading="lazy" decoding="async">
           <span class="showcase-badge badge-dev">Dev + Copy + Design</span>
           <div class="showcase-card-info">
             <div class="showcase-card-name">Universo dos Gibis</div>

@@ -84,6 +84,12 @@
 }
 </script>
 
+<!-- Imagens: capas dos cards usam as versões leves de otimizadas/ (srcset). Versão leve faltando → cai no
+     original (data-orig), nada quebra. No <head> pra pegar o erro antes de qualquer outro script. -->
+<script>
+document.addEventListener('error',function(e){var t=e.target;if(!t||t.tagName!=='IMG')return;var o=t.getAttribute('data-orig');if(o&&t.getAttribute('src')!==o){t.removeAttribute('srcset');t.src=o;return;}if(t.closest){var c=t.closest('.page-card');if(c)c.classList.add('is-missing');}},true);
+</script>
+
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#07080a;--bg-card:#0e1015;--bg-elevated:#14171f;--text:#e2e8f0;--text-dim:#94a3b8;--text-body:#cbd5e1;--green:#00ff66;--green-dim:#00db58;--green-glow:rgba(0,255,102,.08);--gold:#ff2a55;--cyan:#00d2ff;--purple:#b700ff;--blue:#0099ff;--whatsapp:#25d366;--border:#1e222d;--radius:14px;--neon-red:#ff2a55;--neon-yellow:#ffea00;--neon-green:#00ff66;--neon-blue:#00aaff;--neon-purple:#b700ff;--neon-white:#e8eaed}
@@ -215,7 +221,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 .modal-overlay.active .modal-content{transform:translateY(0)}
 .modal-close{position:absolute;top:1.2rem;right:1.2rem;z-index:10;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-dim);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;font-family:'Outfit',sans-serif}
 .modal-close:hover{background:rgba(255,255,255,.12);color:var(--text);border-color:rgba(255,255,255,.15)}
-.modal-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.modal-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--bg-elevated)}
 .modal-body{padding:2.5rem 3rem 3rem}
 .modal-tag{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem;display:inline-block;padding:.25rem .7rem;border-radius:50px;border:1px solid}
 .modal-title{font-family:'Outfit',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-bottom:1.5rem;line-height:1.2}
@@ -338,7 +344,7 @@ nav a, nav ul{position:relative;z-index:101}
   </div>
 
   <article class="blog-card" onclick="openModal('m1')">
-    <div class="blog-card-img"><img src="blog/natal.png" alt="Carta do Papai Noel — texto de mindset sobre execução e metas" loading="lazy" decoding="async"></div>
+    <div class="blog-card-img"><img src="otimizadas/blog/natal-760.jpg" srcset="otimizadas/blog/natal-400.jpg 400w, otimizadas/blog/natal-760.jpg 760w, blog/natal.png 1280w" sizes="(max-width:768px) 100vw, (max-width:1180px) 50vw, 360px" data-orig="blog/natal.png" alt="Carta do Papai Noel — texto de mindset sobre execução e metas" loading="lazy" decoding="async"></div>
     <div class="blog-card-body">
       <span class="blog-card-tag tag-mindset">Mindset</span>
       <h2 class="blog-card-title">Então é Natal, ou quase Natal... Leia essa carta do Papai Noel pra você</h2>
@@ -348,7 +354,7 @@ nav a, nav ul{position:relative;z-index:101}
   </article>
 
   <article class="blog-card" onclick="openModal('m2')">
-    <div class="blog-card-img"><img src="blog/chatgpt1.png" alt="Texto sobre IA e mercado: a brincadeira com o ChatGPT acabou" loading="lazy" decoding="async"></div>
+    <div class="blog-card-img"><img src="otimizadas/blog/chatgpt1-760.jpg" srcset="otimizadas/blog/chatgpt1-400.jpg 400w, otimizadas/blog/chatgpt1-760.jpg 760w, blog/chatgpt1.png 1080w" sizes="(max-width:768px) 100vw, (max-width:1180px) 50vw, 360px" data-orig="blog/chatgpt1.png" alt="Texto sobre IA e mercado: a brincadeira com o ChatGPT acabou" loading="lazy" decoding="async"></div>
     <div class="blog-card-body">
       <span class="blog-card-tag tag-ia">IA & Mercado</span>
       <h2 class="blog-card-title">Chega de pedir pro ChatGPT escrever poema pro seu cachorro</h2>
@@ -358,7 +364,7 @@ nav a, nav ul{position:relative;z-index:101}
   </article>
 
   <article class="blog-card" onclick="openModal('m3')">
-    <div class="blog-card-img"><img src="blog/chatgpt2.png" alt="Parte 2 do texto sobre IA: por onde começar com automação de verdade" loading="lazy" decoding="async"></div>
+    <div class="blog-card-img"><img src="otimizadas/blog/chatgpt2-760.jpg" srcset="otimizadas/blog/chatgpt2-400.jpg 400w, otimizadas/blog/chatgpt2-760.jpg 760w, blog/chatgpt2.png 1280w" sizes="(max-width:768px) 100vw, (max-width:1180px) 50vw, 360px" data-orig="blog/chatgpt2.png" alt="Parte 2 do texto sobre IA: por onde começar com automação de verdade" loading="lazy" decoding="async"></div>
     <div class="blog-card-body">
       <span class="blog-card-tag tag-ia">IA & Mercado</span>
       <h2 class="blog-card-title">A brincadeira acabou — Parte 2 (com dicas de relacionamento)</h2>
@@ -368,7 +374,7 @@ nav a, nav ul{position:relative;z-index:101}
   </article>
 
   <article class="blog-card" onclick="openModal('m4')">
-    <div class="blog-card-img"><img src="blog/house.png" alt="Dr. House e a psicologia de vendas: todo mundo mente, principalmente o cliente" loading="lazy" decoding="async"></div>
+    <div class="blog-card-img"><img src="otimizadas/blog/house-760.jpg" srcset="otimizadas/blog/house-400.jpg 400w, otimizadas/blog/house-760.jpg 760w, blog/house.png 1080w" sizes="(max-width:768px) 100vw, (max-width:1180px) 50vw, 360px" data-orig="blog/house.png" alt="Dr. House e a psicologia de vendas: todo mundo mente, principalmente o cliente" loading="lazy" decoding="async"></div>
     <div class="blog-card-body">
       <span class="blog-card-tag tag-copy">Copy & Vendas</span>
       <h2 class="blog-card-title">Dr. House estava certo: Todo mundo mente (Principalmente o seu cliente)</h2>
@@ -378,7 +384,7 @@ nav a, nav ul{position:relative;z-index:101}
   </article>
 
   <article class="blog-card" onclick="openModal('m5')">
-    <div class="blog-card-img"><img src="blog/sandler.png" alt="Reflexão inspirada no filme Click, do Adam Sandler, sobre uso consciente de IA" loading="lazy" decoding="async"></div>
+    <div class="blog-card-img"><img src="otimizadas/blog/sandler-760.jpg" srcset="otimizadas/blog/sandler-400.jpg 400w, otimizadas/blog/sandler-760.jpg 760w, blog/sandler.png 1080w" sizes="(max-width:768px) 100vw, (max-width:1180px) 50vw, 360px" data-orig="blog/sandler.png" alt="Reflexão inspirada no filme Click, do Adam Sandler, sobre uso consciente de IA" loading="lazy" decoding="async"></div>
     <div class="blog-card-body">
       <span class="blog-card-tag tag-mindset">Mindset</span>
       <h2 class="blog-card-title">O dia em que quase queimei a picanha por lembrar do Adam Sandler</h2>
@@ -388,7 +394,7 @@ nav a, nav ul{position:relative;z-index:101}
   </article>
 
   <article class="blog-card" onclick="openModal('m6')">
-    <div class="blog-card-img"><img src="blog/2026.png" alt="Análise de mercado: 2026, o ano da tempestade perfeita" loading="lazy" decoding="async"></div>
+    <div class="blog-card-img"><img src="otimizadas/blog/2026-760.jpg" srcset="otimizadas/blog/2026-400.jpg 400w, otimizadas/blog/2026-760.jpg 760w, blog/2026.png 1080w" sizes="(max-width:768px) 100vw, (max-width:1180px) 50vw, 360px" data-orig="blog/2026.png" alt="Análise de mercado: 2026, o ano da tempestade perfeita" loading="lazy" decoding="async"></div>
     <div class="blog-card-body">
       <span class="blog-card-tag tag-mercado">Mercado</span>
       <h2 class="blog-card-title">2026: O ano em que o mundo vai tentar te deixar maluco (e pobre)</h2>
@@ -398,7 +404,7 @@ nav a, nav ul{position:relative;z-index:101}
   </article>
 
   <article class="blog-card" onclick="openModal('m7')">
-    <div class="blog-card-img"><img src="blog/carnaval.png" alt="Texto de realidade sobre o limbo entre o Ano Novo e o Carnaval" loading="lazy" decoding="async"></div>
+    <div class="blog-card-img"><img src="otimizadas/blog/carnaval-760.jpg" srcset="otimizadas/blog/carnaval-400.jpg 400w, otimizadas/blog/carnaval-760.jpg 760w, blog/carnaval.png 975w" sizes="(max-width:768px) 100vw, (max-width:1180px) 50vw, 360px" data-orig="blog/carnaval.png" alt="Texto de realidade sobre o limbo entre o Ano Novo e o Carnaval" loading="lazy" decoding="async"></div>
     <div class="blog-card-body">
       <span class="blog-card-tag tag-mindset">Realidade</span>
       <h2 class="blog-card-title">Você finge que tá tudo bem até a quarta-feira de cinzas</h2>
@@ -408,7 +414,7 @@ nav a, nav ul{position:relative;z-index:101}
   </article>
 
   <article class="blog-card" onclick="openModal('m8')">
-    <div class="blog-card-img"><img src="blog/2026p2.png" alt="Parte 2 da análise de 2026: venda coragem num mercado que compra pânico" loading="lazy" decoding="async"></div>
+    <div class="blog-card-img"><img src="otimizadas/blog/2026p2-760.jpg" srcset="otimizadas/blog/2026p2-400.jpg 400w, otimizadas/blog/2026p2-760.jpg 760w, blog/2026p2.png 1080w" sizes="(max-width:768px) 100vw, (max-width:1180px) 50vw, 360px" data-orig="blog/2026p2.png" alt="Parte 2 da análise de 2026: venda coragem num mercado que compra pânico" loading="lazy" decoding="async"></div>
     <div class="blog-card-body">
       <span class="blog-card-tag tag-mercado">Mercado</span>
       <h2 class="blog-card-title">2026: O mundo vai te deixar maluco — Parte 2</h2>
@@ -418,7 +424,7 @@ nav a, nav ul{position:relative;z-index:101}
   </article>
 
   <article class="blog-card" onclick="openModal('m9')">
-    <div class="blog-card-img"><img src="blog/ringue.png" alt="Texto de carreira sobre os bastidores reais do empreendedorismo" loading="lazy" decoding="async"></div>
+    <div class="blog-card-img"><img src="otimizadas/blog/ringue-760.jpg" srcset="otimizadas/blog/ringue-400.jpg 400w, otimizadas/blog/ringue-760.jpg 760w, blog/ringue.png 1080w" sizes="(max-width:768px) 100vw, (max-width:1180px) 50vw, 360px" data-orig="blog/ringue.png" alt="Texto de carreira sobre os bastidores reais do empreendedorismo" loading="lazy" decoding="async"></div>
     <div class="blog-card-body">
       <span class="blog-card-tag tag-carreira">Carreira</span>
       <h2 class="blog-card-title">O que a internet não te conta... Leia, é daqueles textos que falam a verdade</h2>
@@ -428,7 +434,7 @@ nav a, nav ul{position:relative;z-index:101}
   </article>
 
   <article class="blog-card" onclick="openModal('m10')">
-    <div class="blog-card-img"><img src="blog/rendaextra.png" alt="Fluxograma de renda extra: o caminho óbvio que a ansiedade esconde" loading="lazy" decoding="async"></div>
+    <div class="blog-card-img"><img src="otimizadas/blog/rendaextra-760.jpg" srcset="otimizadas/blog/rendaextra-400.jpg 400w, otimizadas/blog/rendaextra-760.jpg 760w, blog/rendaextra.png 1280w" sizes="(max-width:768px) 100vw, (max-width:1180px) 50vw, 360px" data-orig="blog/rendaextra.png" alt="Fluxograma de renda extra: o caminho óbvio que a ansiedade esconde" loading="lazy" decoding="async"></div>
     <div class="blog-card-body">
       <span class="blog-card-tag tag-carreira">Renda Extra</span>
       <h2 class="blog-card-title">O caminho óbvio (que a ansiedade não deixa a gente ver)</h2>
@@ -447,7 +453,7 @@ nav a, nav ul{position:relative;z-index:101}
 <div class="modal-overlay" id="m1" role="dialog" aria-modal="true" aria-label="Carta do Papai Noel">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('m1')" aria-label="Fechar">✕</button>
-    <img src="blog/natal.png" alt="" class="modal-img" loading="lazy" decoding="async">
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="blog/natal.png" alt="" class="modal-img" decoding="async">
     <div class="modal-body">
       <span class="modal-tag tag-mindset">Mindset</span>
       <h2 class="modal-title">Então é Natal, ou quase Natal... Leia essa carta do Papai Noel pra você, e salve seu bolso.</h2>
@@ -482,7 +488,7 @@ nav a, nav ul{position:relative;z-index:101}
 <div class="modal-overlay" id="m2" role="dialog" aria-modal="true" aria-label="Chega de pedir pro ChatGPT escrever poema pro seu cachorro">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('m2')" aria-label="Fechar">✕</button>
-    <img src="blog/chatgpt1.png" alt="" class="modal-img" loading="lazy" decoding="async">
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="blog/chatgpt1.png" alt="" class="modal-img" decoding="async">
     <div class="modal-body">
       <span class="modal-tag tag-ia">IA & Mercado</span>
       <h2 class="modal-title">Chega de pedir pro ChatGPT escrever poema pro seu cachorro. (A brincadeira acabou).</h2>
@@ -516,7 +522,7 @@ nav a, nav ul{position:relative;z-index:101}
 <div class="modal-overlay" id="m3" role="dialog" aria-modal="true" aria-label="A brincadeira acabou — Parte 2">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('m3')" aria-label="Fechar">✕</button>
-    <img src="blog/chatgpt2.png" alt="" class="modal-img" loading="lazy" decoding="async">
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="blog/chatgpt2.png" alt="" class="modal-img" decoding="async">
     <div class="modal-body">
       <span class="modal-tag tag-ia">IA & Mercado</span>
       <h2 class="modal-title">A brincadeira acabou — Parte II (com dicas de relacionamento)</h2>
@@ -546,7 +552,7 @@ nav a, nav ul{position:relative;z-index:101}
 <div class="modal-overlay" id="m4" role="dialog" aria-modal="true" aria-label="Dr. House estava certo: todo mundo mente">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('m4')" aria-label="Fechar">✕</button>
-    <img src="blog/house.png" alt="" class="modal-img" loading="lazy" decoding="async">
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="blog/house.png" alt="" class="modal-img" decoding="async">
     <div class="modal-body">
       <span class="modal-tag tag-copy">Copy & Vendas</span>
       <h2 class="modal-title">Dr. House estava certo: Todo mundo mente (Principalmente o seu cliente)</h2>
@@ -576,7 +582,7 @@ nav a, nav ul{position:relative;z-index:101}
 <div class="modal-overlay" id="m5" role="dialog" aria-modal="true" aria-label="O dia em que quase queimei a picanha">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('m5')" aria-label="Fechar">✕</button>
-    <img src="blog/sandler.png" alt="" class="modal-img" loading="lazy" decoding="async">
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="blog/sandler.png" alt="" class="modal-img" decoding="async">
     <div class="modal-body">
       <span class="modal-tag tag-mindset">Mindset</span>
       <h2 class="modal-title">O dia em que quase queimei a picanha por lembrar do Adam Sandler</h2>
@@ -607,7 +613,7 @@ nav a, nav ul{position:relative;z-index:101}
 <div class="modal-overlay" id="m6" role="dialog" aria-modal="true" aria-label="2026: o ano em que o mundo vai tentar te deixar maluco">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('m6')" aria-label="Fechar">✕</button>
-    <img src="blog/2026.png" alt="" class="modal-img" loading="lazy" decoding="async">
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="blog/2026.png" alt="" class="modal-img" decoding="async">
     <div class="modal-body">
       <span class="modal-tag tag-mercado">Mercado</span>
       <h2 class="modal-title">2026: O ano em que o mundo vai tentar te deixar maluco (e pobre)</h2>
@@ -635,7 +641,7 @@ nav a, nav ul{position:relative;z-index:101}
 <div class="modal-overlay" id="m7" role="dialog" aria-modal="true" aria-label="Você finge que tá tudo bem até a quarta-feira de cinzas">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('m7')" aria-label="Fechar">✕</button>
-    <img src="blog/carnaval.png" alt="" class="modal-img" loading="lazy" decoding="async">
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="blog/carnaval.png" alt="" class="modal-img" decoding="async">
     <div class="modal-body">
       <span class="modal-tag tag-mindset">Realidade</span>
       <h2 class="modal-title">Você finge que tá tudo bem até a quarta-feira de cinzas (dessa vez, eu não vim te fazer rir)</h2>
@@ -661,7 +667,7 @@ nav a, nav ul{position:relative;z-index:101}
 <div class="modal-overlay" id="m8" role="dialog" aria-modal="true" aria-label="2026: o mundo vai te deixar maluco — Parte 2">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('m8')" aria-label="Fechar">✕</button>
-    <img src="blog/2026p2.png" alt="" class="modal-img" loading="lazy" decoding="async">
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="blog/2026p2.png" alt="" class="modal-img" decoding="async">
     <div class="modal-body">
       <span class="modal-tag tag-mercado">Mercado</span>
       <h2 class="modal-title">2026: O mundo vai te deixar maluco — Parte 2</h2>
@@ -688,7 +694,7 @@ nav a, nav ul{position:relative;z-index:101}
 <div class="modal-overlay" id="m9" role="dialog" aria-modal="true" aria-label="O que a internet não te conta">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('m9')" aria-label="Fechar">✕</button>
-    <img src="blog/ringue.png" alt="" class="modal-img" loading="lazy" decoding="async">
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="blog/ringue.png" alt="" class="modal-img" decoding="async">
     <div class="modal-body">
       <span class="modal-tag tag-carreira">Carreira</span>
       <h2 class="modal-title">O que a internet não te conta... Leia, é daqueles textos que falam a verdade!</h2>
@@ -718,7 +724,7 @@ nav a, nav ul{position:relative;z-index:101}
 <div class="modal-overlay" id="m10" role="dialog" aria-modal="true" aria-label="O caminho óbvio que a ansiedade não deixa a gente ver">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('m10')" aria-label="Fechar">✕</button>
-    <img src="blog/rendaextra.png" alt="" class="modal-img" loading="lazy" decoding="async">
+    <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="blog/rendaextra.png" alt="" class="modal-img" decoding="async">
     <div class="modal-body">
       <span class="modal-tag tag-carreira">Renda Extra</span>
       <h2 class="modal-title">O caminho óbvio (que a ansiedade não deixa a gente ver)</h2>
@@ -747,6 +753,8 @@ let lastFocusedCard=null;
 function openModal(id){
   lastFocusedCard=document.activeElement;
   const modal=document.getElementById(id);
+  // Imagem do texto só baixa quando o texto é aberto (antes as 10 baixavam junto com a página, mesmo fechadas)
+  modal.querySelectorAll('img[data-src]').forEach(i=>{i.src=i.getAttribute('data-src');i.removeAttribute('data-src');});
   modal.classList.add('active');
   document.body.style.overflow='hidden';
   const closeBtn=modal.querySelector('.modal-close');
