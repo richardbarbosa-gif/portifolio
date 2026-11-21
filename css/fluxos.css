@@ -93,9 +93,54 @@
 .fx-hint{font:.82rem/1.55 'Outfit',sans-serif;color:var(--text-dim)}
 .fx-json{font:.72rem/1.55 'JetBrains Mono',monospace;color:#94a3b8;white-space:pre-wrap;word-break:break-word}
 .fx-json .jk{color:#7dd3fc}.fx-json .js{color:#86efac}.fx-json .jn{color:#fbbf24}.fx-json .jb{color:#f0abfc}
+/* Nó-CTA: o "+" do fim do ramo cresce até virar o próximo nó. Só transform/opacity (+ dashoffset no conector). */
+.fx-sv{position:relative}
+.fx-stub,.fx-plus,.fx-plusi,.fx-seed{transition:opacity .25s}
+.has-cta>.fx-stub,.has-cta>.fx-plus,.has-cta>.fx-plusi,.has-cta>.fx-seed{opacity:0}
+.fx-seed circle{fill:#fff;stroke:var(--fx-acc);stroke-width:1.5;stroke-dasharray:3 2.5;opacity:.75}.fx-make .fx-n .fx-seed .fx-ic{color:var(--fx-acc);stroke-width:2.4}
+.fx-cta{pointer-events:none}
+.fx-ctan{opacity:0;transform:var(--m);transition:transform .6s cubic-bezier(.2,.85,.25,1.1),opacity .2s}
+.fx-cta.is-on .fx-ctan{opacity:1;transform:none;transition-delay:.18s}
+.fx-ctal,.fx-ctae{opacity:0;transition:opacity .2s}
+.fx-cta.is-on .fx-ctal{opacity:1;transition:opacity .4s .55s}
+.fx-ctae.is-on{opacity:1;transition:opacity .3s}
+.fx-ctab{transition:fill .25s,stroke .25s}
+.fx-ctai{transform-box:fill-box;transform-origin:center;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.fx-cta.is-hover .fx-ctai{transform:rotate(90deg) scale(1.12)}
+.fx-cta.is-focus .fx-selr{display:block;stroke:var(--fx-t);stroke-dasharray:5 4}
+.fx-n8n .fx-ctab{fill:rgba(255,109,90,.025);stroke:var(--fx-acc);stroke-width:2;stroke-dasharray:7 5}
+.fx-n8n .fx-cta .fx-ctai{color:var(--fx-acc)}.fx-cta .fx-ctai .fx-ic{stroke-width:2.2}
+.fx-n8n .fx-cta.is-hover .fx-ctab{fill:rgba(255,109,90,.1);stroke:#ff8a7a}
+.fx-n8n .fx-ctae{fill:none;stroke:var(--fx-acc);stroke-width:2;stroke-dasharray:6 5}
+.fx-n8n .fx-ctae.is-on{animation:fxflow .9s linear infinite}
+.fx-mk-cta{fill:var(--fx-acc)}
+.fx-cta .fx-s{fill:var(--fx-acc)}.fx-n8n .fx-cta .fx-s{fill:#ff8a7a}
+.fx-make .fx-ctab{fill:#fff;stroke:var(--fx-acc);stroke-width:2;stroke-dasharray:6.5 5}
+.fx-make .fx-ctah{fill:var(--fx-acc);opacity:.08;transition:opacity .25s}
+.fx-make .fx-cta .fx-ctai{color:var(--fx-acc)}
+.fx-make .fx-cta.is-hover .fx-ctab{fill:#f6f1ff}.fx-make .fx-cta.is-hover .fx-ctah{opacity:.16}
+.fx-make .fx-ctae{fill:none;stroke:var(--fx-acc);stroke-width:5.5;stroke-linecap:round;stroke-dasharray:0 10.5}
+.fx-make .fx-ctae.is-on{opacity:.55;animation:fxflowm 1.1s linear infinite}
+.fx-ctaa{position:absolute;z-index:1;border-radius:14px;-webkit-tap-highlight-color:transparent}
+.fx-ctaa:focus,.fx-ctaa:focus-visible{outline:none}/* o anel de foco é o tracejado do próprio nó (igual aos outros nós) */
+.fx-ctaa[hidden]{display:none}
+/* Fechamento: tarefas reais que a rodada tirou da mão de alguém + botão de reforço (o nó é o "uau"; o botão, a garantia) */
+.fx-res{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.7rem 2rem;min-height:84px;padding:.75rem 1rem .75rem 1.1rem;border-top:1px solid var(--border);background:var(--bg-card)}
+.fx-sum{flex:1 1 360px;min-width:0;font:.84rem/1.55 'Outfit',sans-serif;color:var(--text-body)}
+.fx-sum b{display:flex;align-items:center;gap:.45rem;margin-bottom:.2rem;font:600 .74rem/1.4 'Outfit',sans-serif;letter-spacing:.02em;color:var(--text-dim)}
+.fx-sum b::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor}
+.fx-res.is-ok .fx-sum b{color:var(--neon-green)}
+.fx-chs span{display:inline-block;white-space:nowrap;animation:fxin .35s ease both}
+.fx-chs span:not(:last-child)::after{content:'·';margin:0 .5rem;color:#5d6778}
+.fx-resb{flex:none;visibility:hidden;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .45s cubic-bezier(.16,1,.3,1),visibility 0s .45s}
+.fx-res.is-ok .fx-resb{visibility:visible;opacity:1;transform:none;transition-delay:.5s,.5s,0s}
+.fx-res.is-seen:not(.is-ok) .fx-resb{visibility:visible;opacity:1;transform:none;transition:none}
+@keyframes fxflow{to{stroke-dashoffset:-22}}
+@keyframes fxflowm{to{stroke-dashoffset:-21}}
 @keyframes fxspin{to{transform:rotate(360deg)}}
 @keyframes fxdash{to{stroke-dashoffset:-18}}
 @keyframes fxin{from{opacity:0;transform:translateY(4px)}}
 @media(max-width:760px){.fx-panel{grid-template-columns:1fr}.fx-box{height:auto}.fx-box+.fx-box{border-left:0;border-top:1px solid var(--border)}.fx-log{max-height:184px;min-height:120px}.fx-ib{max-height:320px;min-height:110px}}
-@media(max-width:600px){.fx-bar{padding:.45rem .75rem}.fx-act,.fx-sp{display:none}.fx-run{bottom:10px}.fx-make .fx-run{left:10px}}
+@media(max-width:600px){.fx-bar{padding:.45rem .75rem}.fx-act,.fx-sp{display:none}.fx-run{bottom:10px}.fx-make .fx-run{left:10px}
+ .fx-res{padding:.85rem .9rem .95rem}.fx-sum{flex-basis:100%}.fx-resb{flex:1 1 100%;justify-content:center}}
 @media(prefers-reduced-motion:reduce){.fx *{animation:none!important;transition:none!important}}

@@ -110,6 +110,11 @@
 document.addEventListener('error',function(e){var t=e.target;if(!t||t.tagName!=='IMG')return;var o=t.getAttribute('data-orig');if(o&&t.getAttribute('src')!==o){t.removeAttribute('srcset');t.src=o;return;}if(t.closest){var c=t.closest('.page-card');if(c)c.classList.add('is-missing');}},true);
 </script>
 
+<!-- Analytics (Umami Cloud): mesmo script e mesmo helper track() da home. defer = não bloqueia a pintura;
+     data-domains = só conta em richarddev.com.br. Sem o script (adblock), track() não faz nada. -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="a56a63d5-8b1c-4780-800d-4b53c438083a" data-domains="richarddev.com.br"></script>
+<script>function track(n,d){try{var u=window.umami;if(u&&typeof u.track==='function')u.track(n,d)}catch(e){}}</script>
+
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#07080a;--bg-card:#0e1015;--bg-elevated:#14171f;--text:#e2e8f0;--text-dim:#94a3b8;--text-body:#cbd5e1;--green:#00ff66;--green-dim:#00db58;--green-glow:rgba(0,255,102,.08);--gold:#ff2a55;--cyan:#00d2ff;--purple:#b700ff;--blue:#0099ff;--whatsapp:#25d366;--border:#1e222d;--radius:14px;--neon-red:#ff2a55;--neon-yellow:#ffea00;--neon-green:#00ff66;--neon-blue:#00aaff;--neon-purple:#b700ff;--neon-white:#e8eaed}
@@ -774,6 +779,9 @@ let lastFocusedCard=null;
 function openModal(id){
   lastFocusedCard=document.activeElement;
   const modal=document.getElementById(id);
+  // Analytics: qual texto foi aberto (slug = nome do arquivo da imagem do post, ex. blog/house.png → house)
+  const im=modal.querySelector('.modal-img');
+  if(!modal.classList.contains('active'))track('abrir-post',{post:((im&&(im.getAttribute('data-src')||im.getAttribute('src')))||id).split('/').pop().split('.')[0]});
   // Imagem do texto só baixa quando o texto é aberto (antes as 10 baixavam junto com a página, mesmo fechadas)
   modal.querySelectorAll('img[data-src]').forEach(i=>{i.src=i.getAttribute('data-src');i.removeAttribute('data-src');});
   modal.classList.add('active');

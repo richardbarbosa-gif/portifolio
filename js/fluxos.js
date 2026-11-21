@@ -20,6 +20,8 @@ const mail=n=>slug(n)+'@exemplo.com.br',first=n=>n.split(' ')[0];
 const tel=()=>'(14) 9••••-'+rint(1000,9999);
 const ddmm=d=>{const x=new Date(Date.now()+d*864e5);return String(x.getDate()).padStart(2,'0')+'/'+String(x.getMonth()+1).padStart(2,'0')};
 const secs=ms=>ms<1000?Math.round(ms)+' ms':(ms/1000).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})+'\u00a0s';
+/* analytics passivo: o helper global track() do index (Umami se existir; senão, nada) */
+const track=(n,d)=>{if(typeof window.track==='function')window.track(n,d)};
 const ease=p=>p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
 
 /* Ícones próprios (grade 24, traço). Nada de logo de marca. */
@@ -71,12 +73,14 @@ const N8N={
  key:'n8n',theme:'n8n',tool:'n8n',name:'Captação de leads com IA',run:'Executar workflow',again:'Executar de novo',units:['item','itens'],focus:'ai',
  title:'Workflow n8n simulado: captação e qualificação de leads',
  desc:'Um webhook recebe o lead do site. Um agente de IA, com modelo, memória e uma ferramenta de busca, enriquece os dados e dá uma nota. O nó Classifica manda leads quentes para o CRM e avisa o vendedor no WhatsApp; leads frios recebem e-mail de nutrição e um retorno é agendado.',
- vb:{d:[1010,444],m:[360,668]},sz:{d:{n:92,aw:214,ah:92,r:34},m:{n:60,aw:196,ah:60,r:22}},
+ vb:{d:[1150,444],m:[360,760]},sz:{d:{n:92,aw:214,ah:92,r:34},m:{n:60,aw:196,ah:60,r:22}},
+ cta:{from:['wa','fu'],d:[174,0],m:[0,120],btn:'Quero um fluxo assim no meu negócio',
+  msg:'Oi, Richard! Vi no seu portfólio a simulação do fluxo de leads com IA no n8n e quero um assim no meu negócio.'},
  nodes:[
-  {id:'wh',t:'trigger',ic:'in',c:'#ff6d5a',l:'Webhook',s:'novo lead',tg:'Webhook',d:[92,166],m:[130,44],dur:420,
+  {id:'wh',t:'trigger',ic:'in',c:'#ff6d5a',l:'Webhook',s:'novo lead',ch:'sem copiar dados à mão',tg:'Webhook',d:[92,166],m:[130,44],dur:420,
    run:(x,c)=>{const L=c.lead;c.out={nome:L[0],email:mail(L[0]),telefone:tel(),empresa:L[1],mensagem:L[5],origem:L[4]};
     return {out:{headers:{'content-type':'application/json','user-agent':'form-site/2.3'},body:c.out},ms:rint(3,9),log:`recebeu lead: ${L[0]} (${L[1]})`}}},
-  {id:'ai',t:'agent',ic:'spark',c:'#a78bfa',l:'IA — enriquece dados',s:'Agente de IA',tg:'IA',d:[306,166],m:[130,164],dur:1750,
+  {id:'ai',t:'agent',ic:'spark',c:'#a78bfa',l:'IA — enriquece dados',s:'Agente de IA',ch:'sem pesquisar a empresa',tg:'IA',d:[306,166],m:[130,164],dur:1750,
    run:(x,c)=>{const L=c.lead,o=c.out,sc=c.score,q=sc>=70;
     const out={nome:o.nome,email:o.email,empresa:L[1],segmento:L[2],funcionarios:L[3],porte:L[3]>20?'pequena (21–50)':'micro (até 20)',intencao:sc>=85?'alta':sc>=70?'média':'baixa',score:sc,resumo:`${L[2]}, ${L[3]} funcionários. Pediu: ${L[5].toLowerCase()}`};
     return {out,ms:rint(1100,1900),pre:`consultou a ferramenta Busca empresa: "${L[1]}"`,log:`enriqueceu: ${L[2]} · ${L[3]} funcionários · score ${sc}`,
@@ -88,14 +92,14 @@ const N8N={
   {id:'m3',t:'sub',ic:'search',c:'#fcd34d',l:'Busca empresa',s:'ferramenta',pl:'Ferramenta',d:[406,312],m:[312,280]},
   {id:'sw',ic:'split',c:'#34d399',l:'Classifica lead',s:'score ≥ 70',tg:'Classifica',outs:['quente','frio'],d:[548,166],m:[130,290],
    run:x=>{const q=x.score>=70;return {out:Object.assign({},x,{classe:q?'quente':'frio'}),port:q?0:1,ms:rint(1,4),log:`score ${x.score} → saída "${q?'quente':'frio'}"`}}},
-  {id:'crm',ic:'crm',c:'#fb923c',l:'CRM',s:'cria negócio',tg:'CRM',d:[722,76],m:[52,410],
+  {id:'crm',ic:'crm',c:'#fb923c',l:'CRM',s:'cria negócio',ch:'sem cadastrar no CRM',tg:'CRM',d:[722,76],m:[52,410],
    run:(x,c)=>{c.neg='NEG-'+rint(4100,4999);c.vend=pick(['Carlos','Fernanda','Diego']);
     return {out:{negocio_id:c.neg,titulo:`${x.empresa} — automação`,etapa:'Lead quente',responsavel:c.vend,valor_estimado:brl(rint(24,72)*100),origem:c.out.origem},ms:rint(220,420),log:`negócio ${c.neg} criado · etapa "Lead quente"`}}},
-  {id:'wa',ic:'chat',c:'#4ade80',l:'WhatsApp',s:'avisa vendedor',tg:'WhatsApp',d:[896,76],m:[52,530],
+  {id:'wa',ic:'chat',c:'#4ade80',l:'WhatsApp',s:'avisa vendedor',ch:'vendedor avisado na hora',tg:'WhatsApp',d:[896,76],m:[52,530],
    run:(x,c)=>({out:{para:c.vend+' (vendas)',mensagem:`Lead quente: ${c.out.nome} — ${c.out.empresa} (score ${c.score}). Ligar em até 5 min. ${x.negocio_id}`,status:'enviada'},ms:rint(280,520),log:`${c.vend} avisado: ligar em até 5 min`})},
-  {id:'em',ic:'mail',c:'#60a5fa',l:'E-mail',s:'nutrição',tg:'E-mail',d:[722,288],m:[212,410],
+  {id:'em',ic:'mail',c:'#60a5fa',l:'E-mail',s:'nutrição',ch:'nutrição enviada sozinha',tg:'E-mail',d:[722,288],m:[212,410],
    run:x=>({out:{para:x.email,assunto:`${first(x.nome)}, 3 automações que liberam 10 h por semana`,modelo:'nutricao-01',status:'enviado'},ms:rint(300,560),log:`nutrição enviada para ${x.email}`})},
-  {id:'fu',ic:'cal',c:'#f472b6',l:'Agenda retorno',s:'em 3 dias',tg:'Agenda',d:[896,288],m:[212,530],
+  {id:'fu',ic:'cal',c:'#f472b6',l:'Agenda retorno',s:'em 3 dias',ch:'retorno já na agenda',tg:'Agenda',d:[896,288],m:[212,530],
    run:(x,c)=>{const d=ddmm(3);return {out:{tarefa:'Retomar contato',lead:c.out.nome,data:d,responsavel:'SDR'},ms:rint(90,180),log:`retorno agendado para ${d}`}}}
  ],
  edges:[{a:'wh',b:'ai'},{a:'ai',b:'sw'},{a:'sw',b:'crm',k:0},{a:'crm',b:'wa'},{a:'sw',b:'em',k:1},{a:'em',b:'fu'},
@@ -110,26 +114,28 @@ const MAKE={
  key:'make',theme:'make',tool:'Make',name:'[Vendas] Funil automático',run:'Executar uma vez',again:'Executar de novo',units:['bundle','bundles'],focus:'pr',
  title:'Cenário Make simulado: funil de vendas automático',
  desc:'O formulário entrega três pedidos. Cada um é processado e passa pelo Router: com filtro "Aprovado" recebe e-mail de boas-vindas, vira cliente no CRM e entra na planilha; "Pendente" tem o telefone validado e recebe lembrete de Pix no WhatsApp; "Cancelado" é marcado como abandono e a rota termina.',
- vb:{d:[900,424],m:[360,720]},sz:{d:{r:34},m:{r:24}},
+ vb:{d:[1040,424],m:[360,850]},sz:{d:{r:34},m:{r:24}},
+ cta:{from:['a3'],d:[150,0],m:[0,110],btn:'Quero um funil assim no meu negócio',
+  msg:'Oi, Richard! Vi no seu portfólio a simulação do funil automatizado no Make e quero um assim no meu negócio.'},
  nodes:[
   {id:'tr',t:'trigger',ic:'form',c:'#e0457b',l:'Novos pedidos',s:'Formulário',d:[70,206],m:[180,48],dur:520,
    run:(x,c)=>({outs:c.b.map(b=>b.raw),ms:rint(400,900),log:`${c.b.length} pedidos novos recebidos`})},
-  {id:'pr',ic:'gear',c:'#8b5cf6',l:'Processa dados',s:'Ferramentas',d:[196,206],m:[180,152],
+  {id:'pr',ic:'gear',c:'#8b5cf6',l:'Processa dados',s:'Ferramentas',ch:'sem redigitar pedido',d:[196,206],m:[180,152],
    run:(x,c)=>{c.i++;const b=c.b[c.i-1];c.cur=b;return {spd:[1,.65,.5][c.i-1],out:b.clean,ms:rint(20,60),log:`bundle ${c.i}: ${b.clean.nome} · ${STATUS[b.clean.status][1]}`}}},
   {id:'rt',t:'router',ic:'router',c:'#86c95f',l:'Router',d:[322,206],m:[180,256],dur:220,run:x=>({out:x,ms:0})},
-  {id:'a1',ic:'mail',c:'#3b82f6',l:'Boas-vindas',s:'E-mail',d:[520,72],m:[62,386],
+  {id:'a1',ic:'mail',c:'#3b82f6',l:'Boas-vindas',s:'E-mail',ch:'boas-vindas enviadas',d:[520,72],m:[62,386],
    run:x=>({out:{para:x.email,assunto:`${x.primeiro_nome}, seu acesso a ${x.produto} está liberado`,status:'enviado'},ms:rint(300,600),log:`boas-vindas enviado para ${x.primeiro_nome}`})},
-  {id:'a2',ic:'crm',c:'#f59e0b',l:'Registra cliente',s:'CRM',d:[670,72],m:[62,496],
+  {id:'a2',ic:'crm',c:'#f59e0b',l:'Registra cliente',s:'CRM',ch:'cliente no CRM',d:[670,72],m:[62,496],
    run:(x,c)=>{c.cur.id='C-'+rint(1100,1999);return {out:{cliente_id:c.cur.id,nome:c.cur.clean.nome,etapa:'Cliente ativo',tags:['comprador',c.cur.clean.produto.split(' ')[0].toLowerCase()]},ms:rint(200,400),log:`cliente ${c.cur.id} registrado`}}},
-  {id:'a3',ic:'sheet',c:'#16a34a',l:'Linha de venda',s:'Planilhas',d:[820,72],m:[62,606],
+  {id:'a3',ic:'sheet',c:'#16a34a',l:'Linha de venda',s:'Planilhas',ch:'venda na planilha',d:[820,72],m:[62,606],
    run:(x,c)=>{const n=rint(180,260),k=c.cur.clean;return {out:{planilha:'Vendas 2026',linha:n,valores:[ddmm(0),k.nome,k.produto,brl(k.valor)]},ms:rint(250,500),log:`linha ${n} adicionada em "Vendas 2026"`}}},
   {id:'b1',ic:'phone',c:'#0ea5e9',l:'Valida telefone',s:'Ferramentas',d:[520,206],m:[180,386],
    run:x=>({out:{telefone:x.telefone,valido:true,whatsapp:true},ms:rint(80,200),log:'telefone válido · WhatsApp ativo'})},
-  {id:'b2',ic:'chat',c:'#10b981',l:'Lembrete de Pix',s:'WhatsApp',d:[670,206],m:[180,496],
+  {id:'b2',ic:'chat',c:'#10b981',l:'Lembrete de Pix',s:'WhatsApp',ch:'Pix cobrado no WhatsApp',d:[670,206],m:[180,496],
    run:(x,c)=>{const k=c.cur.clean;return {out:{para:x.telefone,mensagem:`Oi, ${k.primeiro_nome}! Seu Pix de ${brl(k.valor)} vence hoje. O código copia e cola está logo abaixo.`,status:'enviada'},ms:rint(300,600),log:`lembrete de Pix enviado para ${k.primeiro_nome}`}}},
   {id:'b3',ic:'crm',c:'#f59e0b',l:'Atualiza status',s:'CRM',d:[820,206],m:[180,606],
    run:(x,c)=>({out:{pedido:c.cur.clean.pedido,etapa:'Aguardando pagamento',proximo_lembrete:'em 24 h'},ms:rint(200,380),log:'status "aguardando pagamento" no CRM'})},
-  {id:'c1',ic:'sheet',c:'#16a34a',l:'Marca abandono',s:'Planilhas',d:[520,340],m:[298,386],
+  {id:'c1',ic:'sheet',c:'#16a34a',l:'Marca abandono',s:'Planilhas',ch:'abandono anotado',d:[520,340],m:[298,386],
    run:(x,c)=>({out:{planilha:'Abandonos',linha:rint(40,90),nome:x.nome,motivo:'cancelado no checkout'},ms:rint(250,450),log:`abandono registrado (${x.primeiro_nome})`})},
   {id:'c2',t:'end',ic:'skip',l:'Ignora',s:'Controle de fluxo',d:[670,340],m:[298,496],dur:260,run:()=>({out:null,ms:0,log:'rota encerrada'})}
  ],
@@ -205,22 +211,60 @@ function drawMake(F,n,g,G,V){const {x,y,r}=g;
  s('circle',{cx:x,cy:y,r:r+10,class:'fx-ring'},G);
  if(n.t==='trigger'){const c=s('g',{class:'fx-clock'},G),cx=x-r*.74,cy=y+r*.74;s('circle',{cx,cy,r:V?8:10},c);icon(c,'clock',cx,cy,V?12:15)}
  if(n.t!=='router'&&n.t!=='end'){const b=s('g',{class:'fx-bub'},G),bx=x+r*.76,by=y-r*.76;s('circle',{cx:bx,cy:by,r:V?9:11},b);F.els.k[n.id]=s('text',{x:bx,y:by+(V?3.5:4),'text-anchor':'middle'},b)}
+ if(F.def.cta.from.includes(n.id)){const c=seed(F,n),b=s('g',{class:'fx-seed'},G);s('circle',{cx:c.x,cy:c.y,r:c.z/2},b);icon(b,'plus',c.x,c.y,c.z*.75)}
  if(V&&n.t==='router')labels(G,n,x+r+14,y+5,'start',14,1);else labels(G,n,x,y+r+(V?24:25),'middle',V?14:15,1)}
+
+function link(F,A,B,e){const n8=F.def.theme==='n8n',V=F.L==='m',sub=e&&e.sub!=null;
+ let p=sub?port(F,A,'sub',e.sub):port(F,A,'out',(e&&e.k)||0,(A.outs||[0]).length),q=port(F,B,'in');
+ if(n8&&!sub){q[0]+=q[2]*2;q[1]+=q[3]*2}
+ if(!n8){const ga=geo(F,A),gb=geo(F,B),dx=gb.x-ga.x,dy=gb.y-ga.y,m=Math.hypot(dx,dy),ux=dx/m,uy=dy/m,bx=ux+(V?0:1),by=uy+(V?1:0),l=Math.hypot(bx,by);
+  p=[ga.x+ux*(ga.r+4),ga.y+uy*(ga.r+4),bx/l,by/l];q=[gb.x-ux*(gb.r+4),gb.y-uy*(gb.r+4),-bx/l,-by/l]}
+ return {d:curve(p,q,n8?.45:.3),p,q}}
+
+/* ---------- nó-CTA: no fim da execução, o "+" do ramo que rodou vira o próximo nó ("Seu processo aqui") ----------
+   O visual é SVG (mesma grade, mesmo conector); o clique é um <a> de verdade por cima (Umami lê o atributo,
+   Ctrl+clique, leitor de tela, Tab). Um elemento só: Executar de novo reposiciona, nunca duplica. */
+const WA='https://wa.me/5514991374928?text=';
+/* centro e tamanho do "+" de onde o nó nasce (n8n: quadradinho do fim do ramo; Make: alça de "adicionar módulo") */
+function seed(F,A){const V=F.L==='m';
+ if(F.def.theme==='n8n'){const p=port(F,A,'out',0,1),k=(V?20:24)+(V?18:22)/2;return {x:p[0]+p[2]*k,y:p[1]+p[3]*k,z:V?18:22}}
+ const g=geo(F,A);return {x:g.x+g.r+(V?12:15),y:g.y,z:V?14:16}}
+function ctaOff(F){const E=F.els,C=E.cta;if(C){C.g.classList.remove('is-on');C.e.classList.remove('is-on');E.n[C.at]&&E.n[C.at].classList.remove('has-cta')}E.ctaA.hidden=true}
+function ctaOn(F,anim){
+ const E=F.els,D=F.def,at=F.cta;if(!at||!E.svg)return;
+ if(E.cta){E.cta.g.remove();E.cta.e.remove()}
+ const A=D.N[at],V=F.L==='m',n8=D.theme==='n8n',B={id:'cta',l:'Seu processo aqui',s:'falar no WhatsApp',d:[A.d[0]+D.cta.d[0],A.d[1]+D.cta.d[1]],m:[A.m[0]+D.cta.m[0],A.m[1]+D.cta.m[1]]};
+ const g=geo(F,B),sd=seed(F,A),{x,y}=g,w=n8?g.w:g.r*2,h=n8?g.h:w;
+ const e=s('path',{d:link(F,A,B).d,class:'fx-ctae'},E.ge);if(n8)e.setAttribute('marker-end',`url(#${F.uid}c)`);
+ const G=s('g',{class:'fx-cta'},E.gn),N=s('g',{class:'fx-ctan'},G);
+ N.style.transformOrigin=`${x}px ${y}px`;N.style.setProperty('--m',`translate(${(sd.x-x).toFixed(1)}px,${(sd.y-y).toFixed(1)}px) scale(${(sd.z/w).toFixed(3)})`);
+ if(n8){s('rect',{x:x-w/2-5,y:y-h/2-5,width:w+10,height:h+10,rx:12,class:'fx-selr'},N);
+  s('rect',{x:x-w/2,y:y-h/2,width:w,height:h,rx:8,class:'fx-ctab'},N);
+  const p=port(F,B,'in');s('rect',V?{x:p[0]-7,y:p[1]-3,width:14,height:6,rx:2,class:'fx-pi'}:{x:p[0]-3,y:p[1]-7,width:6,height:14,rx:2,class:'fx-pi'},N);
+  icon(s('g',{class:'fx-ctai'},N),'plus',x,y,h*.4)}
+ else{const r=g.r;s('circle',{cx:x,cy:y,r:r+11,class:'fx-selr'},N);s('circle',{cx:x,cy:y,r:r+7,class:'fx-ctah'},N);
+  s('circle',{cx:x,cy:y,r,class:'fx-ctab'},N);icon(s('g',{class:'fx-ctai'},N),'plus',x,y,r*.9)}
+ const L=s('g',{class:'fx-ctal'},G);
+ if(!n8)labels(L,B,x,y+g.r+(V?24:25),'middle',V?14:15,1);else if(V)labels(L,B,x+w/2+12,y-2,'start',14);else labels(L,B,x,y+h/2+21,'middle',15);
+ E.cta={at,g:G,e};
+ /* área clicável = nó + rótulos, em % do viewBox (acompanha o redimensionamento do SVG sem recalcular) */
+ const lb=L.getBBox(),vb=E.svg.viewBox.baseVal,x0=Math.min(x-w/2,lb.x)-6,y0=Math.min(y-h/2,lb.y)-6,x1=Math.max(x+w/2,lb.x+lb.width)+6,y1=Math.max(y+h/2,lb.y+lb.height)+6;
+ Object.assign(E.ctaA.style,{left:x0/vb.width*100+'%',top:y0/vb.height*100+'%',width:(x1-x0)/vb.width*100+'%',height:(y1-y0)/vb.height*100+'%'});
+ G.classList.toggle('is-hover',!!F.hov);G.classList.toggle('is-focus',!!F.foc);
+ E.n[at].classList.add('has-cta');E.ctaA.hidden=false;
+ if(anim&&!F.instant&&!RM.matches)void G.getBoundingClientRect();/* fixa o estado inicial (no "+") antes da transição */
+ G.classList.add('is-on');e.classList.add('is-on')}
 
 function draw(F){
  const D=F.def,L=F.L,V=L==='m',n8=D.theme==='n8n',W=D.vb[L][0],H=D.vb[L][1]+(F.big&&n8?34:0),u=F.uid;
  const svg=s('svg',{viewBox:`0 0 ${W} ${H}`,class:'fx-svg L-'+L+(F.big?' fx-big':''),role:'group','aria-labelledby':u+'t','aria-describedby':u+'d'});
  s('title',{id:u+'t'},svg,D.title);s('desc',{id:u+'d'},svg,D.desc);
- F.els.sv.replaceChildren(svg);
- const E=F.els;E.svg=svg;E.n={};E.e={};E.f={};E.k={};
- if(n8){const df=s('defs',{},svg);['a','b'].forEach((id,i)=>{const m=s('marker',{id:u+id,viewBox:'0 0 10 10',refX:'8.5',refY:'5',markerWidth:'6',markerHeight:'6',orient:'auto'},df);s('path',{d:'M1 1L9 5 1 9z',class:i?'fx-mk-ok':'fx-mk'},m)})}
- const ge=s('g',{class:'fx-edges'},svg),gn=s('g',{class:'fx-nodes'},svg);
+ F.els.sv.replaceChildren(svg,F.els.ctaA);
+ const E=F.els;E.svg=svg;E.n={};E.e={};E.f={};E.k={};E.cta=null;
+ if(n8){const df=s('defs',{},svg);['a','b','c'].forEach((id,i)=>{const m=s('marker',{id:u+id,viewBox:'0 0 10 10',refX:'8.5',refY:'5',markerWidth:'6',markerHeight:'6',orient:'auto'},df);s('path',{d:'M1 1L9 5 1 9z',class:['fx-mk','fx-mk-ok','fx-mk-cta'][i]},m)})}
+ const ge=E.ge=s('g',{class:'fx-edges'},svg),gn=E.gn=s('g',{class:'fx-nodes'},svg);
  D.edges.forEach(e=>{const A=D.N[e.a],B=D.N[e.b],key=e.a+'>'+e.b,sub=e.sub!=null;
-  let p=sub?port(F,A,'sub',e.sub):port(F,A,'out',e.k||0,(A.outs||[0]).length),q=port(F,B,'in');
-  if(n8&&!sub){q[0]+=q[2]*2;q[1]+=q[3]*2}
-  if(!n8){const ga=geo(F,A),gb=geo(F,B),dx=gb.x-ga.x,dy=gb.y-ga.y,m=Math.hypot(dx,dy),ux=dx/m,uy=dy/m,bx=ux+(V?0:1),by=uy+(V?1:0),l=Math.hypot(bx,by);
-   p=[ga.x+ux*(ga.r+4),ga.y+uy*(ga.r+4),bx/l,by/l];q=[gb.x-ux*(gb.r+4),gb.y-uy*(gb.r+4),-bx/l,-by/l]}
-  const d=curve(p,q,n8?.45:.3),g=s('g',{class:'fx-e'+(sub?' fx-sub':'')},ge);if(A.c)g.style.setProperty('--c',A.c);
+  const {d,p,q}=link(F,A,B,e),g=s('g',{class:'fx-e'+(sub?' fx-sub':'')},ge);if(A.c)g.style.setProperty('--c',A.c);
   const base=s('path',{d,class:'fx-eb'},g),hot=s('path',{d,class:'fx-eh'},g),len=base.getTotalLength();
   if(n8&&!sub){base.setAttribute('marker-end',`url(#${u}a)`);hot.style.strokeDasharray=len}
   const o={g,path:base,hot,len};
@@ -232,7 +276,7 @@ function draw(F){
  D.nodes.forEach(n=>{const g=geo(F,n),G=s('g',{class:'fx-n fx-'+(n.t||'node'),tabindex:'0',role:'button','data-id':n.id,'aria-label':`${n.l}${n.s?' — '+n.s:''}. Ver dados do nó`},gn);
   if(n.c)G.style.setProperty('--c',n.c);(n8?drawN8n:drawMake)(F,n,g,G,V);E.n[n.id]=G});
  E.pk=s('g',{class:'fx-pk'},svg);s('circle',{r:n8?10:11,class:'fx-pkh'},E.pk);s('circle',{r:n8?4.5:5.5,class:'fx-pkc'},E.pk);
- paintAll(F)}
+ paintAll(F);if(F.cta)ctaOn(F,false)}
 
 /* ---------- estado → pintura (sobrevive a redesenho quando muda o layout) ---------- */
 function paintN(F,id){const G=F.els.n&&F.els.n[id];if(!G)return;const st=F.st.n[id]||{};
@@ -275,21 +319,27 @@ async function step(F,id,input,c){
  c.ms+=r.ms;const io=F.io[id]||(F.io[id]={i:[],o:[],ms:0});io.i.push(input);(r.outs||[r.out]).forEach(o=>io.o.push(o));io.ms+=r.ms;
  subs.forEach(e=>{const x=r.subs[e.b];F.io[e.b]={i:[x.i],o:[x.o],ms:0};setE(F,e.a+'>'+e.b,'ok');setN(F,e.b,'ok')});
  const st=F.st.n[id]||(F.st.n[id]={});if(n.t!=='router'&&n.t!=='end'){st.k=(st.k||0)+1;c.ops++}
- setN(F,id,'ok');c.nodes++;log(F,c,n.tg||n.s||n.l,r.log,n.c);if(F.sel===id)inspect(F,id);
+ setN(F,id,'ok');c.nodes++;log(F,c,n.tg||n.s||n.l,r.log,n.c);if(F.sel===id)inspect(F,id);if(n.ch)chore(F,n.ch);
  for(const o of (r.outs||[r.out])){
   for(const e of D.out[id]){if(e.sub!=null||(r.port!=null&&(e.k||0)!==r.port))continue;
    if(e.f){const key=e.a+'>'+e.b,ok=e.f(o);F.st.f[key]='eval';paintE(F,key);await tw(F,tm.filter*F.spd);F.st.f[key]=ok?'pass':'block';paintE(F,key);if(!ok){await tw(F,tm.filter*.5*F.spd);continue}}
    await travel(F,e);await step(F,e.b,o,c)}}}
 
-function reset(F){F.st={n:{},e:{},f:{}};F.io={};F.els.log.replaceChildren();if(F.els.e)paintAll(F);F.els.pk&&(F.els.pk.style.opacity=0);inspect(F,F.sel)}
+/* fechamento de valor: só o que o fluxo de fato fez nesta rodada (nada de minutos/percentuais inventados) */
+function chore(F,t){if(F.chs.has(t))return;h('span',{},F.els.resI,F.chs.size?t:t[0].toUpperCase()+t.slice(1));F.chs.add(t)}
+/* o botão de reforço, uma vez mostrado, fica (Executar de novo não o faz piscar); some só ao fechar o modal */
+function result(F,txt,ok){const E=F.els;E.res.classList.toggle('is-ok',!!ok);if(ok)E.res.classList.add('is-seen');else if(!F.busy)E.res.classList.remove('is-seen');E.resL.textContent=txt}
+function reset(F){F.st={n:{},e:{},f:{}};F.io={};F.els.log.replaceChildren();F.cta=null;ctaOff(F);F.chs.clear();F.els.resI.replaceChildren();result(F,F.busy?'Executando…':'Pronto');if(F.els.e)paintAll(F);F.els.pk&&(F.els.pk.style.opacity=0);inspect(F,F.sel)}
 async function run(F,instant){
- cancel(F);reset(F);F.spd=1;const tok=F.tok=(F.tok||0)+1;F.instant=!!instant;F.busy=true;F.els.log.setAttribute('aria-busy',instant?'true':'false');
+ cancel(F);F.busy=true;reset(F);F.spd=1;const tok=F.tok=(F.tok||0)+1;F.instant=!!instant;F.els.log.setAttribute('aria-busy',instant?'true':'false');
  const b=F.els.btn;b.disabled=true;b.lastChild.textContent='Executando…';status(F,'run','Executando…');
  const c=Object.assign(F.def.begin(F),{t0:Date.now(),ms:0,nodes:0,ops:0});F.runs++;
  try{if(!instant)await tw(F,420);await step(F,F.def.nodes[0].id,null,c);
   F.def.nodes.forEach(n=>{if(!F.st.n[n.id])setN(F,n.id,'off')});
   Object.keys(F.st.f).forEach(k=>{F.st.f[k]=F.st.e[k]&&F.st.e[k].k?'pass':null;paintE(F,k)});
   const tot=F.def.end(c,c.nodes)+secs(c.ms);log(F,c,'✓',tot,'#00ff66',1);status(F,'ok',secs(c.ms),'Sucesso · ');
+  F.cta=F.def.cta.from.find(id=>F.st.n[id]&&F.st.n[id].c==='ok')||F.def.cta.from[0];ctaOn(F,true);
+  result(F,'Feito em '+secs(c.ms),1);track('fluxo-concluido',{case:F.def.key});
   if(!F.sel)inspect(F,F.def.focus);
  }catch(err){if(err!==CANCEL)throw err;return}
  finally{if(F.tok===tok)F.instant=false}
@@ -316,7 +366,7 @@ function inspect(F,id){const E=F.els,prev=F.sel;F.sel=id||null;if(prev&&prev!==i
 /* ---------- montagem (só na 1ª abertura) ---------- */
 function build(D,box){
  const pane=box.querySelector('.flow-pane'),F={def:D,uid:'fx'+D.key,box,pane,L:null,big:false,els:{k:{}},st:{n:{},e:{},f:{}},io:{},sel:null,mode:'o',
-  tasks:new Set(),raf:0,t:0,last:0,spd:1,halt:false,instant:false,busy:false,runs:0,open:false};
+  tasks:new Set(),raf:0,t:0,last:0,spd:1,halt:false,instant:false,busy:false,runs:0,open:false,cta:null,chs:new Set(),hov:false,foc:false};
  F.fr=now=>{F.raf=0;F.t+=Math.min(50,now-F.last);F.last=now;F.tasks.forEach(k=>k.f(F.t));if(F.tasks.size&&!F.halt&&!document.hidden)F.raf=requestAnimationFrame(F.fr)};
  const E=F.els,root=h('div',{class:'fx fx-'+D.theme},pane),cv=h('div',{class:'fx-cv'},root),bar=h('div',{class:'fx-bar'},cv);
  if(D.theme==='make'){const bk=h('span',{class:'fx-back','aria-hidden':'true'},bar);bk.appendChild(svgIcon('back'))}else h('span',{class:'fx-tool'},bar,D.tool);
@@ -324,7 +374,16 @@ function build(D,box){
  const act=h('span',{class:'fx-act','aria-hidden':'true'},bar,D.theme==='make'?'Imediato':'Ativo');h('i',{},act);
  E.state=h('span',{class:'fx-state'},bar,'Pronto');
  E.sv=h('div',{class:'fx-sv'},cv);
+ const href=WA+encodeURIComponent(D.cta.msg),aria=D.cta.btn+' — falar com o Richard no WhatsApp (abre em nova aba)',
+  wa=(o,cls)=>h('a',{class:cls,href,target:'_blank',rel:'noopener noreferrer','aria-label':aria,'data-umami-event':'whatsapp-fluxo','data-umami-event-case':D.key,'data-umami-event-origem':o});
+ E.ctaA=wa('no','fx-ctaa');E.ctaA.hidden=true;
+ const hv=(k,v)=>{F[k]=v;if(E.cta)E.cta.g.classList.toggle(k==='hov'?'is-hover':'is-focus',v)};
+ E.ctaA.addEventListener('pointerenter',()=>hv('hov',true));E.ctaA.addEventListener('pointerleave',()=>hv('hov',false));
+ E.ctaA.addEventListener('focus',()=>hv('foc',E.ctaA.matches(':focus-visible')));E.ctaA.addEventListener('blur',()=>hv('foc',false));
  E.btn=h('button',{type:'button',class:'fx-run'},cv);const bi=h('span',{class:'fx-rb'},E.btn);bi.appendChild(svgIcon(D.theme==='make'?'play':'flask'));h('span',{},E.btn,D.run);
+ E.res=h('div',{class:'fx-res'},root);const rs=h('p',{class:'fx-sum'},E.res);E.resL=h('b',{},rs,'Pronto');E.resI=h('span',{class:'fx-chs'},rs);
+ E.resB=wa('botao','cta-wa fx-resb');const ws=document.createElementNS(NS,'svg');ws.setAttribute('aria-hidden','true');s('use',{href:'#whatsapp-icon'},ws);
+ E.resB.append(ws);h('span',{},E.resB,D.cta.btn);h('span',{class:'cta-arr','aria-hidden':'true'},E.resB,'→');E.res.append(E.resB);
  const pn=h('div',{class:'fx-panel'},root),lb=h('div',{class:'fx-box'},pn),lh=h('div',{class:'fx-ph'},lb);
  h('h3',{id:F.uid+'lh'},lh,'Execução');h('span',{class:'fx-meta'},lh,'dados fictícios');
  E.log=h('ol',{class:'fx-log','aria-live':'polite','aria-relevant':'additions','aria-labelledby':F.uid+'lh',tabindex:'0'},lb);
@@ -337,7 +396,7 @@ function build(D,box){
  const pickNode=ev=>{const g=ev.target.closest&&ev.target.closest('.fx-n');if(!g)return;inspect(F,g.getAttribute('data-id'));
   if(F.L==='m'&&ev.type==='click'){const r=ib.getBoundingClientRect();if(r.top>innerHeight-80)ib.scrollIntoView({block:'nearest',behavior:RM.matches?'auto':'smooth'})}};
  E.sv.addEventListener('click',pickNode);
- E.sv.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();pickNode(ev)}});
+ E.sv.addEventListener('keydown',ev=>{if((ev.key==='Enter'||ev.key===' ')&&ev.target.closest('.fx-n')){ev.preventDefault();pickNode(ev)}});
  F.ro=new ResizeObserver(()=>layout(F));
  inspect(F,null);return F}
 

@@ -124,6 +124,12 @@
 document.addEventListener('error',function(e){var t=e.target;if(!t||t.tagName!=='IMG')return;var p=t.parentNode;if(p&&p.tagName==='PICTURE'&&p.querySelector('source')){[].forEach.call(p.querySelectorAll('source'),function(s){p.removeChild(s);});return;}var o=t.getAttribute('data-orig');if(o&&t.getAttribute('src')!==o){t.removeAttribute('srcset');t.src=o;return;}if(t.closest){var c=t.closest('.page-card');if(c)c.classList.add('is-missing');}},true);
 </script>
 
+<!-- Analytics (Umami Cloud, sem cookie): defer = não bloqueia a pintura. data-domains = só conta em richarddev.com.br
+     (localhost/testes não enviam nada). Cliques: atributo data-umami-event nos links. Aberturas de modal: track() abaixo,
+     que vira no-op se o script não carregar (adblock) — nada da página depende dele. -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="a56a63d5-8b1c-4780-800d-4b53c438083a" data-domains="richarddev.com.br"></script>
+<script>function track(n,d){try{var u=window.umami;if(u&&typeof u.track==='function')u.track(n,d)}catch(e){}}</script>
+
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -597,6 +603,15 @@ html.lb-lock{overflow:hidden;scrollbar-gutter:stable}
 .lb-close:hover{background:rgba(255,255,255,.12);color:var(--text)}
 .lb-close:focus-visible,.lb-nav:focus-visible{border-radius:50%}
 .lightbox:has(.lb-shot.is-error) .lb-open{visibility:hidden}
+/* CTA de contato contextual (lightbox, aba Print real e — via fluxos.js — fim da simulação): mesma pílula do "Tamanho original", tingida de WhatsApp */
+.cta-wa{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1.05rem .5rem .9rem;border-radius:50px;border:1px solid rgba(37,211,102,.4);background:rgba(37,211,102,.1);color:#4ae187;font:600 .8rem/1.2 'Outfit',sans-serif;letter-spacing:.01em;text-decoration:none;white-space:nowrap;transition:background-color .25s,border-color .25s,color .25s}
+.cta-wa svg{flex:none;width:15px;height:15px;fill:currentColor}
+.cta-arr{display:inline-block;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.cta-wa:hover{background:rgba(37,211,102,.18);border-color:rgba(37,211,102,.7);color:#7ff0ab}
+.cta-wa:hover .cta-arr{transform:translateX(3px)}
+.cta-wa:focus-visible{outline:2px solid #4ae187;outline-offset:3px;border-radius:50px}
+.lb-cta{flex-shrink:0;font-size:.75rem;padding:.45rem 1rem .45rem .85rem}
+@media(prefers-reduced-motion:reduce){.cta-arr{transition:none}}
 .lb-progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--green),var(--cyan));box-shadow:0 0 10px var(--green);transform-origin:0 50%;transform:scaleX(0)}
 .lb-stage{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:1.8rem 5.5rem 3rem}
 .lb-frame{max-width:1100px;margin:0 auto;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--bg-card);box-shadow:0 30px 80px rgba(0,0,0,.6)}
@@ -713,11 +728,12 @@ html.lb-lock{overflow:hidden;scrollbar-gutter:stable}
 .flow-shot img{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:10px;border:1px solid var(--border);background:var(--bg-elevated)}
 .flow-shot p{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.4rem 1rem;margin-top:.75rem;font:.8rem/1.5 'Outfit',sans-serif;color:var(--text-dim)}
 .flow-shot a{color:var(--text);text-underline-offset:3px}
-.flow-pane.fx-wait{display:grid;place-items:center;background:var(--bg);color:var(--text-dim);font:.8rem 'Outfit',sans-serif;min-height:calc(316px + 33vw)}/* reserva a altura do canvas: sem layout shift enquanto fluxos.js/css carregam */
-.flow-modal[data-flow=make] .fx-wait{min-height:calc(206px + 47vw)}
-@media(min-width:1140px){.flow-pane.fx-wait{min-height:706px}.flow-modal[data-flow=make] .fx-wait{min-height:740px}}
-@media(max-width:760px){.flow-pane.fx-wait,.flow-modal[data-flow=make] .fx-wait{min-height:calc(335px + 48vw)}}
-@media(max-width:600px){.flow-pane.fx-wait{min-height:calc(318px + 187vw)}.flow-modal[data-flow=make] .fx-wait{min-height:calc(322px + 200vw)}}
+.flow-shot .flow-shot-cta{justify-content:flex-start;margin-top:1rem}.flow-shot .cta-wa{color:#4ae187}.flow-shot .cta-wa:hover{color:#7ff0ab}
+.flow-pane.fx-wait{display:grid;place-items:center;background:var(--bg);color:var(--text-dim);font:.8rem 'Outfit',sans-serif;min-height:calc(400px + 28.5vw)}/* reserva a altura do canvas: sem layout shift enquanto fluxos.js/css carregam */
+.flow-modal[data-flow=make] .fx-wait{min-height:calc(395px + 31vw)}
+@media(min-width:1140px){.flow-pane.fx-wait{min-height:731px}.flow-modal[data-flow=make] .fx-wait{min-height:757px}}
+@media(max-width:760px){.flow-pane.fx-wait{min-height:calc(905px + 14vw)}.flow-modal[data-flow=make] .fx-wait{min-height:calc(930px + 14vw)}}
+@media(max-width:577px){.flow-pane.fx-wait{min-height:calc(841px + 183.6vw)}.flow-modal[data-flow=make] .fx-wait{min-height:calc(801px + 220.7vw)}}/* <578px o canvas vira coluna (fluxos.js: largura < 560) */
 @media(max-width:600px){.case-modal-overlay.flow-overlay{padding:.5rem}.case-modal.flow-modal{margin:0 auto;border-radius:16px}.flow-head{padding:1rem 3.6rem 1rem 1.1rem}.flow-head .img-modal-title{font-size:1.08rem}.flow-head .img-modal-desc{font-size:.8rem}.flow-tabs{width:100%}.flow-tabs button{flex:1}.flow-shot{padding:.75rem}}
 
 /* AUTO (Melhorias de UX) */
@@ -886,7 +902,10 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
   .lb-open{padding:.5rem .6rem}
   .lb-stage{padding:1rem .75rem 6.5rem}
   .lb-nav{top:auto;bottom:1.2rem;margin-top:0;width:48px;height:48px}
-  .lb-prev{left:calc(50% - 60px)}.lb-next{right:calc(50% - 60px)}
+  .lb-prev{left:1rem}.lb-next{right:1rem}
+  /* celular: o CTA desce pra zona do polegar, entre as setas (a barra fica só com nº, título, abrir e fechar) */
+  .lb-cta{position:fixed;z-index:2;bottom:1.2rem;left:50%;transform:translateX(-50%);height:48px;padding:0 1.15rem 0 1rem;font-size:.82rem;background:rgba(9,30,18,.92);backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.45)}
+  .lb-cta:hover{background:rgba(14,48,28,.95)}
   .projects-grid{grid-template-columns:1fr}
   .project-featured{grid-column:span 1}
   .project-featured .project-thumb{min-height:250px}
@@ -931,7 +950,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
     <li><a href="#contato">Contato</a></li>
   </ul>
   <div class="nav-right">
-    <a href="https://wa.me/5514991374928?text=Oi%20Richard%2C%20vim%20pelo%20seu%20portf%C3%B3lio" target="_blank" rel="noopener noreferrer" class="nav-cta-whats"><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg> WhatsApp</a>
+    <a href="https://wa.me/5514991374928?text=Oi%20Richard%2C%20vim%20pelo%20seu%20portf%C3%B3lio" target="_blank" rel="noopener noreferrer" class="nav-cta-whats" data-umami-event="whatsapp-menu"><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg> WhatsApp</a>
     <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false" onclick="toggleNav(this)"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -956,7 +975,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="stat"><div class="stat-val"><span class="num">0</span><span class="symbol">%</span></div><div class="stat-label">Papo de guru</div></div>
       </div>
       <div class="hero-cta">
-        <a href="https://wa.me/5514991374928?text=Oi%20Richard%2C%20vim%20pelo%20seu%20portf%C3%B3lio" target="_blank" rel="noopener noreferrer" class="btn-whatsapp"><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg> Chamar no WhatsApp</a>
+        <a href="https://wa.me/5514991374928?text=Oi%20Richard%2C%20vim%20pelo%20seu%20portf%C3%B3lio" target="_blank" rel="noopener noreferrer" class="btn-whatsapp" data-umami-event="whatsapp-hero"><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg> Chamar no WhatsApp</a>
         <a href="#projetos" class="btn-ghost">Ver projetos ↓</a>
       </div>
     </div>
@@ -1739,7 +1758,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
       </div>
 
        <div style="margin-top: 2.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
-        <a href="https://wa.me/5514991374928?text=Oi%20Richard,%20quero%20falar%20sobre%20automa%C3%A7%C3%B5es" target="_blank" rel="noopener noreferrer" class="btn-whatsapp" style="font-size:.82rem;padding:.75rem 1.8rem;">
+        <a href="https://wa.me/5514991374928?text=Oi%20Richard,%20quero%20falar%20sobre%20automa%C3%A7%C3%B5es" target="_blank" rel="noopener noreferrer" class="btn-whatsapp" data-umami-event="whatsapp-automacoes" style="font-size:.82rem;padding:.75rem 1.8rem;">
           <svg style="width:18px;height:18px;fill:currentColor" aria-hidden="true"><use href="#whatsapp-icon"/></svg> Discutir uma Automação
         </a>
       </div>
@@ -1764,7 +1783,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
   <div class="contact-wrapper">
     <div class="contact-text reveal"><div class="section-tag">// Contato</div><h2 id="titulo-contato">Vamos conversar?</h2><p>Tem um projeto, uma ideia, ou só quer trocar uma ideia sobre como resolver um problema digital? Escolhe o canal que preferir.</p><p>Quer saber como é trabalhar comigo antes de chamar? Leia os <a href="https://omercadodetrabalho.com/profissionais/richard" target="_blank" rel="noopener noreferrer">depoimentos de clientes no meu perfil na plataforma O Novo Mercado</a>.</p></div>
     <div class="contact-channels reveal reveal-d1">
-      <a href="https://wa.me/5514991374928?text=Oi%20Richard%2C%20vim%20pelo%20seu%20portf%C3%B3lio" target="_blank" rel="noopener noreferrer" class="contact-card whatsapp"><div class="contact-icon wpp"><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg></div><div class="contact-info"><span class="contact-label">WhatsApp</span><span class="contact-detail">(14) 99137-4928</span></div><span class="arrow" aria-hidden="true">→</span></a>
+      <a href="https://wa.me/5514991374928?text=Oi%20Richard%2C%20vim%20pelo%20seu%20portf%C3%B3lio" target="_blank" rel="noopener noreferrer" class="contact-card whatsapp" data-umami-event="whatsapp-contato"><div class="contact-icon wpp"><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg></div><div class="contact-info"><span class="contact-label">WhatsApp</span><span class="contact-detail">(14) 99137-4928</span></div><span class="arrow" aria-hidden="true">→</span></a>
       <a href="mailto:richardbarbosa28@gmail.com" class="contact-card email"><div class="contact-icon mail"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div><div class="contact-info"><span class="contact-label">E-mail</span><span class="contact-detail">richardbarbosa28@gmail.com</span></div><span class="arrow" aria-hidden="true">→</span></a>
       <a href="https://www.linkedin.com/in/richardbarbosa28/" target="_blank" rel="noopener noreferrer" class="contact-card linkedin"><div class="contact-icon lnkd"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></div><div class="contact-info"><span class="contact-label">LinkedIn</span><span class="contact-detail">/in/richardbarbosa28</span></div><span class="arrow" aria-hidden="true">→</span></a>
       <a href="https://omercadodetrabalho.com/profissionais/richard" target="_blank" rel="noopener noreferrer" class="contact-card mercado"><div class="contact-icon merc"><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="contact-info"><span class="contact-label">O Novo Mercado</span><span class="contact-detail">Perfil com depoimentos de clientes</span></div><span class="arrow" aria-hidden="true">→</span></a>
@@ -1775,7 +1794,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 </main>
 
 <footer>© 2026 Richard Barbosa — Serviços Digitais. Todos os direitos reservados.</footer>
-<a href="https://wa.me/5514991374928?text=Oi%20Richard%2C%20vim%20pelo%20seu%20portf%C3%B3lio" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Falar com Richard Barbosa no WhatsApp"><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg></a>
+<a href="https://wa.me/5514991374928?text=Oi%20Richard%2C%20vim%20pelo%20seu%20portf%C3%B3lio" target="_blank" rel="noopener noreferrer" class="whatsapp-float" data-umami-event="whatsapp-flutuante" aria-label="Falar com Richard Barbosa no WhatsApp"><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg></a>
 
 <!-- ==========================================
      MODAIS (FICAM FORA DA ESTRUTURA PRINCIPAL)
@@ -1856,6 +1875,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
     <div class="flow-pane flow-shot" id="n8nShot" role="tabpanel" aria-labelledby="n8nTabShot" hidden>
       <img data-src="fotos/n8n.png" alt="Print real do workflow no editor do n8n: gatilho, agente de IA com modelo, memória e ferramentas, e uma condição que divide o fluxo em dois caminhos" width="1280" height="720" decoding="async">
       <p><span>Print do editor original. A simulação reproduz este fluxo com dados fictícios.</span><a href="fotos/n8n.png" target="_blank" rel="noopener">Abrir em tamanho original ↗</a></p>
+      <p class="flow-shot-cta"><a class="cta-wa" href="https://wa.me/5514991374928?text=Oi%2C%20Richard%21%20Vi%20no%20seu%20portf%C3%B3lio%20o%20fluxo%20de%20leads%20com%20IA%20no%20n8n%20e%20quero%20um%20assim%20no%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer" aria-label="Quero um fluxo assim no meu negócio — falar com o Richard no WhatsApp (abre em nova aba)" data-umami-event="whatsapp-fluxo" data-umami-event-case="n8n" data-umami-event-origem="print"><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg><span>Quero um fluxo assim no meu negócio</span><span class="cta-arr" aria-hidden="true">→</span></a></p>
     </div>
   </div>
 </div>
@@ -1879,6 +1899,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
     <div class="flow-pane flow-shot" id="makeShot" role="tabpanel" aria-labelledby="makeTabShot" hidden>
       <img data-src="fotos/make.png" alt="Print real do cenário no editor do Make: gatilho de CRM ligado a roteadores com várias rotas de planilhas, filtros e módulos de ignorar" width="1280" height="720" decoding="async">
       <p><span>Print do editor original. A simulação reproduz este cenário com dados fictícios.</span><a href="fotos/make.png" target="_blank" rel="noopener">Abrir em tamanho original ↗</a></p>
+      <p class="flow-shot-cta"><a class="cta-wa" href="https://wa.me/5514991374928?text=Oi%2C%20Richard%21%20Vi%20no%20seu%20portf%C3%B3lio%20o%20funil%20automatizado%20no%20Make%20e%20quero%20um%20assim%20no%20meu%20neg%C3%B3cio." target="_blank" rel="noopener noreferrer" aria-label="Quero um funil assim no meu negócio — falar com o Richard no WhatsApp (abre em nova aba)" data-umami-event="whatsapp-fluxo" data-umami-event-case="make" data-umami-event-origem="print"><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg><span>Quero um funil assim no meu negócio</span><span class="cta-arr" aria-hidden="true">→</span></a></p>
     </div>
   </div>
 </div>
@@ -1886,7 +1907,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 <!-- FLUXOS SIMULADOS (n8n / Make): motor e dados em js/fluxos.js + css/fluxos.css, baixados só por intenção (hover/foco/toque no card) ou ao abrir o modal -->
 <script>
 (function(){
-var V='?v=1',p=null,ov=document.querySelectorAll('.flow-overlay');
+var V='?v=2',p=null,ov=document.querySelectorAll('.flow-overlay');
 function load(){return p||(p=new Promise(function(ok,ko){
  var d=document,l=d.createElement('link'),s=d.createElement('script'),n=2;
  function fim(){--n||ok()}
@@ -1899,9 +1920,11 @@ function tab(o,i){var t=o.querySelectorAll('[role=tab]'),ps=o.querySelectorAll('
  o.dispatchEvent(new CustomEvent('fxtab',{detail:i}))}
 ov.forEach(function(o){
  var ps=o.querySelectorAll('.flow-pane'),tb=o.querySelectorAll('[role=tab]');
- tb.forEach(function(b,i){b.addEventListener('click',function(){tab(o,i)});b.addEventListener('keydown',function(e){var k=e.key;
-  if(k==='ArrowRight'||k==='ArrowLeft'||k==='Home'||k==='End'){e.preventDefault();var j=k==='Home'?0:k==='End'?1:1-i;tab(o,j);tb[j].focus()}})});
- o.addEventListener('casemodal:open',function(){tab(o,0);
+ var key=o.querySelector('[data-flow]').dataset.flow;
+ function go(j){var was=!ps[1].hidden;tab(o,j);if(j&&!was)track('abrir-print-real',{case:key})}/* só ação do visitante conta (o fallback de erro não) */
+ tb.forEach(function(b,i){b.addEventListener('click',function(){go(i)});b.addEventListener('keydown',function(e){var k=e.key;
+  if(k==='ArrowRight'||k==='ArrowLeft'||k==='Home'||k==='End'){e.preventDefault();var j=k==='Home'?0:k==='End'?1:1-i;go(j);tb[j].focus()}})});
+ o.addEventListener('casemodal:open',function(){tab(o,0);track('abrir-fluxo',{case:key});
   if(window.FLUXOS)return FLUXOS.open(o.id);
   var w=document.createElement('p');w.textContent='Carregando simulação…';ps[0].classList.add('fx-wait');ps[0].appendChild(w);
   load().then(function(){return FLUXOS.open(o.id)}).catch(function(){tab(o,1)}).then(function(){ps[0].classList.remove('fx-wait');w.remove()})})});
@@ -1916,6 +1939,7 @@ ov.forEach(function(o){
     <span class="lb-count" id="lbCount">01 / 13</span>
     <h2 class="lb-title" id="lbTitle">Página</h2>
     <a class="lb-open" id="lbOpen" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>Tamanho original</span></a>
+    <a class="cta-wa lb-cta" id="lbCta" href="https://wa.me/5514991374928" target="_blank" rel="noopener noreferrer" data-umami-event="whatsapp-pagina" data-umami-event-case=""><svg aria-hidden="true"><use href="#whatsapp-icon"/></svg><span>Quero uma página assim</span><span class="cta-arr" aria-hidden="true">→</span></a>
     <button class="lb-close" type="button" data-lb-close aria-label="Fechar">✕</button>
     <div class="lb-progress" id="lbProgress" aria-hidden="true"></div>
   </div>
@@ -2045,12 +2069,13 @@ document.querySelectorAll('.case-card[onclick]').forEach(c=>{
 // Lightbox das páginas completas (carrossel de cima)
 (function(){
   const lb=document.getElementById('pageLightbox');
-  const track=document.querySelector('.pages-track');
+  const trackEl=document.querySelector('.pages-track');
   // Sem <dialog> (navegador muito antigo) o link segue normal e abre o PNG direto
-  if(!lb||!track||typeof lb.showModal!=='function')return;
+  if(!lb||!trackEl||typeof lb.showModal!=='function')return;
 
-  const items=[...track.querySelectorAll('.page-card:not([aria-hidden])')].map(c=>({
+  const items=[...trackEl.querySelectorAll('.page-card:not([aria-hidden])')].map(c=>({
     src:c.getAttribute('href'),
+    key:c.getAttribute('href').split('/').pop().split(/[.?]/)[0], // "paginas/helenamonteiro.png?v=2" → helenamonteiro
     title:c.querySelector('.page-name').textContent.trim(),
     slug:c.querySelector('.page-url').textContent.trim()
   }));
@@ -2076,6 +2101,11 @@ document.querySelectorAll('.case-card[onclick]').forEach(c=>{
     $('lbCount').textContent=pad(idx+1)+' / '+pad(items.length);
     $('lbUrl').textContent=it.slug;
     $('lbOpen').href=it.src;
+    // CTA cita o projeto atual: href e atributo do Umami trocam junto (o Umami lê o atributo na hora do clique)
+    const cta=$('lbCta');
+    cta.href='https://wa.me/5514991374928?text='+encodeURIComponent('Oi, Richard! Vi o projeto '+it.title+' no seu portfólio e quero uma página assim para o meu negócio.');
+    cta.setAttribute('data-umami-event-case',it.key);
+    cta.setAttribute('aria-label','Quero uma página assim — falar com o Richard no WhatsApp sobre o projeto '+it.title+' (abre em nova aba)');
     stage.scrollTop=0;
     updateProgress();
     // Pré-carrega só o próximo (prints inteiros são pesados; não baixa tudo de uma vez)
@@ -2089,10 +2119,11 @@ document.querySelectorAll('.case-card[onclick]').forEach(c=>{
     document.documentElement.classList.add('lb-lock');
     lb.showModal();
     lb.querySelector('.lb-close').focus();
+    track('abrir-pagina',{case:items[idx].key});
   }
   function step(d){idx=(idx+d+items.length)%items.length;render();}
 
-  track.addEventListener('click',e=>{
+  trackEl.addEventListener('click',e=>{
     const card=e.target.closest('.page-card');
     // Ctrl/Cmd/Shift/botão do meio = comportamento normal do link (abrir PNG em nova aba)
     if(!card||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
