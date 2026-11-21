@@ -563,7 +563,7 @@ html.lb-lock{overflow:hidden;scrollbar-gutter:stable}
 .lb-count{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.1em;color:var(--green);flex-shrink:0}
 .lb-title{flex:1;min-width:0;font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lb-open{flex-shrink:0;display:inline-flex;align-items:center;gap:.4rem;padding:.45rem 1rem;border-radius:50px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:var(--text-dim);font-family:'Outfit',sans-serif;font-size:.75rem;font-weight:600;text-decoration:none;transition:all .3s}
-.lb-open:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
+.lb-open[hidden]{display:none} .lb-open:hover{color:var(--text);border-color:rgba(255,255,255,.25)}
 .lb-open svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .lb-close{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text-dim);font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;font-family:'Outfit',sans-serif}
 .lb-close:hover{background:rgba(255,255,255,.12);color:var(--text)}
@@ -1083,8 +1083,8 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
   <div class="showcase-track-wrap pages-wrap">
     <div class="pages-track">
 
-      <!-- CONJUNTO 1 (ORIGINAL — 11 PÁGINAS) -->
-      <a class="page-card" href="paginas/delivery.png" data-index="0" style="--accent:var(--neon-blue)" aria-label="Ver página completa: Delivery">
+      <!-- CONJUNTO 1 (ORIGINAL — 12 PÁGINAS) --> <a class="page-card" href="paginas/heronexus.png" data-index="0" data-live="hero-nexus/" data-subtitle="Landing Page · Design System · Interativo" style="--accent:var(--neon-red)" aria-label="Ver página completa: Hero Nexus — Landing Page · Design System · Interativo"><div class="page-frame"><div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">heronexus</span></div><div class="page-viewport"><img src="otimizadas/paginas/heronexus-760.jpg" srcset="otimizadas/paginas/heronexus-400.jpg 400w, otimizadas/paginas/heronexus-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/heronexus.png" alt="Print da página Hero Nexus — projeto de Richard Barbosa" loading="lazy" decoding="async"><span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span></div></div><div class="page-meta"><span class="page-name">Hero Nexus</span><span class="page-hint">Ver página completa ↗</span></div></a>
+      <a class="page-card" href="paginas/delivery.png" data-index="1" style="--accent:var(--neon-blue)" aria-label="Ver página completa: Delivery">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">delivery</span></div>
           <div class="page-viewport">
@@ -1094,7 +1094,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Delivery</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/devbox.png" data-index="1" style="--accent:var(--neon-purple)" aria-label="Ver página completa: DevBox">
+      <a class="page-card" href="paginas/devbox.png" data-index="2" style="--accent:var(--neon-purple)" aria-label="Ver página completa: DevBox">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">devbox</span></div>
           <div class="page-viewport">
@@ -1104,7 +1104,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">DevBox</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/naoresidente.png" data-index="2" style="--accent:var(--neon-red)" aria-label="Ver página completa: Não Residente">
+      <a class="page-card" href="paginas/naoresidente.png" data-index="3" style="--accent:var(--neon-red)" aria-label="Ver página completa: Não Residente">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">naoresidente</span></div>
           <div class="page-viewport">
@@ -1114,7 +1114,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Não Residente</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/noiva.png" data-index="3" style="--accent:var(--neon-yellow)" aria-label="Ver página completa: Noiva Protagonista">
+      <a class="page-card" href="paginas/noiva.png" data-index="4" style="--accent:var(--neon-yellow)" aria-label="Ver página completa: Noiva Protagonista">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">noiva</span></div>
           <div class="page-viewport">
@@ -1124,7 +1124,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Noiva Protagonista</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/performancemed.png" data-index="4" style="--accent:var(--neon-green)" aria-label="Ver página completa: Performance Med">
+      <a class="page-card" href="paginas/performancemed.png" data-index="5" style="--accent:var(--neon-green)" aria-label="Ver página completa: Performance Med">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">performancemed</span></div>
           <div class="page-viewport">
@@ -1134,7 +1134,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Performance Med</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/petshoop.png" data-index="5" style="--accent:var(--neon-blue)" aria-label="Ver página completa: Pet Shop">
+      <a class="page-card" href="paginas/petshoop.png" data-index="6" style="--accent:var(--neon-blue)" aria-label="Ver página completa: Pet Shop">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">petshoop</span></div>
           <div class="page-viewport">
@@ -1144,7 +1144,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Pet Shop</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/polatto.png" data-index="6" style="--accent:var(--neon-purple)" aria-label="Ver página completa: Polatto Energia Solar">
+      <a class="page-card" href="paginas/polatto.png" data-index="7" style="--accent:var(--neon-purple)" aria-label="Ver página completa: Polatto Energia Solar">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">polatto</span></div>
           <div class="page-viewport">
@@ -1154,7 +1154,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Polatto Energia Solar</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/portaldotempo.png" data-index="7" style="--accent:var(--neon-red)" aria-label="Ver página completa: Portal do Tempo">
+      <a class="page-card" href="paginas/portaldotempo.png" data-index="8" style="--accent:var(--neon-red)" aria-label="Ver página completa: Portal do Tempo">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">portaldotempo</span></div>
           <div class="page-viewport">
@@ -1164,7 +1164,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Portal do Tempo</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/quadrinhos.png" data-index="8" style="--accent:var(--neon-blue)" aria-label="Ver página completa: Krypt &amp; Stark Co.">
+      <a class="page-card" href="paginas/quadrinhos.png" data-index="9" style="--accent:var(--neon-blue)" aria-label="Ver página completa: Krypt &amp; Stark Co.">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">quadrinhos</span></div>
           <div class="page-viewport">
@@ -1174,7 +1174,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Krypt &amp; Stark Co.</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/relacionamento.png" data-index="9" style="--accent:var(--neon-yellow)" aria-label="Ver página completa: Guia de Relacionamento">
+      <a class="page-card" href="paginas/relacionamento.png" data-index="10" style="--accent:var(--neon-yellow)" aria-label="Ver página completa: Guia de Relacionamento">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">relacionamento</span></div>
           <div class="page-viewport">
@@ -1184,7 +1184,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Guia de Relacionamento</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/saidafiscal.png" data-index="10" style="--accent:var(--neon-green)" aria-label="Ver página completa: Saída Fiscal">
+      <a class="page-card" href="paginas/saidafiscal.png" data-index="11" style="--accent:var(--neon-green)" aria-label="Ver página completa: Saída Fiscal">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">saidafiscal</span></div>
           <div class="page-viewport">
@@ -1194,9 +1194,19 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Saída Fiscal</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
+      <a class="page-card" href="paginas/helenamonteiro.png" data-index="12" style="--accent:var(--neon-yellow)" aria-label="Ver página completa: Helena Monteiro">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">helenamonteiro</span></div>
+          <div class="page-viewport">
+            <img src="paginas/helenamonteiro.png" data-orig="paginas/helenamonteiro.png" alt="Print da página Helena Monteiro — Arquiteta do Tempo — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Helena Monteiro</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
 
-      <!-- CONJUNTO 2 (DUPLICADO PARA O LOOP PERFEITO — fora do Tab e dos leitores de tela) -->
-      <a class="page-card" href="paginas/delivery.png" data-index="0" style="--accent:var(--neon-blue)" aria-hidden="true" tabindex="-1">
+      <!-- CONJUNTO 2 (DUPLICADO PARA O LOOP PERFEITO — fora do Tab e dos leitores de tela) --> <a class="page-card" href="paginas/heronexus.png" data-index="0" data-live="hero-nexus/" data-subtitle="Landing Page · Design System · Interativo" style="--accent:var(--neon-red)" aria-hidden="true" tabindex="-1"><div class="page-frame"><div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">heronexus</span></div><div class="page-viewport"><img src="otimizadas/paginas/heronexus-760.jpg" srcset="otimizadas/paginas/heronexus-400.jpg 400w, otimizadas/paginas/heronexus-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/heronexus.png" alt="" loading="lazy" decoding="async"><span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>Ver página inteira</span></div></div><div class="page-meta"><span class="page-name">Hero Nexus</span><span class="page-hint">Ver página completa ↗</span></div></a>
+      <a class="page-card" href="paginas/delivery.png" data-index="1" style="--accent:var(--neon-blue)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">delivery</span></div>
           <div class="page-viewport">
@@ -1206,7 +1216,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Delivery</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/devbox.png" data-index="1" style="--accent:var(--neon-purple)" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/devbox.png" data-index="2" style="--accent:var(--neon-purple)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">devbox</span></div>
           <div class="page-viewport">
@@ -1216,7 +1226,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">DevBox</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/naoresidente.png" data-index="2" style="--accent:var(--neon-red)" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/naoresidente.png" data-index="3" style="--accent:var(--neon-red)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">naoresidente</span></div>
           <div class="page-viewport">
@@ -1226,7 +1236,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Não Residente</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/noiva.png" data-index="3" style="--accent:var(--neon-yellow)" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/noiva.png" data-index="4" style="--accent:var(--neon-yellow)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">noiva</span></div>
           <div class="page-viewport">
@@ -1236,7 +1246,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Noiva Protagonista</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/performancemed.png" data-index="4" style="--accent:var(--neon-green)" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/performancemed.png" data-index="5" style="--accent:var(--neon-green)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">performancemed</span></div>
           <div class="page-viewport">
@@ -1246,7 +1256,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Performance Med</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/petshoop.png" data-index="5" style="--accent:var(--neon-blue)" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/petshoop.png" data-index="6" style="--accent:var(--neon-blue)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">petshoop</span></div>
           <div class="page-viewport">
@@ -1256,7 +1266,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Pet Shop</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/polatto.png" data-index="6" style="--accent:var(--neon-purple)" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/polatto.png" data-index="7" style="--accent:var(--neon-purple)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">polatto</span></div>
           <div class="page-viewport">
@@ -1266,7 +1276,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Polatto Energia Solar</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/portaldotempo.png" data-index="7" style="--accent:var(--neon-red)" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/portaldotempo.png" data-index="8" style="--accent:var(--neon-red)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">portaldotempo</span></div>
           <div class="page-viewport">
@@ -1276,7 +1286,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Portal do Tempo</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/quadrinhos.png" data-index="8" style="--accent:var(--neon-blue)" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/quadrinhos.png" data-index="9" style="--accent:var(--neon-blue)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">quadrinhos</span></div>
           <div class="page-viewport">
@@ -1286,7 +1296,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Krypt &amp; Stark Co.</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/relacionamento.png" data-index="9" style="--accent:var(--neon-yellow)" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/relacionamento.png" data-index="10" style="--accent:var(--neon-yellow)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">relacionamento</span></div>
           <div class="page-viewport">
@@ -1296,7 +1306,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Guia de Relacionamento</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/saidafiscal.png" data-index="10" style="--accent:var(--neon-green)" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/saidafiscal.png" data-index="11" style="--accent:var(--neon-green)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">saidafiscal</span></div>
           <div class="page-viewport">
@@ -1305,6 +1315,16 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
           </div>
         </div>
         <div class="page-meta"><span class="page-name">Saída Fiscal</span><span class="page-hint">Ver página completa ↗</span></div>
+      </a>
+      <a class="page-card" href="paginas/helenamonteiro.png" data-index="12" style="--accent:var(--neon-yellow)" aria-hidden="true" tabindex="-1">
+        <div class="page-frame">
+          <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">helenamonteiro</span></div>
+          <div class="page-viewport">
+            <img src="paginas/helenamonteiro.png" data-orig="paginas/helenamonteiro.png" alt="" loading="lazy" decoding="async">
+            <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
+          </div>
+        </div>
+        <div class="page-meta"><span class="page-name">Helena Monteiro</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
 
     </div>
@@ -1765,9 +1785,9 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
 <!-- LIGHTBOX: PÁGINA INTEIRA (carrossel de páginas) -->
 <dialog class="lightbox" id="pageLightbox" aria-labelledby="lbTitle">
   <div class="lb-bar">
-    <span class="lb-count" id="lbCount">01 / 11</span>
+    <span class="lb-count" id="lbCount">01 / 12</span>
     <h2 class="lb-title" id="lbTitle">Página</h2>
-    <a class="lb-open" id="lbOpen" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>Tamanho original</span></a>
+    <a class="lb-open" id="lbLiveLink" href="hero-nexus/" target="_blank" rel="noopener noreferrer" style="border-color:rgba(255,255,255,.2);margin-right:6px">Visitar site ↗</a> <a class="lb-open" id="lbOpen" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg><span>Tamanho original</span></a>
     <button class="lb-close" type="button" data-lb-close aria-label="Fechar">✕</button>
     <div class="lb-progress" id="lbProgress" aria-hidden="true"></div>
   </div>
@@ -1891,7 +1911,7 @@ document.querySelectorAll('.case-card[onclick]').forEach(c=>{
   const items=[...track.querySelectorAll('.page-card:not([aria-hidden])')].map(c=>({
     src:c.getAttribute('href'),
     title:c.querySelector('.page-name').textContent.trim(),
-    slug:c.querySelector('.page-url').textContent.trim()
+    slug:c.querySelector('.page-url').textContent.trim(),live:c.dataset.live||'',subtitle:c.dataset.subtitle||''
   }));
   const $=id=>document.getElementById(id);
   const stage=$('lbStage'),shot=$('lbShot'),img=$('lbImg'),bar=$('lbProgress');
@@ -1911,10 +1931,10 @@ document.querySelectorAll('.case-card[onclick]').forEach(c=>{
     img.alt='Print da página completa — '+it.title;
     img.src=it.src;
     if(img.complete&&img.naturalWidth)img.onload();
-    $('lbTitle').textContent=it.title;
+    $('lbTitle').innerHTML=it.title+(it.subtitle?'<span style="display:block;font-size:.78rem;font-weight:400;color:var(--text-muted);letter-spacing:normal;margin-top:2px">'+it.subtitle+'</span>':'');
     $('lbCount').textContent=pad(idx+1)+' / '+pad(items.length);
     $('lbUrl').textContent=it.slug;
-    $('lbOpen').href=it.src;
+    const liveBtn=$('lbLiveLink');if(liveBtn){if(it.live){liveBtn.href=it.live;liveBtn.hidden=false;}else{liveBtn.hidden=true;}}$('lbOpen').href=it.src;
     stage.scrollTop=0;
     updateProgress();
     // Pré-carrega só o próximo (prints inteiros são pesados; não baixa tudo de uma vez)
