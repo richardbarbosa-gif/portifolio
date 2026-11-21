@@ -172,10 +172,16 @@ nav.nav-open .nav-toggle span:nth-child(3){transform:translateY(-7px) rotate(-45
 .hero-bg .capa-bg{position:absolute;inset:-5%;width:110%;height:110%;background:url('fotos/capa.png') center/cover no-repeat;opacity:.22;filter:brightness(.9) contrast(1.1)}
 .hero-bg .capa-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 45%,transparent 20%,rgba(7,8,10,.65) 65%,rgba(7,8,10,.95) 100%),linear-gradient(180deg,rgba(7,8,10,.4) 0%,transparent 30%,transparent 70%,rgba(7,8,10,.9) 100%)}
 .hero-bg .grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,102,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,102,.025) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 55% 45% at 50% 50%,black,transparent)}
-.hero-bg .orb{position:absolute;border-radius:50%;filter:blur(130px);animation:float 16s ease-in-out infinite}
-.hero-bg .orb-1{width:450px;height:450px;background:radial-gradient(circle,rgba(0,255,102,.1),transparent 70%);top:-8%;right:12%}
-.hero-bg .orb-2{width:350px;height:350px;background:radial-gradient(circle,rgba(183,0,255,.07),transparent 70%);bottom:5%;left:3%;animation-delay:-7s}
-.hero-bg .orb-3{width:300px;height:300px;background:radial-gradient(circle,rgba(0,153,255,.06),transparent 70%);top:40%;right:-5%;animation-delay:-3s}
+/* Bolas de luz: o desfoque já vem pronto no gradiente. Antes era radial-gradient(cor .1/.07/.06, transparent 70%)
+   + filter:blur(130px), e esse blur pesava na thread principal (Lighthouse celular: TBT ~790 → ~280 ms, nota 68 → 83).
+   As paradas abaixo são o perfil radial do blur medido no Chromium (diferença na tela: máx. 2/255 por canal).
+   Mudou cor/tamanho/opacidade de uma bola? Refaça as paradas (perfil = gradiente antigo borrado 130px).
+   Mesma caixa, posição e animação; o ::before só é maior porque o brilho vaza ~260 px da bola. */
+.hero-bg .orb{position:absolute;animation:float 16s ease-in-out infinite}
+.hero-bg .orb::before{content:'';position:absolute;inset:-265px;background:var(--orb)}
+.hero-bg .orb-1{width:450px;height:450px;top:-8%;right:12%;--orb:radial-gradient(circle,rgba(0,255,102,.0345) 0,rgba(0,255,102,.0341) 7px,rgba(0,255,102,.0341) 20px,rgba(0,255,102,.033) 44px,rgba(0,255,102,.0301) 82px,rgba(0,255,102,.0258) 120px,rgba(0,255,102,.0119) 229px,rgba(0,255,102,.0083) 263px,rgba(0,255,102,.0054) 298px,rgba(0,255,102,.0032) 334px,rgba(0,255,102,.0017) 372px,rgba(0,255,102,.0008) 408px,rgba(0,255,102,0) 477px)}
+.hero-bg .orb-2{width:350px;height:350px;bottom:5%;left:3%;animation-delay:-7s;--orb:radial-gradient(circle,rgba(183,0,255,.0167) 0,rgba(183,0,255,.0162) 37px,rgba(183,0,255,.0146) 76px,rgba(183,0,255,.0125) 112px,rgba(183,0,255,.0059) 212px,rgba(183,0,255,.0041) 245px,rgba(183,0,255,.0028) 275px,rgba(183,0,255,.0018) 305px,rgba(183,0,255,.0009) 343px,rgba(183,0,255,0) 433px)}
+.hero-bg .orb-3{width:300px;height:300px;top:40%;right:-5%;animation-delay:-3s;--orb:radial-gradient(circle,rgba(0,153,255,.0111) 0,rgba(0,153,255,.0111) 22px,rgba(0,153,255,.0108) 36px,rgba(0,153,255,.0097) 76px,rgba(0,153,255,.0083) 111px,rgba(0,153,255,.0039) 206px,rgba(0,153,255,.0019) 265px,rgba(0,153,255,.001) 304px,rgba(0,153,255,.0005) 338px,rgba(0,153,255,0) 412px)}
 @keyframes float{0%,100%{transform:translate(0,0)}33%{transform:translate(20px,-12px)}66%{transform:translate(-12px,8px)}}
 
 .hero-content{
@@ -802,7 +808,7 @@ html.lb-lock{overflow:hidden;scrollbar-gutter:stable}
 .copy-result{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--green);display:flex;align-items:center;gap:.4rem}.copy-result::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green)}
 
 /* CONTATO */
-.contact-section{padding:6rem 2.5rem;border-top:1px solid var(--border);position:relative}
+.contact-section{padding:6rem 2.5rem;border-top:1px solid var(--border);position:relative;overflow-x:clip}/* a bola de 500px passava 44px da tela no celular (body com 456px de largura); clip só no eixo x não corta o brilho em cima/embaixo */
 .contact-section .orb{position:absolute;width:500px;height:500px;border-radius:50%;filter:blur(140px);top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(0,153,255,.08),transparent 70%)}
 .contact-wrapper{max-width:900px;margin:0 auto;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
 .contact-text h2{font-family:'Outfit',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;margin-bottom:1rem;letter-spacing:-.02em}
@@ -1145,7 +1151,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">heronexus</span></div>
           <div class="page-viewport">
-            <img src="otimizadas/paginas/heronexus-760.jpg" srcset="otimizadas/paginas/heronexus-400.jpg 400w, otimizadas/paginas/heronexus-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/heronexus.png" alt="Print da página Hero Nexus — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <picture><source media="(hover:none)" srcset="otimizadas/paginas/heronexus-topo-400.jpg 400w, otimizadas/paginas/heronexus-topo-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px"><img src="otimizadas/paginas/heronexus-760.jpg" srcset="otimizadas/paginas/heronexus-400.jpg 400w, otimizadas/paginas/heronexus-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/heronexus.png" alt="Print da página Hero Nexus — projeto de Richard Barbosa" loading="lazy" decoding="async"></picture>
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1261,11 +1267,11 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Saída Fiscal</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/helenamonteiro.png" data-index="12" style="--accent:var(--neon-yellow)" aria-label="Ver página completa: Helena Monteiro">
+      <a class="page-card" href="paginas/helenamonteiro.png?v=2" data-index="12" style="--accent:var(--neon-yellow)" aria-label="Ver página completa: Helena Monteiro">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">helenamonteiro</span></div>
           <div class="page-viewport">
-            <img src="otimizadas/paginas/helenamonteiro-760.jpg" srcset="otimizadas/paginas/helenamonteiro-400.jpg 400w, otimizadas/paginas/helenamonteiro-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/helenamonteiro.png" alt="Print da landing page da arquiteta Helena Monteiro — projeto de Richard Barbosa" loading="lazy" decoding="async">
+            <picture><source media="(hover:none)" srcset="otimizadas/paginas/helenamonteiro-topo-400.jpg?v=2 400w, otimizadas/paginas/helenamonteiro-topo-760.jpg?v=2 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px"><img src="otimizadas/paginas/helenamonteiro-760.jpg?v=2" srcset="otimizadas/paginas/helenamonteiro-400.jpg?v=2 400w, otimizadas/paginas/helenamonteiro-760.jpg?v=2 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/helenamonteiro.png?v=2" alt="Print da landing page da arquiteta Helena Monteiro — projeto de Richard Barbosa" loading="lazy" decoding="async"></picture>
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1277,7 +1283,7 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">heronexus</span></div>
           <div class="page-viewport">
-            <img src="otimizadas/paginas/heronexus-760.jpg" srcset="otimizadas/paginas/heronexus-400.jpg 400w, otimizadas/paginas/heronexus-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/heronexus.png" alt="" loading="lazy" decoding="async">
+            <picture><source media="(hover:none)" srcset="otimizadas/paginas/heronexus-topo-400.jpg 400w, otimizadas/paginas/heronexus-topo-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px"><img src="otimizadas/paginas/heronexus-760.jpg" srcset="otimizadas/paginas/heronexus-400.jpg 400w, otimizadas/paginas/heronexus-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/heronexus.png" alt="" loading="lazy" decoding="async"></picture>
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>
@@ -1393,11 +1399,11 @@ html.lite .data-pulse::after{box-shadow:0 0 6px 2px currentColor}
         </div>
         <div class="page-meta"><span class="page-name">Saída Fiscal</span><span class="page-hint">Ver página completa ↗</span></div>
       </a>
-      <a class="page-card" href="paginas/helenamonteiro.png" data-index="12" style="--accent:var(--neon-yellow)" aria-hidden="true" tabindex="-1">
+      <a class="page-card" href="paginas/helenamonteiro.png?v=2" data-index="12" style="--accent:var(--neon-yellow)" aria-hidden="true" tabindex="-1">
         <div class="page-frame">
           <div class="page-chrome"><span class="page-dots"><i></i><i></i><i></i></span><span class="page-url">helenamonteiro</span></div>
           <div class="page-viewport">
-            <img src="otimizadas/paginas/helenamonteiro-760.jpg" srcset="otimizadas/paginas/helenamonteiro-400.jpg 400w, otimizadas/paginas/helenamonteiro-760.jpg 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/helenamonteiro.png" alt="" loading="lazy" decoding="async">
+            <picture><source media="(hover:none)" srcset="otimizadas/paginas/helenamonteiro-topo-400.jpg?v=2 400w, otimizadas/paginas/helenamonteiro-topo-760.jpg?v=2 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px"><img src="otimizadas/paginas/helenamonteiro-760.jpg?v=2" srcset="otimizadas/paginas/helenamonteiro-400.jpg?v=2 400w, otimizadas/paginas/helenamonteiro-760.jpg?v=2 760w" sizes="(max-width:480px) 264px, (max-width:768px) 300px, 380px" data-orig="paginas/helenamonteiro.png?v=2" alt="" loading="lazy" decoding="async"></picture>
             <span class="page-cta"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg> Ver página inteira</span>
           </div>
         </div>

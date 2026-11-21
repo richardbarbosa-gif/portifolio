@@ -77,7 +77,7 @@ def main(raiz, saida, so=()):
             im = Image.open(orig)
             im = im.convert("RGB")  # todos opacos (conferido: alfa 255 em 100% dos pixels)
             for w in larguras:
-                if w >= im.width:
+                if w > im.width:  # largura igual vale (ex.: heronexus tem 760 px): só recodifica/recorta, sem ampliar
                     continue
                 h = round(im.height * w / im.width)
                 ref = im.resize((w, h), Image.LANCZOS)  # referência sem perda, mesmo tamanho
