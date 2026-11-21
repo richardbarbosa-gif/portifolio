@@ -20,7 +20,8 @@ from PIL import Image
 # pasta/nome-sem-extensão → larguras geradas. Nunca amplia: largura > original é ignorada.
 ALVOS = {
     "paginas": (["delivery", "devbox", "naoresidente", "noiva", "performancemed", "petshoop",
-                 "polatto", "portaldotempo", "quadrinhos", "relacionamento", "saidafiscal"], [400, 760]),
+                 "polatto", "portaldotempo", "quadrinhos", "relacionamento", "saidafiscal",
+                 "heronexus", "helenamonteiro"], [400, 760]),
     "fotos-cards": (["crm", "polatto", "relacionamento", "alura", "cabelereiro", "noiva", "pet", "gibi"], [400, 720]),
     "fotos-logo": (["logo"], [400, 800]),
     "fotos-perfil": (["perfil"], [400]),
