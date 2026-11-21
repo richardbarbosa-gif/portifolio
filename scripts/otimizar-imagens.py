@@ -21,7 +21,8 @@ from PIL import Image
 ALVOS = {
     "paginas": (["delivery", "devbox", "naoresidente", "noiva", "performancemed", "petshoop",
                  "polatto", "portaldotempo", "quadrinhos", "relacionamento", "saidafiscal"], [400, 760]),
-    "fotos-cards": (["crm", "polatto", "relacionamento", "alura", "cabelereiro", "noiva", "pet", "gibi"], [400, 720]),
+    "fotos-cards": (["crm", "polatto", "relacionamento", "alura", "cabelereiro", "noiva", "pet", "gibi",
+                     "n8n", "make"], [400, 720]),
     "fotos-logo": (["logo"], [400, 800]),
     "fotos-perfil": (["perfil"], [400]),
     "blog": (["natal", "chatgpt1", "chatgpt2", "house", "sandler", "2026", "carnaval", "2026p2",
